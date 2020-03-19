@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "lint": "eslint source/ index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,9 +15,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "winston": "latest",
     "awilix": "latest",
+    "mongoose": "latest",
     "restify": "latest",
-    "mongoose": "latest"
+    "winston": "latest"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1"
   }
 }

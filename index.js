@@ -11,4 +11,3 @@ const storage = app.container.resolve('storage');
 App.connect(storage)
     .then(() => app.start()
         .then(() => logger.debug('Server started')));
-
