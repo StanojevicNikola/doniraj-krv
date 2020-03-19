@@ -1,0 +1,13 @@
+{
+  "app": "DonirajKrv",
+  "version": "0.1.0",
+  "storage": {
+    "mongodb": {
+      "url": "mongodb://localhost:27017/",
+      "database": "Donate"
+    }
+  },
+  "APIserver": {
+    "port": "5000"
+  }
+}

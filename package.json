@@ -1,0 +1,22 @@
+{
+  "name": "06-doniraj-krv",
+  "version": "1.0.0",
+  "description": "Projekat ima cilj da spoji donore i ljude kojima je potrebna krv na jedinstvenoj platformi",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:matfpveb/projekti/2019-2020/06-doniraj-krv.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "winston": "latest",
+    "awilix": "latest",
+    "restify": "latest",
+    "mongoose": "latest"
+  }
+}
