@@ -13,11 +13,13 @@ class RestifyServer {
             name: `${this.config.app} API Server`,
             version: this.config.version,
         });
+        this.server.use(restify.plugins.bodyParser());
         this.registerRoutes();
     }
 
     registerRoutes() {
         this.server.get('/hello', this.routeHandlers.hello.bind(this.routeHandlers));
+        this.server.post('/findPlaces', this.routeHandlers.findPlaces.bind(this.routeHandlers));
     }
 
     start() {

@@ -17,7 +17,7 @@ class App {
         });
 
         this.container.loadModules(
-            [], {
+            ['./source/services/*.js', './source/controllers/*.js'], {
                 formatName: 'camelCase',
                 resolverOptions: {
                     lifetime: awilix.Lifetime.SINGLETON,

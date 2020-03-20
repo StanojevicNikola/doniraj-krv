@@ -10,7 +10,9 @@ class MongoDB {
 
     async connect() {
         const { url, database } = this.config.storage.mongodb;
-        await mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true })
+        await mongoose.connect(
+            `${url}${database}`, { useUnifiedTopology: true, useNewUrlParser: true },
+        )
             .then(() => this.logger.info(`Connected to ${url} ${database}`))
             .catch((err) => this.logger.error('Connection error', err));
     }
