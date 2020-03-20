@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.img-logo{
+  max-width: 50px;
+  max-height: 40px;
+}
+
+.left-donor{
+  width: 50%;
+}
+.right-coordinator {
+  width: 50%;
+}
+.line{
+  margin-top: 20px;
+  width: 100%;
+}
