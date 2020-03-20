@@ -21,7 +21,7 @@ class PlaceController {
 
             data = data.filter(
                 (location) => {
-                    const dist = utils.euclideanDistance(lat, lng, location.lat, location.lng);
+                    const dist = this.geoService.euclDistance(lat, lng, location.lat, location.lng);
                     return dist < constraint.distance;
                 },
             );
