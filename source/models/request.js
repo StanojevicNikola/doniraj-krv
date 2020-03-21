@@ -1,18 +1,16 @@
 const mongoose = require('mongoose');
 
-// TODO ask for capacity
-module.exports.Place = mongoose.model(
-    'Place',
+module.exports.Request = mongoose.model(
+    'Request',
     new mongoose.Schema({
-        address: String,
-        name: String,
-        description: String,
-        workingHours: String,
-        date: Date,
-        isStatic: Boolean,
+        radius: Number,
         geolocation: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Geolocation',
+        },
+        receiver: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Receiver',
         },
     },
     {
