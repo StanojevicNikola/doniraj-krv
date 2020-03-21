@@ -51,7 +51,7 @@ class RequestController {
             const params = { name: donor.user.email };
             const options = { receiverEmail: donor.user.email, subject: 'Blood donation request' };
             // eslint-disable-next-line no-await-in-loop
-            await this.emailService.handleEmail('request', params, options);
+            await this.emailService.sendEmail('request', params, options);
         }
         return donors;
     }
