@@ -23,5 +23,13 @@
       "O+": ["O-", "O+"],
       "O-": ["O-"]
     }
+  },
+  "email": {
+    "host": "smtp.gmail.com",
+    "service": "gmail",
+    "auth": {
+      "user": "pveb.projekat@gmail.com",
+      "pass": "matfpveb123"
+    }
   }
 }

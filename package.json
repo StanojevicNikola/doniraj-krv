@@ -19,7 +19,8 @@
     "geoip-lite": "^1.4.1",
     "mongoose": "latest",
     "restify": "latest",
-    "winston": "latest"
+    "winston": "latest",
+    "nodemailer": "latest"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
