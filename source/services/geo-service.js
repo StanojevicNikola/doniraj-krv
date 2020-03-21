@@ -8,6 +8,10 @@ class GeoService {
         this.logger = logger;
     }
 
+    async filterByRadius(radius) {
+        this.logger.info('TODO ');
+    }
+
     async getCoords(ip) {
         const geo = await geoip.lookup(ip);
         return { lat: geo.ll[0], lng: geo.ll[1] };

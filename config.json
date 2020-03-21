@@ -9,5 +9,8 @@
   },
   "APIserver": {
     "port": "5000"
+  },
+  "bloodGroups": {
+    "all": ["A+", "B-"]
   }
 }

@@ -33,6 +33,14 @@ class GeolocationService {
             .exec();
     }
 
+    async findOne(query, fields = null) {
+        this.logger.debug(`find ${query}`);
+        return models.Geolocation.findOne(query)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
         return models.Geolocation.findById(id).populate(fields).lean().exec();

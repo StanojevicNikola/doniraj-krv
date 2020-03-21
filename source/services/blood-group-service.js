@@ -38,6 +38,10 @@ class BloodGroupService {
         return models.BloodGroup.findById(id).populate(fields).lean().exec();
     }
 
+    async findCompatible(bloodGroup) {
+        this.logger.debug('TODO');
+    }
+
     async removeById(id) {
         this.logger.debug(`removeById by ID ${id}`);
         return models.BloodGroup.deleteOne({ _id: id });

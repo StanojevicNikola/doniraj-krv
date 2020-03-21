@@ -38,6 +38,22 @@ class DonorService {
         return models.Donor.findById(id).populate(fields).lean().exec();
     }
 
+    async findEmailsByCityAndGroup(locations, groups = this.config.bloodGroups.all) {
+        return models.Donor.find()
+            .populate({
+                path: 'geolocation',
+                match: { city: { $in: locations } },
+                select: { email: 1 },
+            })
+            .populate({
+                path: 'bloodGroup',
+                match: { 'bloodGroup.type': { $in: groups } },
+                select: { email: 1 },
+            })
+            .lean()
+            .exec();
+    }
+
     async removeById(id) {
         this.logger.debug(`removeById by ID ${id}`);
         return models.Donor.deleteOne({ _id: id });

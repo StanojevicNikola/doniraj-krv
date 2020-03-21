@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// groups can be all or compatible
 module.exports.Request = mongoose.model(
     'Request',
     new mongoose.Schema({
@@ -12,6 +13,7 @@ module.exports.Request = mongoose.model(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Receiver',
         },
+        groups: String,
     },
     {
         timestamps: true,
