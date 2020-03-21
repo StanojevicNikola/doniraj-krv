@@ -19,13 +19,7 @@ class PlaceController {
             const remoteIP = utils.getIP(request);
             const { lat, lng } = await this.geoService.getCoords(remoteIP);
 
-            data = data.filter(
-                (location) => {
-                    const dist = this.geoService
-                        .euclDistance(lat, lng, location.geolocation.lat, location.geolocation.lng);
-                    return dist < constraint.distance;
-                },
-            );
+            data = await this.geoService.filterByRadius(lat, lng, constraint.distance);
         }
 
         return data;

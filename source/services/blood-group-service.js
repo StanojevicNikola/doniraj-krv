@@ -39,7 +39,13 @@ class BloodGroupService {
     }
 
     async findCompatible(bloodGroup) {
-        this.logger.debug('TODO');
+        // TODO: check how to determine compatible group
+        const compatibleMap = this.config.bloodGroups.compatibleBloodGroups;
+        const type = await models.BloodGroup
+            .findById(bloodGroup)
+            .select({ _id: 0, groupType: 1 });
+
+        return compatibleMap[`${type.groupType}`];
     }
 
     async removeById(id) {

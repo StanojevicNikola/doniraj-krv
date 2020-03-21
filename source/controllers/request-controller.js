@@ -33,15 +33,20 @@ class RequestController {
 
     async notify(requestId) {
         const request = await this.requestService.findById(requestId, ['geolocation', 'receiver']);
-        const locations = this.geoService.filterByRadius(request.radius);
+        const { lat, lng } = request.geolocation;
+        const locations = await this.geoService
+            .filterByRadius(lat, lng, request.radius);
+
+        const cities = locations.map((l) => l._id);
         let donors;
         if (request.groups === 'ALL') {
-            donors = this.donorService.findEmailsByCityAndGroup(['Belgrade']);
+            donors = await this.donorService.findEmailsByCityAndGroup(cities);
         } else {
-            const groups = this.bloodGroupService
-                .findCompatible(request.receiver.bloodGroup.groupType);
-            donors = this.donorService.findEmailsByCityAndGroup(locations, groups);
+            const groups = await this.bloodGroupService
+                .findCompatible(request.receiver.bloodGroup);
+            donors = await this.donorService.findEmailsByCityAndGroup(cities, groups);
         }
+
         // await this.emailService.send(donors);
         return donors;
     }

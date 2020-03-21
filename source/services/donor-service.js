@@ -39,11 +39,7 @@ class DonorService {
     }
 
     async findEmailsByCityAndGroup(locations, groups = this.config.bloodGroups.all) {
-        return models.Donor.find()
-            .populate({
-                path: 'geolocation',
-                match: { city: { $in: locations } },
-            })
+        return models.Donor.find({ geolocation: { $in: locations } })
             .populate({
                 path: 'bloodGroup',
                 match: { groupType: { $in: groups } },

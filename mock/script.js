@@ -36,8 +36,8 @@ class MockScript {
             lng: '21.901779',
         };
         const g1 = await this.geolocationService.create(geolocation1);
-        const g2 = await this.geolocationService.create(geolocation1);
-        const g3 = await this.geolocationService.create(geolocation1);
+        const g2 = await this.geolocationService.create(geolocation2);
+        const g3 = await this.geolocationService.create(geolocation3);
         const groupId = await this.bloodGroupService.create(bloodG);
         const donor1 = {
             bloodGroup: groupId,

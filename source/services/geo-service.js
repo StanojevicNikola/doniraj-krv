@@ -4,12 +4,22 @@ const geoip = require('geoip-lite');
  * Encapsulates GeoService service operations
  */
 class GeoService {
-    constructor({ logger }) {
+    constructor({ logger, geolocationService }) {
         this.logger = logger;
+        this.geolocationService = geolocationService;
     }
 
-    async filterByRadius(radius) {
-        this.logger.info('TODO ');
+    async filterByRadius(lat, lng, radius) {
+        const locations = await this.geolocationService.find({});
+
+        const result = locations.filter(
+            (l) => {
+                const dist = this.euclDistance(lat, lng, l.lat, l.lng);
+                return dist < radius;
+            },
+        );
+
+        return result;
     }
 
     async getCoords(ip) {
