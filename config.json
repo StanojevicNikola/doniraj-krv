@@ -1,6 +1,7 @@
 {
   "app": "DonirajKrv",
   "version": "0.1.0",
+  "mock": false,
   "storage": {
     "mongodb": {
       "url": "mongodb://localhost:27017/",

@@ -20,6 +20,7 @@ class RestifyServer {
     registerRoutes() {
         this.server.get('/hello', this.routeHandlers.hello.bind(this.routeHandlers));
         this.server.post('/findPlaces', this.routeHandlers.findPlaces.bind(this.routeHandlers));
+        this.server.post('/requestBlood', this.routeHandlers.requestBlood.bind(this.routeHandlers));
     }
 
     start() {

@@ -1,7 +1,8 @@
 class RestifyRouteHandler {
-    constructor({ logger, placeController }) {
+    constructor({ logger, placeController, requestController }) {
         this.logger = logger;
         this.placeController = placeController;
+        this.requestController = requestController;
     }
 
 
@@ -18,6 +19,13 @@ class RestifyRouteHandler {
         else {
             this.sendSuccess(res, 'Nema lokacija u trazenoj okolini!', {});
         }
+        next();
+    }
+
+    async requestBlood(req, res, next) {
+        this.logger.info('blood request triggered');
+        const donors = await this.requestController.publishRequest(req.body);
+        this.sendSuccess(res, 'Mailovi su poslati na adrese', { donors });
         next();
     }
 

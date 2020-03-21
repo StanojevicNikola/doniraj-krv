@@ -7,6 +7,10 @@ module.exports.Receiver = mongoose.model(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'BloodGroup',
         },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
     },
     {
         timestamps: true,

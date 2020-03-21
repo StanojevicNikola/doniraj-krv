@@ -43,13 +43,12 @@ class DonorService {
             .populate({
                 path: 'geolocation',
                 match: { city: { $in: locations } },
-                select: { email: 1 },
             })
             .populate({
                 path: 'bloodGroup',
-                match: { 'bloodGroup.type': { $in: groups } },
-                select: { email: 1 },
+                match: { groupType: { $in: groups } },
             })
+            .populate('user', 'email')
             .lean()
             .exec();
     }

@@ -4,6 +4,7 @@ const MongoDB = require('./storage/mongodb/mongodb');
 const Logger = require('./logger/winston/winston-logger');
 const RestifyServer = require('./api/restify-server');
 const RestifyRouteHandler = require('./api/restify-route-handler');
+const MockScript = require('../mock/script');
 
 class App {
     constructor(config) {
@@ -32,6 +33,7 @@ class App {
             api: awilix.asClass(RestifyServer).singleton(),
             apiRouteHandler: awilix.asClass(RestifyRouteHandler).singleton(),
             storage: awilix.asClass(MongoDB).singleton(),
+            mock: awilix.asClass(MockScript).singleton(),
         });
     }
 
@@ -40,6 +42,9 @@ class App {
     }
 
     async start() {
+        if (this.config.mock === true) {
+            this.container.resolve('mock').prepareDatabase();
+        }
         this.container.resolve('api').start();
     }
 }

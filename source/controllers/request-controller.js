@@ -26,10 +26,9 @@ class RequestController {
         const geolocation = await this.geolocationService.findOne({ city });
         const requestId = await this.requestService
             .create({
-                radius, geolocation: geolocation._id, receiverId, groups,
+                radius, geolocation: geolocation._id, receiver: receiverId, groups,
             });
-
-        await this.notify(requestId);
+        return this.notify(requestId);
     }
 
     async notify(requestId) {
@@ -37,12 +36,14 @@ class RequestController {
         const locations = this.geoService.filterByRadius(request.radius);
         let donors;
         if (request.groups === 'ALL') {
-            donors = this.donorService.findEmailsByCityAndGroup(locations);
+            donors = this.donorService.findEmailsByCityAndGroup(['Belgrade']);
         } else {
-            const groups = this.bloodGroupService.findCompatible(request.receiver.bloodGroup.type);
+            const groups = this.bloodGroupService
+                .findCompatible(request.receiver.bloodGroup.groupType);
             donors = this.donorService.findEmailsByCityAndGroup(locations, groups);
         }
-        await this.emailService.send(donors);
+        // await this.emailService.send(donors);
+        return donors;
     }
 }
 
