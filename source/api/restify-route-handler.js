@@ -1,18 +1,15 @@
 const utils = require('../utils');
 
 class RestifyRouteHandler {
-    constructor({
-        logger, placeController, requestController,
-        geolocationService, bloodGroupService, userController,
-    }) {
+    constructor({ 
+        logger, placeController, requestController, userController, infoController }) 
+    {
         this.logger = logger;
         this.placeController = placeController;
         this.requestController = requestController;
-        this.geolocationService = geolocationService;
-        this.bloodGroupService = bloodGroupService;
         this.userController = userController;
+        this.infoController = infoController;
     }
-
 
     async hello(req, res, next) {
         this.logger.info('Hello');
@@ -39,14 +36,21 @@ class RestifyRouteHandler {
 
     async getCities(req, res, next) {
         this.logger.info('getCities');
-        const data = await this.geolocationService.find({});
+        const data = await this.placeController.getCities();
+        this._sendSuccess(res, 'Success', data);
+        next();
+    }
+
+    async getInfo(req, res, next) {
+        this.logger.info('getInfo');
+        const data = await this.infoController.getInfo();
         this._sendSuccess(res, 'Success', data);
         next();
     }
 
     async getBloodGroups(req, res, next) {
         this.logger.info('getBloodGroups');
-        const data = await this.bloodGroupService.find({});
+        const data = await this.infoController.getBloodGroups();
         this._sendSuccess(res, 'Success', utils.extract(data, 'groupType'));
         next();
     }

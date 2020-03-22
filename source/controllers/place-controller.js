@@ -2,12 +2,13 @@ const utils = require('../utils');
 
 class PlaceController {
     constructor({
-        logger, config, placeService, geoService,
+        logger, config, placeService, geoService, geolocationService
     }) {
         this.logger = logger;
         this.config = config;
         this.placeService = placeService;
         this.geoService = geoService;
+        this.geolocationService = geolocationService;
     }
 
     async find(request) {
@@ -24,6 +25,12 @@ class PlaceController {
 
         return data;
     }
+
+    async getCities() 
+    {
+        return this.geolocationService.find({});
+    }
+
 }
 
 module.exports = PlaceController;
