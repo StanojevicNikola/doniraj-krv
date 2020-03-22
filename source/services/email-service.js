@@ -13,8 +13,7 @@ class EmailService {
 
     async sendEmail(type, params, options) {
         const msg = await this._prepareMsg(type, params);
-        const result = await this.send(msg, options);
-        console.log('RESULT', result);
+        const result = await this._send(msg, options);
         return result;
     }
 
@@ -26,7 +25,7 @@ class EmailService {
         return preparedTemplate;
     }
 
-    async send(msg, options) {
+    async _send(msg, options) {
         const mailOptions = {
             from: this.config.email.username,
             to: options.receiverEmail,

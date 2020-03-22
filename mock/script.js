@@ -44,6 +44,22 @@ class MockScript {
             geolocation: g1,
             lastDonation: (new Date()).toISOString(),
         };
+        const wrongdate = new Date();
+        wrongdate.setDate(wrongdate.getDate() - 91);
+        const donorNotEligible = {
+            bloodGroup: groupId,
+            geolocation: g1,
+            lastDonation: wrongdate.toISOString(),
+        };
+
+        const okdate = new Date();
+        okdate.setDate(okdate.getDate() - 30);
+        const donorEligible = {
+            bloodGroup: groupId,
+            geolocation: g1,
+            lastDonation: okdate.toISOString(),
+        };
+
         const receiver1 = {
             bloodGroup: groupId,
         };
@@ -53,9 +69,19 @@ class MockScript {
         const user2 = {
             email: 'akinovak@gmail.com',
         };
+        const user3 = {
+            email: 'dimitrije.systempro@gmail.com',
+        };
+        const user4 = {
+            email: 'dimitrije.sistem@gmail.com',
+        };
+        donorNotEligible.user = await this.userService.create(user3);
+        donorEligible.user = await this.userService.create(user4);
         donor1.user = await this.userService.create(user1);
         receiver1.user = await this.userService.create(user2);
         await this.donorService.create(donor1);
+        await this.donorService.create(donorNotEligible);
+        await this.donorService.create(donorEligible);
         await this.receiverService.create(receiver1);
     }
 }

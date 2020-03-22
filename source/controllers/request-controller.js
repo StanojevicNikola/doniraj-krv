@@ -28,23 +28,23 @@ class RequestController {
             .create({
                 radius, geolocation: geolocation._id, receiver: receiverId, groups,
             });
-        return this.notify(requestId);
+        return this._notify(requestId);
     }
 
-    async notify(requestId) {
+    async _notify(requestId) {
         const request = await this.requestService.findById(requestId, ['geolocation', 'receiver']);
         const { lat, lng } = request.geolocation;
         const locations = await this.geoService
             .filterByRadius(lat, lng, request.radius);
 
-        const cities = locations.map((l) => l._id);
+        const cities = utils.extract(locations, '_id');
         let donors;
         if (request.groups === 'ALL') {
-            donors = await this.donorService.findEmailsByCityAndGroup(cities);
+            donors = await this.donorService.findEligibleDonors(cities);
         } else {
             const groups = await this.bloodGroupService
                 .findCompatible(request.receiver.bloodGroup);
-            donors = await this.donorService.findEmailsByCityAndGroup(cities, groups);
+            donors = await this.donorService.findEligibleDonors(cities, groups);
         }
 
         for (const donor of donors) {

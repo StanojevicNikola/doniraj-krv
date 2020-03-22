@@ -10,6 +10,11 @@ class Utils {
         //         || request.socket.remoteAddress
         //         || (request.connection.socket ? request.connection.socket.remoteAddress : null);
     }
+
+    static extract(arr, attr) {
+        const result = arr.map((el) => el[attr]);
+        return result;
+    }
 }
 
 module.exports = Utils;

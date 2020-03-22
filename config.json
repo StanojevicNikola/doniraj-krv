@@ -31,5 +31,8 @@
       "user": "pveb.projekat@gmail.com",
       "pass": "matfpveb123"
     }
+  },
+  "donor": {
+    "minDaysSinceDonation": 90
   }
 }

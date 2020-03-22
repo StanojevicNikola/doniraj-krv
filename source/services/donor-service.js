@@ -38,8 +38,13 @@ class DonorService {
         return models.Donor.findById(id).populate(fields).lean().exec();
     }
 
-    async findEmailsByCityAndGroup(locations, groups = this.config.bloodGroups.all) {
-        return models.Donor.find({ geolocation: { $in: locations } })
+    async findEligibleDonors(locations, groups = this.config.bloodGroups.all) {
+        const { minDaysSinceDonation } = this.config.donor;
+        const dateConstraint = new Date();
+        dateConstraint.setDate(dateConstraint.getDate() - minDaysSinceDonation);
+
+        return models.Donor
+            .find({ geolocation: { $in: locations }, lastDonation: { $gt: dateConstraint } })
             .populate({
                 path: 'bloodGroup',
                 match: { groupType: { $in: groups } },
