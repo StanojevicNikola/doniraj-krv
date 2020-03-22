@@ -38,6 +38,11 @@ class UserService {
         return models.User.findById(id).populate(fields).lean().exec();
     }
 
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.User.updateOne({ id }, update).lean().exec();
+    }
+
     async removeById(id) {
         this.logger.debug(`removeById by ID ${id}`);
         return models.User.deleteOne({ _id: id });

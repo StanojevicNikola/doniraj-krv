@@ -2,13 +2,15 @@ const utils = require('../utils');
 
 class RestifyRouteHandler {
     constructor({
-        logger, placeController, requestController, geolocationService, bloodGroupService,
+        logger, placeController, requestController,
+        geolocationService, bloodGroupService, userController,
     }) {
         this.logger = logger;
         this.placeController = placeController;
         this.requestController = requestController;
         this.geolocationService = geolocationService;
         this.bloodGroupService = bloodGroupService;
+        this.userController = userController;
     }
 
 
@@ -46,6 +48,14 @@ class RestifyRouteHandler {
         this.logger.info('getBloodGroups');
         const data = await this.bloodGroupService.find({});
         this._sendSuccess(res, 'Success', utils.extract(data, 'groupType'));
+        next();
+    }
+
+    async createUser(req, res, next) {
+        this.logger.info('createUser');
+        // TODO: handle errors and return value from controller
+        const userId = await this.userController.createUser(req.body);
+        this._sendSuccess(res, 'Success', {});
         next();
     }
 
