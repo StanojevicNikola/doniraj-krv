@@ -1,25 +1,17 @@
+const utils = require('../source/utils');
+
 class MockScript {
     constructor({
-        // eslint-disable-next-line max-len
-        logger, config, placeService, geoService, userService, requestService, donorService, receiverService, bloodGroupService, emailService, geolocationService,
+        logger, config, bloodGroupService, geolocationService, userController,
     }) {
         this.logger = logger;
         this.config = config;
-        this.placeService = placeService;
-        this.geoService = geoService;
-        this.userService = userService;
-        this.donorService = donorService;
-        this.receiverService = receiverService;
         this.bloodGroupService = bloodGroupService;
-        this.requestService = requestService;
-        this.emailService = emailService;
         this.geolocationService = geolocationService;
+        this.userController = userController;
     }
 
-    async prepareDatabase() {
-        const bloodG = {
-            groupType: 'A+',
-        };
+    async _prepareGeolocations() {
         const geolocation1 = {
             city: 'Belgrade',
             lat: '44.818611',
@@ -35,54 +27,104 @@ class MockScript {
             lat: '43.323356',
             lng: '21.901779',
         };
-        const g1 = await this.geolocationService.create(geolocation1);
-        const g2 = await this.geolocationService.create(geolocation2);
-        const g3 = await this.geolocationService.create(geolocation3);
-        const groupId = await this.bloodGroupService.create(bloodG);
-        const donor1 = {
-            bloodGroup: groupId,
-            geolocation: g1,
-            lastDonation: (new Date()).toISOString(),
+        const geolocations = [geolocation1, geolocation2, geolocation3];
+
+        const ids = [];
+        for (const g of geolocations) {
+            // eslint-disable-next-line no-await-in-loop
+            const id = await this.geolocationService.create(g);
+            ids.push(id);
+        }
+
+        return ids;
+    }
+
+    async _prepareBloodGroups() {
+        const groups = [];
+        for (const g of this.config.bloodGroups.all) {
+            groups.push({ groupType: g });
+        }
+
+        const ids = [];
+        for (const g of groups) {
+            // eslint-disable-next-line no-await-in-loop
+            const id = await this.bloodGroupService.create(g);
+            ids.push(id);
+        }
+
+        return ids;
+    }
+
+    async _prepareUsers(geolocations, bloodGroups) {
+        const eligibleDonor1 = {
+            userData: {
+                email: 'dimitrije.misa@gmail.com',
+            },
+            role: 'DONOR',
+            roleData: {
+                geolocation: geolocations[0],
+                bloodGroup: bloodGroups[0],
+                lastDonation: new Date().toISOString(),
+            },
         };
+
         const wrongdate = new Date();
         wrongdate.setDate(wrongdate.getDate() - 91);
-        const donorNotEligible = {
-            bloodGroup: groupId,
-            geolocation: g1,
-            lastDonation: wrongdate.toISOString(),
+        const notEligibleDonor1 = {
+            userData: {
+                email: 'dimitrije.sistem@gmail.com',
+            },
+            role: 'DONOR',
+            roleData: {
+                geolocation: geolocations[0],
+                bloodGroup: bloodGroups[0],
+                lastDonation: wrongdate,
+            },
         };
 
         const okdate = new Date();
         okdate.setDate(okdate.getDate() - 30);
-        const donorEligible = {
-            bloodGroup: groupId,
-            geolocation: g1,
-            lastDonation: okdate.toISOString(),
+        const eligibleDonor2 = {
+            userData: {
+                email: 'dimitrije.systempro@gmail.com',
+            },
+            role: 'DONOR',
+            roleData: {
+                geolocation: geolocations[0],
+                bloodGroup: bloodGroups[1],
+                lastDonation: okdate,
+            },
         };
 
-        const receiver1 = {
-            bloodGroup: groupId,
+
+        const receiver = {
+            userData: {
+                email: 'akinovak@gmail.com',
+            },
+            role: 'RECEIVER',
+            roleData: {
+                bloodGroup: bloodGroups[1],
+            },
         };
-        const user1 = {
-            email: 'dimitrije.misa@gmail.com',
-        };
-        const user2 = {
-            email: 'akinovak@gmail.com',
-        };
-        const user3 = {
-            email: 'dimitrije.systempro@gmail.com',
-        };
-        const user4 = {
-            email: 'dimitrije.sistem@gmail.com',
-        };
-        donorNotEligible.user = await this.userService.create(user3);
-        donorEligible.user = await this.userService.create(user4);
-        donor1.user = await this.userService.create(user1);
-        receiver1.user = await this.userService.create(user2);
-        await this.donorService.create(donor1);
-        await this.donorService.create(donorNotEligible);
-        await this.donorService.create(donorEligible);
-        await this.receiverService.create(receiver1);
+
+        const userIds = [];
+        const d1 = await this.userController.createUser(eligibleDonor1);
+        const d2 = await this.userController.createUser(eligibleDonor2);
+        const d3 = await this.userController.createUser(notEligibleDonor1);
+        const r1 = await this.userController.createUser(receiver);
+
+        userIds.push([d1, d2, d3, r1]);
+        return userIds;
+    }
+
+    async prepareDatabase() {
+        const geolocationIds = await this._prepareGeolocations();
+        const bloodGroupIds = await this._prepareBloodGroups();
+        const userIds = await this._prepareUsers(geolocationIds, bloodGroupIds);
+
+        this.logger.info(`Created locations: ${geolocationIds}`);
+        this.logger.info(`Created blood groups: ${bloodGroupIds}`);
+        this.logger.info(`Created users: ${userIds}`);
     }
 }
 
