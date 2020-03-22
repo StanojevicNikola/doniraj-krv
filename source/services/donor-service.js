@@ -42,7 +42,7 @@ class DonorService {
         const { minDaysSinceDonation } = this.config.donor;
         const dateConstraint = new Date();
         dateConstraint.setDate(dateConstraint.getDate() - minDaysSinceDonation);
-
+        // TODO: fix query
         return models.Donor
             .find({ geolocation: { $in: locations }, lastDonation: { $gt: dateConstraint } })
             .populate({

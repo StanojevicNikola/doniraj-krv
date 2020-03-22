@@ -13,7 +13,8 @@ module.exports.Request = mongoose.model(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Receiver',
         },
-        groups: String,
+        groups: [String],
+        searchFor: String,
     },
     {
         timestamps: true,

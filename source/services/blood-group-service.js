@@ -38,14 +38,28 @@ class BloodGroupService {
         return models.BloodGroup.findById(id).populate(fields).lean().exec();
     }
 
-    async findCompatible(bloodGroup) {
-        // TODO: check how to determine compatible group
+    async findCompatible(searchFor, groups) {
         const compatibleMap = this.config.bloodGroups.compatibleBloodGroups;
-        const type = await models.BloodGroup
-            .findById(bloodGroup)
-            .select({ _id: 0, groupType: 1 });
 
-        return compatibleMap[`${type.groupType}`];
+        if (searchFor === 'ALL') {
+            return this.config.bloodGroups.all;
+        }
+
+        if (searchFor === 'SPECIFIC') {
+            return groups;
+        }
+
+        if (searchFor === 'COMPATIBLE') {
+            const compatibleGroups = [];
+
+            groups.forEach((group) => {
+                compatibleGroups.push(compatibleMap[group]);
+            });
+
+            return [].concat(...groups);
+        }
+
+        throw Error('Los parametar za pretragu!');
     }
 
     async removeById(id) {

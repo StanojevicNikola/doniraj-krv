@@ -20,32 +20,31 @@ class RequestController {
 
     async publishRequest(request) {
         const {
-            radius, city, receiverId, groups,
+            radius, city, receiverId, searchFor, groups,
         } = request;
 
         const geolocation = await this.geolocationService.findOne({ city });
         const requestId = await this.requestService
             .create({
-                radius, geolocation: geolocation._id, receiver: receiverId, groups,
+                radius, geolocation: geolocation._id, receiver: receiverId, groups, searchFor,
             });
         return this._notify(requestId);
     }
 
     async _notify(requestId) {
         const request = await this.requestService.findById(requestId, ['geolocation', 'receiver']);
+
         const { lat, lng } = request.geolocation;
         const locations = await this.geoService
             .filterByRadius(lat, lng, request.radius);
-
         const cities = utils.extract(locations, '_id');
-        let donors;
-        if (request.groups === 'ALL') {
-            donors = await this.donorService.findEligibleDonors(cities);
-        } else {
-            const groups = await this.bloodGroupService
-                .findCompatible(request.receiver.bloodGroup);
-            donors = await this.donorService.findEligibleDonors(cities, groups);
-        }
+
+        const { searchFor, groups } = request;
+
+        const compatibleGroups = await this.bloodGroupService
+            .findCompatible(searchFor, groups);
+
+        const donors = await this.donorService.findEligibleDonors(cities, compatibleGroups);
 
         for (const donor of donors) {
             const params = { name: donor.user.email };
