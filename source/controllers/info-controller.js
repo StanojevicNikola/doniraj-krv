@@ -2,7 +2,7 @@ class InfoController
 {
 	constructor
 	(
-		logger, config, bloodGroupService, newsService, geolocationService
+		{ logger, config, bloodGroupService, newsService, geolocationService }
 	)
 	{
 		this.logger = logger;
