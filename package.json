@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "eslint source/ index.js",
+    "lint": "eslint source/ index.js --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "seed --db-name Donate ./data-import",
     "resetDb": "seed --db-name Donate --drop-database ./data-import",

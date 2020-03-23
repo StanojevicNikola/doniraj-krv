@@ -1,3 +1,4 @@
+
 const utils = require('../source/utils');
 
 class MockScript {
