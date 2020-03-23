@@ -4,11 +4,11 @@ module.exports = [
     {
         _id: ids.receiver2Id,
         user: ids.user2Id,
-        bloodGroup: 'A-',
+        bloodGroup: ids.a_minus,
     },
     {
         _id: ids.receiver4Id,
         user: ids.user4Id,
-        bloodGroup: 'O-',
+        bloodGroup: ids.o_minus,
     },
 ];

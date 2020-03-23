@@ -1,15 +1,38 @@
 const mongoose = require('mongoose');
 
-module.exports.user1Id = mongoose.Types.ObjectId();
-module.exports.donor1Id = mongoose.Types.ObjectId();
+module.exports.user1_Id = mongoose.Types.ObjectId();
+module.exports.user2_Id = mongoose.Types.ObjectId();
+module.exports.user3_Id = mongoose.Types.ObjectId();
+module.exports.user4_Id = mongoose.Types.ObjectId();
 
-module.exports.user2Id = mongoose.Types.ObjectId();
-module.exports.donor2Id = mongoose.Types.ObjectId();
-module.exports.receiver2Id = mongoose.Types.ObjectId();
+module.exports.donor1_Id = mongoose.Types.ObjectId();
+module.exports.donor2_Id = mongoose.Types.ObjectId();
+module.exports.donor3_Id = mongoose.Types.ObjectId();
+module.exports.donor4_Id = mongoose.Types.ObjectId();
 
-module.exports.user3Id = mongoose.Types.ObjectId();
-module.exports.donor3Id = mongoose.Types.ObjectId();
+module.exports.receiver2_Id = mongoose.Types.ObjectId();
+module.exports.receiver4_Id = mongoose.Types.ObjectId();
 
-module.exports.user4Id = mongoose.Types.ObjectId();
-module.exports.donor4Id = mongoose.Types.ObjectId();
-module.exports.receiver4Id = mongoose.Types.ObjectId();
+module.exports.beograd = mongoose.Types.ObjectId();
+module.exports.cuprija = mongoose.Types.ObjectId();
+module.exports.nis = mongoose.Types.ObjectId();
+module.exports.vranje = mongoose.Types.ObjectId();
+
+module.exports.a_plus = mongoose.Types.ObjectId();
+module.exports.a_minus = mongoose.Types.ObjectId();
+module.exports.b_plus = mongoose.Types.ObjectId();
+module.exports.b_minus = mongoose.Types.ObjectId();
+module.exports.ab_plus = mongoose.Types.ObjectId();
+module.exports.ab_minus = mongoose.Types.ObjectId();
+module.exports.o_plus = mongoose.Types.ObjectId();
+module.exports.o_minus = mongoose.Types.ObjectId();
+
+module.exports.news1 = mongoose.Types.ObjectId();
+module.exports.news2 = mongoose.Types.ObjectId();
+module.exports.news3 = mongoose.Types.ObjectId();
+module.exports.news4 = mongoose.Types.ObjectId();
+
+module.exports.event1 = mongoose.Types.ObjectId();
+module.exports.event2 = mongoose.Types.ObjectId();
+module.exports.event3 = mongoose.Types.ObjectId();
+module.exports.event4 = mongoose.Types.ObjectId();

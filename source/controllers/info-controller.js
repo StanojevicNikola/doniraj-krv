@@ -1,7 +1,7 @@
 class InfoController {
     constructor(
         {
-            logger, config, bloodGroupService, newsService, geolocationService,
+            logger, config, bloodGroupService, newsService, geolocationService, eventService,
         },
     ) {
         this.logger = logger;
@@ -9,10 +9,15 @@ class InfoController {
         this.bloodGroupService = bloodGroupService;
         this.newsService = newsService;
         this.geolocationService = geolocationService;
+        this.eventService = eventService;
     }
 
     async getNews() {
         return this.newsService.find({});
+    }
+
+    async getEvents() {
+        return this.eventService.find({});
     }
 
     async getBloodGroups() {

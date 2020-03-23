@@ -25,6 +25,7 @@ class RestifyServer {
         this.server.get('/getCities', this.routeHandlers.getCities.bind(this.routeHandlers));
         this.server.get('/getBloodGroups', this.routeHandlers.getBloodGroups.bind(this.routeHandlers));
         this.server.get('/getNews', this.routeHandlers.getNews.bind(this.routeHandlers));
+        this.server.get('/getEvents', this.routeHandlers.getEvents.bind(this.routeHandlers));
     }
 
     start() {

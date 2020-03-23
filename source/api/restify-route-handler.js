@@ -48,6 +48,13 @@ class RestifyRouteHandler {
         next();
     }
 
+    async getEvents(req, res, next) {
+        this.logger.info('getEvents');
+        const data = await this.infoController.getEvents();
+        this._sendSuccess(res, 'Success', data);
+        next();
+    }
+
     async getBloodGroups(req, res, next) {
         this.logger.info('getBloodGroups');
         const data = await this.infoController.getBloodGroups();

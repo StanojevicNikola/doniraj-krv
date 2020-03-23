@@ -1,10 +1,8 @@
 const models = require('../models');
 const utils = require('../utils');
 
-class NewsService {
-    constructor({
-        logger, config,
-    }) {
+class EventService {
+    constructor({ logger, config }) {
         this.logger = logger;
         this.config = config;
     }
@@ -12,27 +10,27 @@ class NewsService {
     async create(data, id = null) {
         this.logger.debug(`create(data=${data})`);
         if (data == null) {
-            throw new Error('No news');
+            throw new Error('No events');
         }
 
-        const news = utils.clone(data);
+        const event = utils.clone(data);
 
         if (id != null) {
-            news._id = id;
+            event._id = id;
         }
 
-        const result = await models.News.create(news);
+        const result = await models.Event.create(event);
         return result._id;
     }
 
     async find(query, fields = null) {
         this.logger.debug(`find ${query}`);
 
-        return models.News.find(query)
+        return models.Event.find(query)
             .populate(fields)
             .lean()
             .exec();
     }
 }
 
-module.exports = NewsService;
+module.exports = EventService;
