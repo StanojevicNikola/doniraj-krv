@@ -15,5 +15,5 @@ module.exports = {
     Request: request,
     Geolocation: geolocation,
     BloodGroup: bloodGroup,
-    News: news
+    News: news,
 };
