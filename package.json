@@ -8,7 +8,7 @@
     "lint": "eslint source/ index.js --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "seed --db-name Donate ./data-import",
-    "resetDb": "seed --db-name Donate --drop-database ./data-import",
+    "reset-and-seed": "seed --db-name Donate --drop-database ./data-import",
     "freePort": "kill -9 $(lsof -t -i:5000)"
   },
   "repository": {
