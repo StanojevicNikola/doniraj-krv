@@ -5,7 +5,7 @@ const receiver = require('./blood-receiver').Receiver;
 const geolocation = require('./geolocation').Geolocation;
 const request = require('./request').Request;
 const bloodGroup = require('./blood-group').BloodGroup;
-const info = require('./info').Info;
+const news = require('./news').News;
 
 module.exports = {
     User: user,
@@ -15,5 +15,5 @@ module.exports = {
     Request: request,
     Geolocation: geolocation,
     BloodGroup: bloodGroup,
-    Info: info
+    News: news
 };

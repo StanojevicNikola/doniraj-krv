@@ -26,11 +26,6 @@ class PlaceController {
         return data;
     }
 
-    async getCities() 
-    {
-        return this.geolocationService.find({});
-    }
-
 }
 
 module.exports = PlaceController;

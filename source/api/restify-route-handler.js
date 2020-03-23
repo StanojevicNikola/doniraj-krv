@@ -36,14 +36,14 @@ class RestifyRouteHandler {
 
     async getCities(req, res, next) {
         this.logger.info('getCities');
-        const data = await this.placeController.getCities();
+        const data = await this.infoController.getCities();
         this._sendSuccess(res, 'Success', data);
         next();
     }
 
-    async getInfo(req, res, next) {
-        this.logger.info('getInfo');
-        const data = await this.infoController.getInfo();
+    async getNews(req, res, next) {
+        this.logger.info('getNews');
+        const data = await this.infoController.getNews();
         this._sendSuccess(res, 'Success', data);
         next();
     }

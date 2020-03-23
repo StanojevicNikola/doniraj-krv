@@ -1,26 +1,30 @@
-const utils = require('../utils');
-
-class InfoController
+class InfoController 
 {
 	constructor
 	(
-		logger, config, infoService, bloodGroupService
+		logger, config, bloodGroupService, newsService, geolocationService
 	)
 	{
 		this.logger = logger;
 		this.config = config;
-		this.infoService = infoService;
 		this.bloodGroupService = bloodGroupService;
+		this.newsService = newsService;
+		this.geolocationService = geolocationService;
 	}
 
-	async getInfo()
+	async getNews()
 	{
-		return this.infoService.find({});
+		return this.newsService.find({});
 	}
 
 	async getBloodGroups()
 	{
 		return this.bloodGroupService.find({});
+	}
+
+	async getCities() 
+	{
+			return this.geolocationService.find({});
 	}
 
 }

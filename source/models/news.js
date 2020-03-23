@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
-module.exports.Info = mongoose.model
+module.exports.News = mongoose.model
 (
-	'Info',
+	'News',
 	new mongoose.Schema
 	(
 		{
-			name: String,
-			description: String
+			title: String,
+			description: String,
+			date: Date
 		},
 		{
 			timestamps: true

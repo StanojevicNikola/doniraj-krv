@@ -1,4 +1,7 @@
-class InfoService
+const models = require('../models');
+const utils = require('../utils');
+
+class NewsService
 {
 	constructor
 	(
@@ -14,17 +17,17 @@ class InfoService
 		this.logger.debug(`create(data=${data})`);
 		if (data == null) 
 		{
-				throw new Error('No info data');
+				throw new Error('No news');
 		}
 
-		const info = utils.clone(data);
+		const news = utils.clone(data);
 	
 		if (id != null) 
 		{
-				donor._id = id;
+				news._id = id;
 		}
 
-		const result = await models.Info.create(info);
+		const result = await models.News.create(news);
 		return result._id;
 	}
 
@@ -32,7 +35,7 @@ class InfoService
 	{
 		this.logger.debug(`find ${query}`);
 		
-		return models.Info.find(query)
+		return models.News.find(query)
 				.populate(fields)
 				.lean()
 				.exec();
@@ -40,4 +43,4 @@ class InfoService
 
 }
 
-module.exports = InfoService;
+module.exports = NewsService;
