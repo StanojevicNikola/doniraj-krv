@@ -2,7 +2,7 @@ const utils = require('../utils');
 
 class PlaceController {
     constructor({
-        logger, config, placeService, geoService,
+        logger, config, placeService, geoService
     }) {
         this.logger = logger;
         this.config = config;
@@ -24,6 +24,7 @@ class PlaceController {
 
         return data;
     }
+
 }
 
 module.exports = PlaceController;
