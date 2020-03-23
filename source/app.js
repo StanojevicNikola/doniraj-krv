@@ -42,9 +42,6 @@ class App {
     }
 
     async start() {
-        if (this.config.mock === true) {
-            this.container.resolve('mock').prepareDatabase();
-        }
         this.container.resolve('api').start();
     }
 }

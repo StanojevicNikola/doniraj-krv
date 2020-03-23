@@ -1,9 +1,9 @@
 const utils = require('../utils');
 
 class RestifyRouteHandler {
-    constructor({ 
-        logger, placeController, requestController, userController, infoController }) 
-    {
+    constructor({
+        logger, placeController, requestController, userController, infoController,
+    }) {
         this.logger = logger;
         this.placeController = placeController;
         this.requestController = requestController;
