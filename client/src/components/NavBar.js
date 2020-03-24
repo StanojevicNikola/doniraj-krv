@@ -1,18 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import logo from './logo.png'
+import logo from "../img/blood-donation.png";
 
-class NavBar extends Component{
-
+class NavBar extends Component {
     render() {
         return (
             <nav className=" red accent-4">
                 <div className="container nav-wrapper">
-                    <ul >
+                    <ul>
                         <li>
-                            <Link to='/'><img class="img-logo responsive-img" src={logo} alt="Logo" /></Link>
+                            <Link to="/">
+                                <img
+                                    class="img-logo responsive-img logo"
+                                    src={logo}
+                                    alt="Logo"
+                                />
+                            </Link>
                         </li>
                         <li>
                             <Link to="/">Home</Link>
@@ -28,8 +33,6 @@ class NavBar extends Component{
             </nav>
         );
     }
-
-
 }
 
 export default NavBar;

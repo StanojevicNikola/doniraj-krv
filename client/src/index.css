@@ -138,3 +138,7 @@ section a span {
 .box span:nth-child(3) {
     animation-delay: -0.4s;
 }
+
+.logo {
+    margin-top: 10px;
+}
