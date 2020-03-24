@@ -36,7 +36,6 @@ class App extends Component{
                                 <Test />
                             </Route>
                             <Route exact path="/login">
-                                <br/>
                                 <LoginDash/>
                             </Route>
                         </div>
