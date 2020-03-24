@@ -16,6 +16,7 @@ import { Provider } from 'react-redux'
 import store from '../store/index'
 import NavBar from "./NavBar";
 import Footer from "./Footer";
+import LoginDash from "./LoginDash";
 
 class App extends Component{
 
@@ -25,6 +26,7 @@ class App extends Component{
             <Router>
                 <div>
                     <NavBar/>
+
                     <Switch>
                         <div className="container">
                             <Route exact path="/">
@@ -32,6 +34,10 @@ class App extends Component{
                             </Route>
                             <Route exact path="/about">
                                 <Test />
+                            </Route>
+                            <Route exact path="/login">
+                                <br/>
+                                <LoginDash/>
                             </Route>
                         </div>
                     </Switch>
