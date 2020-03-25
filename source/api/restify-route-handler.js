@@ -1,14 +1,30 @@
+const jwt = require('jsonwebtoken');
 const utils = require('../utils');
 
 class RestifyRouteHandler {
     constructor({
-        logger, placeController, requestController, userController, infoController,
+        logger, placeController, requestController, userController, infoController, config,
     }) {
         this.logger = logger;
         this.placeController = placeController;
         this.requestController = requestController;
         this.userController = userController;
         this.infoController = infoController;
+        this.config = config;
+    }
+
+    async logIn(req, res, next) {
+        this.logger.info('Logging');
+        const { username, password } = req.body;
+
+        try {
+            const tokenData = await this.userController.authorize(username, password);
+            this._sendSuccess(res, 'Welcome', tokenData);
+        } catch (e) {
+            this._sendBadRequest(res, 'Authorization failed', null);
+        }
+
+        next();
     }
 
     async hello(req, res, next) {

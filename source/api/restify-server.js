@@ -1,4 +1,5 @@
 const restify = require('restify');
+const rjwt = require('restify-jwt-community');
 
 class RestifyServer {
     constructor({ config, logger, apiRouteHandler }) {
@@ -14,10 +15,17 @@ class RestifyServer {
             version: this.config.version,
         });
         this.server.use(restify.plugins.bodyParser());
+
+        this.server.use(rjwt({
+            secret: this.config.jwt.secret,
+        }).unless({
+            path: ['/users/login'],
+        }));
         this.registerRoutes();
     }
 
     registerRoutes() {
+        this.server.post('/users/login', this.routeHandlers.logIn.bind(this.routeHandlers));
         this.server.get('/hello', this.routeHandlers.hello.bind(this.routeHandlers));
         this.server.post('/findPlaces', this.routeHandlers.findPlaces.bind(this.routeHandlers));
         this.server.post('/requestBlood', this.routeHandlers.requestBlood.bind(this.routeHandlers));

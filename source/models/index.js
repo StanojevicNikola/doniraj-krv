@@ -7,6 +7,7 @@ const request = require('./request').Request;
 const bloodGroup = require('./blood-group').BloodGroup;
 const news = require('./news').News;
 const event = require('./event').Event;
+const token = require('./token').Token;
 
 module.exports = {
     User: user,
@@ -18,4 +19,5 @@ module.exports = {
     BloodGroup: bloodGroup,
     News: news,
     Event: event,
+    Token: token,
 };

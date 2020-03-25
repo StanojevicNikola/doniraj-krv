@@ -1,3 +1,5 @@
+const sha3 = require('sha3');
+
 class Utils {
     static clone(obj) {
         return JSON.parse(JSON.stringify(obj));
@@ -12,8 +14,13 @@ class Utils {
     }
 
     static extract(arr, attr) {
-        const result = arr.map((el) => el[attr]);
-        return result;
+        return arr.map((el) => el[attr]);
+    }
+
+    static hash(text, salt) {
+        const instance = new sha3.SHA3(256);
+        instance.update(text + salt);
+        return instance.digest('hex');
     }
 }
 
