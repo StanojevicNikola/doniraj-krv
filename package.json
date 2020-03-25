@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint source/ index.js --fix",
-    "test": "./test/**/**/*.test.js --recursive",
+    "test": "./node_modules/mocha/bin/mocha ./test/**/*.test.js --recursive",
     "seed": "seed --db-name Donate ./seed/data-import",
     "reset-and-seed": "seed --db-name Donate --drop-database ./seed/data-import",
     "freePort": "kill -9 $(lsof -t -i:5000)"
