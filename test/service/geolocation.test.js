@@ -7,6 +7,15 @@ const mongoose = require('mongoose');
 
 const app = require('../test-app');
 
+/**
+ * What should be tested
+ * create
+ * find
+ * find by id
+ * find non existent
+ * additional functions from specific service
+ */
+
 describe('Create tag creation claim use case', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
