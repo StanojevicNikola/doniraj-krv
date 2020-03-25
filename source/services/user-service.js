@@ -21,16 +21,27 @@ class UserService {
             user._id = id;
         }
 
+        const passwordHash = utils.hash(user.password, this.config.salt);
+        const emailHash = utils.hash(user.email, this.config.salt);
+        Object.assign(user, { passwordHash, emailHash });
+        delete user.password;
         const result = await models.User.create(user);
         return result._id;
     }
 
     async find(query, fields = null) {
         this.logger.debug(`find ${query}`);
+        // eslint-disable-next-line max-len
         return models.User.find(query)
             .populate(fields)
             .lean()
             .exec();
+    }
+
+    async findByUserPass(username, password) {
+        this.logger.debug(`find by username=${username}, password=${password}`);
+        const passwordHash = utils.hash(password, this.config.salt);
+        return models.User.findOne({ username, passwordHash });
     }
 
     async findById(id, fields = null) {
