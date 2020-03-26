@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-module.exports.BloodGroup = mongoose.model(
-    'BloodGroup',
+module.exports.Blood = mongoose.model(
+    'Blood',
     new mongoose.Schema({
         groupType: String,
     },

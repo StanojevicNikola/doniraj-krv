@@ -46,12 +46,13 @@ class RequestController {
 
         const donors = await this.donorService.findEligibleDonors(cities, compatibleGroups);
 
-        for (const donor of donors) {
+        const promises = [];
+        donors.forEach((donor) => {
             const params = { name: donor.user.email };
             const options = { receiverEmail: donor.user.email, subject: 'Blood donation request' };
-            // eslint-disable-next-line no-await-in-loop
-            await this.emailService.sendEmail('request', params, options);
-        }
+            promises.push(this.emailService.sendEmail('request', params, options));
+        });
+        await Promise.all(promises);
         return donors;
     }
 }

@@ -13,8 +13,7 @@ class EmailService {
 
     async sendEmail(type, params, options) {
         const msg = await this._prepareMsg(type, params);
-        const result = await this._send(msg, options);
-        return result;
+        return this._send(msg, options);
     }
 
     async _prepareMsg(type, params) {

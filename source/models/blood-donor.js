@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 module.exports.Donor = mongoose.model(
     'Donor',
     new mongoose.Schema({
-        bloodGroup: {
+        blood: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'BloodGroup',
+            ref: 'Blood',
         },
         geolocation: {
             type: mongoose.Schema.Types.ObjectId,

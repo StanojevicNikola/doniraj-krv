@@ -21,13 +21,13 @@ class BloodGroupService {
             bloodGroup._id = id;
         }
 
-        const result = await models.BloodGroup.create(bloodGroup);
+        const result = await models.Blood.create(bloodGroup);
         return result._id;
     }
 
     async find(query, fields = null) {
         this.logger.debug(`find ${query}`);
-        return models.BloodGroup.find(query)
+        return models.Blood.find(query)
             .populate(fields)
             .lean()
             .exec();
@@ -35,7 +35,7 @@ class BloodGroupService {
 
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
-        return models.BloodGroup.findById(id).populate(fields).lean().exec();
+        return models.Blood.findById(id).populate(fields).lean().exec();
     }
 
     async findCompatible(searchFor, groups) {
@@ -64,7 +64,7 @@ class BloodGroupService {
 
     async removeById(id) {
         this.logger.debug(`removeById by ID ${id}`);
-        return models.BloodGroup.deleteOne({ _id: id });
+        return models.Blood.deleteOne({ _id: id });
     }
 }
 

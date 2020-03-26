@@ -8,7 +8,7 @@ const app = require('../test-app');
 
 const service = app.container.resolve('geolocationService');
 
-describe('Create tag creation claim use case', () => {
+describe('Geolocation service test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();
