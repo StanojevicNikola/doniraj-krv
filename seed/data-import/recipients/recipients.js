@@ -2,13 +2,13 @@ const ids = require('../../ids/ids');
 
 module.exports = [
     {
-        _id: ids.receiver2Id,
-        user: ids.user2Id,
+        _id: ids.recipient2_Id,
+        user: ids.user2_Id,
         bloodGroup: ids.a_minus,
     },
     {
-        _id: ids.receiver4Id,
-        user: ids.user4Id,
+        _id: ids.recipient4_Id,
+        user: ids.user4_Id,
         bloodGroup: ids.o_minus,
     },
 ];

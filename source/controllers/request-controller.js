@@ -3,7 +3,7 @@ const utils = require('../utils');
 class RequestController {
     constructor({
         // eslint-disable-next-line max-len
-        logger, config, placeService, geoService, userService, requestService, donorService, receiverService, bloodGroupService, emailService, geolocationService,
+        logger, config, placeService, geoService, userService, requestService, donorService, recipientService, bloodGroupService, emailService, geolocationService,
     }) {
         this.logger = logger;
         this.config = config;
@@ -11,7 +11,7 @@ class RequestController {
         this.geoService = geoService;
         this.userService = userService;
         this.donorService = donorService;
-        this.receiverService = receiverService;
+        this.recipientService = recipientService;
         this.bloodGroupService = bloodGroupService;
         this.requestService = requestService;
         this.emailService = emailService;
@@ -20,19 +20,19 @@ class RequestController {
 
     async publishRequest(request) {
         const {
-            radius, city, receiverId, searchFor, groups,
+            radius, city, recipientId, searchFor, groups,
         } = request;
 
         const geolocation = await this.geolocationService.findOne({ city });
         const requestId = await this.requestService
             .create({
-                radius, geolocation: geolocation._id, receiver: receiverId, groups, searchFor,
+                radius, geolocation: geolocation._id, recipient: recipientId, groups, searchFor,
             });
         return this._notify(requestId);
     }
 
     async _notify(requestId) {
-        const request = await this.requestService.findById(requestId, ['geolocation', 'receiver']);
+        const request = await this.requestService.findById(requestId, ['geolocation', 'recipient']);
 
         const { lat, lng } = request.geolocation;
         const locations = await this.geoService
@@ -49,7 +49,7 @@ class RequestController {
         const promises = [];
         donors.forEach((donor) => {
             const params = { name: donor.user.email };
-            const options = { receiverEmail: donor.user.email, subject: 'Blood donation request' };
+            const options = { recipientEmail: donor.user.email, subject: 'Blood donation request' };
             promises.push(this.emailService.sendEmail('request', params, options));
         });
         await Promise.all(promises);

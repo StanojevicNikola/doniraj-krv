@@ -15,9 +15,9 @@ module.exports.User = mongoose.model(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Donor',
         },
-        receiver: {
+        recipient: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Receiver',
+            ref: 'Recipient',
         },
     },
     {

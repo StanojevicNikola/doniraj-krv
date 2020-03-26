@@ -1,12 +1,12 @@
 class UserController {
     constructor({
-        logger, config, userService, donorService, receiverService, tokenService,
+        logger, config, userService, donorService, recipientService, tokenService,
     }) {
         this.logger = logger;
         this.config = config;
         this.userService = userService;
         this.donorService = donorService;
-        this.receiverService = receiverService;
+        this.recipientService = recipientService;
         this.tokenService = tokenService;
     }
 
@@ -34,9 +34,9 @@ class UserController {
         if (role === 'DONOR') {
             id = await this._createDonor({ ...roleData, user: userId });
             await this.userService.updateOne(userId, { donor: id });
-        } else if (role === 'RECEIVER') {
-            id = await this._createReceiver({ ...roleData, user: userId });
-            await this.userService.updateOne(userId, { receiver: id });
+        } else if (role === 'RECIPIENT') {
+            id = await this._createRecipient({ ...roleData, user: userId });
+            await this.userService.updateOne(userId, { recipient: id });
         } else {
             throw Error('Losa vrednost parametra!');
         }
@@ -48,8 +48,8 @@ class UserController {
         return this.donorService.create(user);
     }
 
-    async _createReceiver(user) {
-        return this.receiverService.create(user);
+    async _createRecipient(user) {
+        return this.recipientService.create(user);
     }
 
     async _findByUserPass(username, password) {

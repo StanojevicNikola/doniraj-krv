@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-module.exports.Receiver = mongoose.model(
-    'Receiver',
+module.exports.Recipient = mongoose.model(
+    'Recipient',
     new mongoose.Schema({
-        bloodGroup: {
+        blood: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'BloodGroup',
+            ref: 'Blood',
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,

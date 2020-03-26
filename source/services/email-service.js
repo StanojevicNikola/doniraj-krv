@@ -27,7 +27,7 @@ class EmailService {
     async _send(msg, options) {
         const mailOptions = {
             from: this.config.email.username,
-            to: options.receiverEmail,
+            to: options.recipientEmail,
             subject: options.subject || 'DONIRAJ!',
             html: msg,
         };

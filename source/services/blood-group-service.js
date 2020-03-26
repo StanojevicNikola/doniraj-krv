@@ -56,7 +56,7 @@ class BloodGroupService {
                 compatibleGroups.push(new Set(compatibleMap[group]));
             });
 
-            return new Set(...compatibleGroups);
+            return Array.from(new Set(...compatibleGroups));
         }
 
         throw Error('Los parametar za pretragu!');
