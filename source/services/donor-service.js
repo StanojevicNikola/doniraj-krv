@@ -43,13 +43,20 @@ class DonorService {
         const dateConstraint = new Date();
         dateConstraint.setDate(dateConstraint.getDate() - minDaysSinceDonation);
         const donors = await models.Donor
-            .find({ geolocation: { $in: locations }, lastDonation: { $gt: dateConstraint } })
+            .find({
+                geolocation: { $in: locations },
+                lastDonation: { $gt: dateConstraint },
+            })
+            .populate({
+                path: 'user',
+                match: { isActive: true },
+            })
             .populate({
                 path: 'blood',
                 match: { groupType: { $in: groups } },
                 select: { groupType: 1, _id: 0 },
             })
-            .populate('user', 'email')
+            .populate('user', ['email', 'name'])
             .select()
             .lean()
             .exec();

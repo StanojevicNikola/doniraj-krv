@@ -15,7 +15,6 @@ class RestifyRouteHandler {
 
     async activateUser(req, res, next) {
         this.logger.info('Activate new user');
-        console.log(req.params);
         const { activationId } = req.params;
         try {
             const result = await this.userController.activateUser(activationId);
@@ -72,7 +71,7 @@ class RestifyRouteHandler {
     async requestBlood(req, res, next) {
         this.logger.info('requestBlood');
         const donors = await this.requestController.publishRequest(req.body);
-        this._sendSuccess(res, 'Mailovi su poslati na adrese', { donors });
+        this._sendSuccess(res, 'Kompatibilni donori su obavesteni o Vasem zahtevu!', { donors });
         next();
     }
 

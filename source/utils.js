@@ -17,6 +17,39 @@ class Utils {
         return arr.map((el) => el[attr]);
     }
 
+    static extractMultiple(arr, attrs) {
+        return arr.map((el) => {
+            const tmp = {};
+            attrs.forEach((attr) => {
+                tmp[attr] = el[attr];
+            });
+
+            return tmp;
+        });
+    }
+
+    static createHtmlList(arr) {
+        let list = '<ul>';
+        arr.forEach((el) => {
+            let listItem = '<li style="padding-top: 5px">';
+            listItem += '<ul>';
+            listItem += `<li>Ime institucije: ${el.name}</li>`;
+            listItem += `<li>Adresa: ${el.address}</li>`;
+            listItem += `<li>Radno vreme: ${el.workingHours}</li>`;
+            if (!el.isStatic) listItem += `<li>Karavan je na lokaciji: ${this.parseDate(el.date)}</li>`;
+            listItem += '</ul>';
+            listItem += '</li>';
+            list += listItem;
+        });
+        list += '</ul>';
+
+        return list;
+    }
+
+    static parseDate(date) {
+        return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+    }
+
     static hash(text, salt) {
         const instance = new sha3.SHA3(256);
         instance.update(text + salt);
