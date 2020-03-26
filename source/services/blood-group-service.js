@@ -53,10 +53,10 @@ class BloodGroupService {
             const compatibleGroups = [];
 
             groups.forEach((group) => {
-                compatibleGroups.push(compatibleMap[group]);
+                compatibleGroups.push(new Set(compatibleMap[group]));
             });
 
-            return [].concat(...groups);
+            return new Set(...compatibleGroups);
         }
 
         throw Error('Los parametar za pretragu!');

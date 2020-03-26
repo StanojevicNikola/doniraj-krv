@@ -3,18 +3,10 @@ const {
 } = require('mocha');
 
 const assert = require('assert');
-const mongoose = require('mongoose');
 
 const app = require('../test-app');
 
-/**
- * What should be tested
- * create
- * find
- * find by id
- * find non existent
- * additional functions from specific service
- */
+const service = app.container.resolve('geolocationService');
 
 describe('Create tag creation claim use case', () => {
     beforeEach(async () => {
@@ -22,21 +14,115 @@ describe('Create tag creation claim use case', () => {
         await storage.connect();
     });
 
-    it('Should create tag creation claim object in database', async () => {
+    it('Should CREATE object in database', async () => {
         try {
-            const geolocationService = await app.container.resolve('geolocationService');
-            const geolocation = {
+            const inserted = {
                 city: 'Jagodina',
-                lat: '123',
-                lng: '233',
+                lat: '111',
+                lng: '999',
             };
-            const geoId = await geolocationService.create(geolocation);
-            const fetchedGeolocation = await geolocationService.findById(geoId);
-            geolocation._id = geoId;
-            console.log(fetchedGeolocation);
-            assert.deepEqual(geoId, fetchedGeolocation._id, 'Fetched geolocation id should be same as inserted one');
-            assert.equal(geolocation.lat, fetchedGeolocation.lat, 'Fetched geolocation lat should be same as inserted one');
-            assert.equal(geolocation.lng, fetchedGeolocation.lng, 'Fetched geolocation lng should be same as inserted one');
+
+            const id = await service.create(inserted);
+            const fetched = await service.findById(id);
+
+            assert.equal(inserted.lat, fetched.lat, 'Fetched <geolocation.lat> should BE same as inserted one');
+            assert.equal(inserted.lng, fetched.lng, 'Fetched <geolocation.lng> should BE same as inserted one');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
+    it('Should FIND_ONE by FIELD object in database', async () => {
+        try {
+            const inserted = {
+                city: 'Sombor',
+                lat: '112',
+                lng: '998',
+            };
+
+            const id = await service.create(inserted);
+            const query = { city: 'Sombor' };
+            const fetched = await service.findOne(query);
+
+            assert.equal(inserted.city, fetched.city, 'Fetched <geolocation.city> should BE same as inserted one');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
+    it('Should FIND_ONE by OR object in database', async () => {
+        try {
+            const inserted = {
+                city: 'Novi Sad',
+                lat: '113',
+                lng: '997',
+            };
+
+            const id = await service.create(inserted);
+            const query = {
+                $or: [
+                    { lat: { $gt: 1111 } },
+                    { lng: 997 },
+                ],
+            };
+            const fetched = await service.findOne(query);
+
+            assert.equal(inserted.city, fetched.city, 'Fetched <geolocation.city> should BE same as inserted one');
+            assert.equal(inserted.lng, fetched.lng, 'Fetched <geolocation.lng> should BE same as inserted one');
+            assert.equal(inserted.lat, fetched.lat, 'Fetched <geolocation.lat> should BE same as inserted one');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
+    it('Should FIND_ONE by AND object in database', async () => {
+        try {
+            const inserted = {
+                city: 'Novi Sad',
+                lat: '113',
+                lng: '997',
+            };
+
+            const id = await service.create(inserted);
+            const query = {
+                $and: [
+                    { lat: { $gt: 111 } },
+                    { lng: 997 },
+                ],
+            };
+            const fetched = await service.findOne(query);
+
+            assert.equal(inserted.city, fetched.city, 'Fetched <geolocation.city> should BE same as inserted one');
+            assert.equal(inserted.lng, fetched.lng, 'Fetched <geolocation.lng> should BE same as inserted one');
+            assert.equal(inserted.lat, fetched.lat, 'Fetched <geolocation.lat> should BE same as inserted one');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
+    it('Should NOT FIND_ONE by FIELD object in database', async () => {
+        try {
+            const query = { city: 'Neki Grad' };
+            const fetched = await service.findOne(query);
+
+            assert.equal(fetched, null, 'Fetched <geolocation> should NOT be found');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
+    it('Should REMOVE_ONE by ID object in database', async () => {
+        try {
+            const inserted = {
+                city: 'Subotica',
+                lat: '114',
+                lng: '996',
+            };
+
+            const id = await service.create(inserted);
+            const deleted = await service.removeById(id);
+
+            assert.notEqual(deleted, null, 'Deleted <geolocation> should NOT be same as inserted one');
         } catch (err) {
             assert(false, err);
         }
