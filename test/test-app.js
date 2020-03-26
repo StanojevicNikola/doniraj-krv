@@ -1,4 +1,4 @@
 const App = require('../source/app');
-const config = require('../config');
+const config = require('../test-config');
 
 module.exports = new App(config);

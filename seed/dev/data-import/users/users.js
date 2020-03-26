@@ -1,6 +1,6 @@
 const ids = require('../../ids/ids');
-const utils = require('../../../source/utils');
-const config = require('../../../config');
+const utils = require('../../../../source/utils');
+const config = require('../../../../config');
 
 module.exports = [
     {

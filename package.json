@@ -7,8 +7,9 @@
     "start": "node index.js",
     "lint": "eslint source/ index.js --fix",
     "test": "./node_modules/mocha/bin/mocha ./test/**/*.test.js --recursive",
-    "seed": "seed --db-name Donate ./seed/data-import",
-    "reset-and-seed": "seed --db-name Donate --drop-database ./seed/data-import",
+    "seed": "seed --db-name Donate seed/dev/data-import",
+    "reset-and-seed": "seed --db-name Donate --drop-database seed/dev/data-import",
+    "reset-and-seed-test": "seed --db-name Donate-Test --drop-database seed/test/data-import",
     "freePort": "kill -9 $(lsof -t -i:5000)"
   },
   "repository": {
