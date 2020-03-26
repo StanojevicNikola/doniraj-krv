@@ -2,6 +2,7 @@
   "app": "DonirajKrv",
   "version": "0.1.0",
   "salt": "213dasdacasda",
+  "activationRoute": "http://localhost:5000/users/activate/",
   "jwt": {
     "secret": "DoNaTeBlOoD",
     "expirationTime": 15
