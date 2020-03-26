@@ -38,18 +38,18 @@ class BloodGroupService {
         return models.Blood.findById(id).populate(fields).lean().exec();
     }
 
-    async findCompatible(searchFor, groups) {
+    async findCompatible(queryType, groups) {
         const compatibleMap = this.config.bloodGroups.compatibleBloodGroups;
 
-        if (searchFor === 'ALL') {
+        if (queryType === 'ALL') {
             return this.config.bloodGroups.all;
         }
 
-        if (searchFor === 'SPECIFIC') {
+        if (queryType === 'SPECIFIC') {
             return groups;
         }
 
-        if (searchFor === 'COMPATIBLE') {
+        if (queryType === 'COMPATIBLE') {
             const compatibleGroups = [];
 
             groups.forEach((group) => {

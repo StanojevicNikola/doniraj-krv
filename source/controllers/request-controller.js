@@ -20,36 +20,48 @@ class RequestController {
 
     async publishRequest(request) {
         const {
-            radius, city, recipientId, searchFor, groups,
+            radius, city, recipientId, queryType, groups, places,
         } = request;
 
         const geolocation = await this.geolocationService.findOne({ city });
         const requestId = await this.requestService
             .create({
-                radius, geolocation: geolocation._id, recipient: recipientId, groups, searchFor,
+                radius,
+                geolocation: geolocation._id,
+                recipient: recipientId,
+                groups,
+                queryType,
+                places,
             });
         return this._notify(requestId);
     }
 
     async _notify(requestId) {
-        const request = await this.requestService.findById(requestId, ['geolocation', 'recipient']);
+        const request = await this.requestService.findById(requestId, ['geolocation', 'recipient', 'places']);
 
         const { lat, lng } = request.geolocation;
         const locations = await this.geoService
             .filterByRadius(lat, lng, request.radius);
         const cities = utils.extract(locations, '_id');
 
-        const { searchFor, groups } = request;
+        const { queryType, groups, places } = request;
 
         const compatibleGroups = await this.bloodGroupService
-            .findCompatible(searchFor, groups);
+            .findCompatible(queryType, groups);
 
         const donors = await this.donorService.findEligibleDonors(cities, compatibleGroups);
 
+        const placesInfo = utils.extractMultiple(
+            places, ['name', 'address', 'workingHours', 'date', 'isStatic'],
+        );
+
         const promises = [];
         donors.forEach((donor) => {
-            const params = { name: donor.user.email };
-            const options = { recipientEmail: donor.user.email, subject: 'Blood donation request' };
+            const params = { name: donor.user.name, places: utils.createHtmlList(placesInfo) };
+            const options = {
+                recipientEmail: donor.user.email,
+                subject: 'Zahtev za donaciju krvi',
+            };
             promises.push(this.emailService.sendEmail('request', params, options));
         });
         await Promise.all(promises);

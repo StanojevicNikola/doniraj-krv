@@ -32,4 +32,18 @@ module.exports = [
         geolocation: ids.vranje,
         lastDonation: getDate(99, offset),
     },
+    {
+        _id: ids.donor5_Id,
+        user: ids.user5_Id,
+        blood: ids.o_minus,
+        geolocation: ids.beograd,
+        lastDonation: getDate(99, offset),
+    },
+    {
+        _id: ids.donor6_Id,
+        user: ids.user6_Id,
+        blood: ids.o_minus,
+        geolocation: ids.beograd,
+        lastDonation: getDate(40, offset),
+    },
 ];
