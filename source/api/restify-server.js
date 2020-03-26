@@ -14,12 +14,13 @@ class RestifyServer {
             name: `${this.config.app} API Server`,
             version: this.config.version,
         });
+        this.server.use(restify.plugins.queryParser());
         this.server.use(restify.plugins.bodyParser());
 
         this.server.use(rjwt({
             secret: this.config.jwt.secret,
         }).unless({
-            path: ['/users/login'],
+            path: [/\/users*/],
         }));
         this.registerRoutes();
     }
@@ -34,6 +35,9 @@ class RestifyServer {
         this.server.get('/getBloodGroups', this.routeHandlers.getBloodGroups.bind(this.routeHandlers));
         this.server.get('/getNews', this.routeHandlers.getNews.bind(this.routeHandlers));
         this.server.get('/getEvents', this.routeHandlers.getEvents.bind(this.routeHandlers));
+
+        this.server.post('/users/register', this.routeHandlers.registerUser.bind(this.routeHandlers));
+        this.server.get('/users/activate/:activationId', this.routeHandlers.activateUser.bind(this.routeHandlers));
     }
 
     start() {

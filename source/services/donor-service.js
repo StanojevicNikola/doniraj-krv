@@ -42,20 +42,19 @@ class DonorService {
         const { minDaysSinceDonation } = this.config.donor;
         const dateConstraint = new Date();
         dateConstraint.setDate(dateConstraint.getDate() - minDaysSinceDonation);
-        let donorIdS = await models.Donor
+        const donors = await models.Donor
             .find({ geolocation: { $in: locations }, lastDonation: { $gt: dateConstraint } })
-            .select({ _id: 1 })
-            .lean()
-            .exec();
-        donorIdS = donorIdS.map((id) => id._id);
-        return models.Donor.find().where('_id').in(donorIdS)
             .populate({
                 path: 'blood',
                 match: { groupType: { $in: groups } },
                 select: { groupType: 1, _id: 0 },
             })
             .populate('user', 'email')
+            .select()
+            .lean()
             .exec();
+
+        return donors.filter((donor) => donor.blood != null);
     }
 
     async removeById(id) {

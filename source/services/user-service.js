@@ -24,6 +24,8 @@ class UserService {
         const passwordHash = utils.hash(user.password, this.config.salt);
         const emailHash = utils.hash(user.email, this.config.salt);
         Object.assign(user, { passwordHash, emailHash });
+        Object.assign(user, { isActive: false });
+        Object.assign(user, { isAdmin: false });
         delete user.password;
         const result = await models.User.create(user);
         return result._id;
@@ -44,6 +46,11 @@ class UserService {
         return models.User.findOne({ username, passwordHash });
     }
 
+    async findOne(query) {
+        this.logger.debug('User: find one');
+        return models.User.findOne(query).lean().exec();
+    }
+
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
         return models.User.findById(id).populate(fields).lean().exec();
@@ -52,6 +59,11 @@ class UserService {
     async updateOne(id, update) {
         this.logger.debug(`updateOne ${id}`);
         return models.User.updateOne({ id }, update).lean().exec();
+    }
+
+    async activateNewUser(emailHash) {
+        this.logger.debug('Activate new user');
+        return models.User.updateOne({ emailHash }, { isActive: true }).lean().exec();
     }
 
     async removeById(id) {

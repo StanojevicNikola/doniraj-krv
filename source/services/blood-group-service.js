@@ -55,7 +55,6 @@ class BloodGroupService {
             groups.forEach((group) => {
                 compatibleGroups.push(new Set(compatibleMap[group]));
             });
-
             return new Set(...compatibleGroups);
         }
 
