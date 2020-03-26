@@ -108,9 +108,13 @@ class RestifyRouteHandler {
 
     async addRole(req, res, next) {
         this.logger.info('add new user');
-        const tokenId = req.header.authori
         const userId = await this.userController.addNewRole(req.body);
         this._sendSuccess(res, 'Success', {});
+        next();
+    }
+
+    async unauthorized(req, res, next) {
+        this._sendUnauthorized(res, 'You are not authorized to access this route', null);
         next();
     }
 

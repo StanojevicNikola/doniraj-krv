@@ -2,10 +2,13 @@ const restify = require('restify');
 const rjwt = require('restify-jwt-community');
 
 class RestifyServer {
-    constructor({ config, logger, apiRouteHandler }) {
+    constructor({
+        config, logger, apiRouteHandler, tokenController,
+    }) {
         this.config = config;
         this.logger = logger;
         this.routeHandlers = apiRouteHandler;
+        this.tokenController = tokenController;
         this.init();
     }
 
@@ -14,8 +17,20 @@ class RestifyServer {
             name: `${this.config.app} API Server`,
             version: this.config.version,
         });
+        const accessControl = async (req, res, next) => {
+            if (Object.prototype.hasOwnProperty.call(req.headers, 'authorization')) {
+                const rawToken = req.headers.authorization.substr(7);
+                const routePrefix = req.url.substr(1, req.url.indexOf('/', 1) - 1);
+                const result = await this.tokenController.accessControl(routePrefix, rawToken);
+                if (!result) {
+                    req.url = '/unauthorized';
+                }
+            }
+            next();
+        };
         this.server.use(restify.plugins.queryParser());
         this.server.use(restify.plugins.bodyParser());
+        this.server.pre(accessControl);
 
         this.server.use(rjwt({
             secret: this.config.jwt.secret,
@@ -24,6 +39,7 @@ class RestifyServer {
         }));
         this._registerRoutes();
     }
+
 
     _registerRoutes() {
         this.server.post('/users/login', this.routeHandlers.logIn.bind(this.routeHandlers));
@@ -37,6 +53,7 @@ class RestifyServer {
         this.server.get('/app/getEvents', this.routeHandlers.getEvents.bind(this.routeHandlers));
         this.server.post('/users/register', this.routeHandlers.registerUser.bind(this.routeHandlers));
         this.server.get('/users/activate/:activationId', this.routeHandlers.activateUser.bind(this.routeHandlers));
+        this.server.get('/unauthorized', this.routeHandlers.unauthorized.bind(this.routeHandlers));
     }
 
     start() {
