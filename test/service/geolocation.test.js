@@ -111,6 +111,40 @@ describe('Geolocation service test', () => {
         }
     });
 
+    it('Should FIND_ALL object in database', async () => {
+        try {
+            const fetched = await service.find({});
+            let size = 0;
+            fetched.forEach(() => {
+                size += 1;
+            });
+            assert.equal(fetched.length, size, 'Fetched <all geolocation> should BE found');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
+    it('Should FIND_ALL by PROJECTION object in database', async () => {
+        try {
+            const inserted = {
+                city: 'Novi Beograd',
+                lat: '116',
+                lng: '994',
+            };
+            const id = await service.create(inserted);
+            const query = ({ }, { lat: { $gt: 112 } });
+            const fetched = await service.find(query);
+            let size = 0;
+            fetched.forEach((el) => {
+                if (el.lat > 112) size += 1;
+            });
+
+            assert.equal(fetched.length, size, 'Fetched <all by projection geolocation> should BE found');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
     it('Should REMOVE_ONE by ID object in database', async () => {
         try {
             const inserted = {

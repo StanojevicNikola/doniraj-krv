@@ -25,6 +25,14 @@ class PlaceService {
         return result._id;
     }
 
+    async findOne(query, fields = null) {
+        this.logger.debug(`find ${query}`);
+        return models.Place.findOne(query)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
     async find(query, fields = null) {
         this.logger.debug(`find ${query}`);
         return models.Place.find(query)

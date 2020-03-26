@@ -33,6 +33,14 @@ class RecipientService {
             .exec();
     }
 
+    async findOne(query, fields = null) {
+        this.logger.debug(`find ${query}`);
+        return models.Recipient.findOne(query)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
         return models.Recipient.findById(id).populate(fields).lean().exec();
