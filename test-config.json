@@ -1,0 +1,42 @@
+{
+  "app": "DonirajKrv",
+  "version": "0.1.0",
+  "salt": "213dasdacasda",
+  "jwt": {
+    "secret": "DoNaTeBlOoD",
+    "expirationTime": 15
+  },
+  "storage": {
+    "mongodb": {
+      "url": "mongodb://localhost:27017/",
+      "database": "Donate-Test"
+    }
+  },
+  "APIserver": {
+    "port": "5000"
+  },
+  "bloodGroups": {
+    "all": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    "compatibleBloodGroups": {
+      "AB+": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+      "AB-": ["O-", "B-", "AB-", "A-"],
+      "A+": ["O-", "O+", "A-", "A+"],
+      "A-": ["O-", "A-"],
+      "B+": ["O-", "O+", "B-", "B+"],
+      "B-": ["O-", "B-"],
+      "O+": ["O-", "O+"],
+      "O-": ["O-"]
+    }
+  },
+  "email": {
+    "host": "smtp.gmail.com",
+    "service": "gmail",
+    "auth": {
+      "user": "pveb.projekat@gmail.com",
+      "pass": "matfpveb123"
+    }
+  },
+  "donor": {
+    "minDaysSinceDonation": 90
+  }
+}
