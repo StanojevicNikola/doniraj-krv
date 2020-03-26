@@ -19,7 +19,7 @@ class RestifyServer {
         });
         const accessControl = async (req, res, next) => {
             if (Object.prototype.hasOwnProperty.call(req.headers, 'authorization')) {
-                const rawToken = req.headers.authorization.substr(7);
+                const rawToken = req.headers.authorization.replace('Bearer ', '');
                 const routePrefix = req.url.substr(1, req.url.indexOf('/', 1) - 1);
                 const result = await this.tokenController.accessControl(routePrefix, rawToken);
                 if (!result) {
