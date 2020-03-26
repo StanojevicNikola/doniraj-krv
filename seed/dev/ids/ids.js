@@ -10,8 +10,8 @@ module.exports.donor2_Id = mongoose.Types.ObjectId();
 module.exports.donor3_Id = mongoose.Types.ObjectId();
 module.exports.donor4_Id = mongoose.Types.ObjectId();
 
-module.exports.receiver2_Id = mongoose.Types.ObjectId();
-module.exports.receiver4_Id = mongoose.Types.ObjectId();
+module.exports.recipient2_Id = mongoose.Types.ObjectId();
+module.exports.recipient4_Id = mongoose.Types.ObjectId();
 
 module.exports.beograd = mongoose.Types.ObjectId();
 module.exports.cuprija = mongoose.Types.ObjectId();

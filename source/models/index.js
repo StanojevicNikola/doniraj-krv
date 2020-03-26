@@ -1,7 +1,7 @@
 const user = require('./user').User;
 const place = require('./place').Place;
 const donor = require('./blood-donor').Donor;
-const receiver = require('./blood-receiver').Receiver;
+const recipient = require('./blood-recipient').Recipient;
 const geolocation = require('./geolocation').Geolocation;
 const request = require('./request').Request;
 const blood = require('./blood-group').Blood;
@@ -13,7 +13,7 @@ module.exports = {
     User: user,
     Place: place,
     Donor: donor,
-    Receiver: receiver,
+    Recipient: recipient,
     Request: request,
     Geolocation: geolocation,
     Blood: blood,
