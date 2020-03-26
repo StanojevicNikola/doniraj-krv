@@ -4,7 +4,7 @@ const utils = require('../utils');
 /**
  * Encapsulates Request service operations
  */
-class ReceiverService {
+class RecipientService {
     constructor({ logger, config }) {
         this.logger = logger;
         this.config = config;
@@ -16,18 +16,18 @@ class ReceiverService {
             throw new Error('No place data');
         }
 
-        const recever = utils.clone(data);
+        const recipient = utils.clone(data);
         if (id != null) {
-            recever._id = id;
+            recipient._id = id;
         }
 
-        const result = await models.Receiver.create(recever);
+        const result = await models.Recipient.create(recipient);
         return result._id;
     }
 
     async find(query, fields = null) {
         this.logger.debug(`find ${query}`);
-        return models.Receiver.find(query)
+        return models.Recipient.find(query)
             .populate(fields)
             .lean()
             .exec();
@@ -35,13 +35,13 @@ class ReceiverService {
 
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
-        return models.Receiver.findById(id).populate(fields).lean().exec();
+        return models.Recipient.findById(id).populate(fields).lean().exec();
     }
 
     async removeById(id) {
         this.logger.debug(`removeById by ID ${id}`);
-        return models.Receiver.deleteOne({ _id: id });
+        return models.Recipient.deleteOne({ _id: id });
     }
 }
 
-module.exports = ReceiverService;
+module.exports = RecipientService;

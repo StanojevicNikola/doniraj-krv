@@ -9,9 +9,9 @@ module.exports.Request = mongoose.model(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Geolocation',
         },
-        receiver: {
+        recipient: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Receiver',
+            ref: 'Recipient',
         },
         groups: [String],
         searchFor: String,

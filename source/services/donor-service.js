@@ -53,7 +53,6 @@ class DonorService {
             .select()
             .lean()
             .exec();
-
         return donors.filter((donor) => donor.blood != null);
     }
 

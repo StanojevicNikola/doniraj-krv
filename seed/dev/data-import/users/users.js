@@ -20,7 +20,7 @@ module.exports = [
     {
         _id: ids.user2_Id,
         donor: ids.donor2_Id,
-        receiver: ids.receiver2_Id,
+        recipient: ids.recipient2_Id,
         email: 'dimitrije.sistem@foo.com',
         name: 'user2',
         passwordHash: utils.hash('user', config.salt),
@@ -35,7 +35,7 @@ module.exports = [
     {
         _id: ids.user4_Id,
         donor: ids.donor4_Id,
-        receiver: ids.receiver4_Id,
+        recipient: ids.recipient4_Id,
         email: 'dimitrije.misa@foo.com',
         name: 'user4',
         passwordHash: utils.hash('user', config.salt),
