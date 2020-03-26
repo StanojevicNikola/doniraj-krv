@@ -28,10 +28,12 @@ class RestifyRouteHandler {
 
     async registerUser(req, res, next) {
         this.logger.info('New registration');
-        const { email, password, name } = req.body;
+        const {
+            email, password, username, name,
+        } = req.body;
 
         try {
-            const result = await this.userController.registerUser(email, password, name);
+            const result = await this.userController.registerUser(email, password, username, name);
             this._sendSuccess(res, result, null);
         } catch (e) {
             this._sendBadRequest(res, e.message, null);
@@ -104,10 +106,10 @@ class RestifyRouteHandler {
         next();
     }
 
-    async createUser(req, res, next) {
-        this.logger.info('createUser');
-        // TODO: handle errors and return value from controller
-        const userId = await this.userController.createUserOld(req.body);
+    async addRole(req, res, next) {
+        this.logger.info('add new user');
+        const tokenId = req.header.authori
+        const userId = await this.userController.addNewRole(req.body);
         this._sendSuccess(res, 'Success', {});
         next();
     }

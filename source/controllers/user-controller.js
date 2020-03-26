@@ -13,12 +13,16 @@ class UserController {
         this.emailService = emailService;
     }
 
-    async registerUser(email, password, name) {
-        const existingUser = await this.userService.findOne({ email });
+    async registerUser(email, password, username, name) {
+        let existingUser = await this.userService.findOne({ email });
         if (existingUser != null) {
-            throw Error('User already exists');
+            throw Error('User with that email already exists');
         }
-        const userId = await this.userService.create({ email, password, name });
+        existingUser = await this.userService.findOne({ username });
+        if (existingUser != null) {
+            throw Error('User with that username already exists');
+        }
+        const userId = await this.userService.create({ email, password, username, name });
         const user = await this.userService.findById(userId);
 
         await this.activationService.create({ activationId: user.emailHash });
@@ -54,12 +58,11 @@ class UserController {
         };
     }
 
-    async createUserOld(data) {
+    async addNewRole(data) {
         const {
-            userData, role, roleData,
+            userId, role, roleData,
         } = data;
 
-        const userId = await this.userService.create(userData);
         let id;
         if (role === 'DONOR') {
             id = await this._createDonor({ ...roleData, user: userId });
@@ -69,9 +72,6 @@ class UserController {
             await this.userService.updateOne(userId, { recipient: id });
         } else {
             throw Error('Losa vrednost parametra!');
-        }
-        if (id == null) {
-            return userId;
         }
         return id;
     }

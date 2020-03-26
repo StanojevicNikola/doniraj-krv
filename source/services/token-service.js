@@ -17,6 +17,11 @@ class TokenService {
             name: user.name,
             isAdmin: user.isAdmin,
         };
+        // eslint-disable-next-line no-unused-expressions
+        user.roles.includes('Donor') ? tokenData.donor = true : tokenData.donor = false;
+        // eslint-disable-next-line no-unused-expressions
+        user.roles.includes('Recipient') ? tokenData.recipient = true : tokenData.recipient = false;
+
         const rawTokenData = jwt.sign(tokenData, this.config.jwt.secret, {
             expiresIn: `${this.config.jwt.expirationTime}m`,
         });

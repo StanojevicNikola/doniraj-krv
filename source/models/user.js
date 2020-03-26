@@ -11,6 +11,7 @@ module.exports.User = mongoose.model(
         passwordHash: String,
         isAdmin: Boolean,
         isActive: Boolean,
+        roles: [String],
         donor: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Donor',

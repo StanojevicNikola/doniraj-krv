@@ -30,7 +30,7 @@ class RestifyServer {
         this.server.get('/test/hello', this.routeHandlers.hello.bind(this.routeHandlers));
         this.server.post('/donor/findPlaces', this.routeHandlers.findPlaces.bind(this.routeHandlers));
         this.server.post('/recipient/requestBlood', this.routeHandlers.requestBlood.bind(this.routeHandlers));
-        this.server.post('/app/createUser', this.routeHandlers.createUser.bind(this.routeHandlers));
+        this.server.post('/app/createUser', this.routeHandlers.addRole.bind(this.routeHandlers));
         this.server.get('/app/getCities', this.routeHandlers.getCities.bind(this.routeHandlers));
         this.server.get('/app/getBloodGroups', this.routeHandlers.getBloodGroups.bind(this.routeHandlers));
         this.server.get('/app/getNews', this.routeHandlers.getNews.bind(this.routeHandlers));
