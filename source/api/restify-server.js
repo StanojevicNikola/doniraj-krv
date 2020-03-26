@@ -16,11 +16,11 @@ class RestifyServer {
         });
         this.server.use(restify.plugins.bodyParser());
 
-        // this.server.use(rjwt({
-        //     secret: this.config.jwt.secret,
-        // }).unless({
-        //     path: ['/users/login'],
-        // }));
+        this.server.use(rjwt({
+            secret: this.config.jwt.secret,
+        }).unless({
+            path: ['/users/login'],
+        }));
         this._registerRoutes();
     }
 
