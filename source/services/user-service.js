@@ -21,8 +21,10 @@ class UserService {
             user._id = id;
         }
 
-        const passwordHash = utils.hash(user.password, this.config.salt);
         const emailHash = utils.hash(user.email, this.config.salt);
+        // const passwordHash = utils.hash(user.password, this.config.salt);
+        const passwordHash = utils.hash(emailHash, this.config.salt);
+
         Object.assign(user, { passwordHash, emailHash });
         Object.assign(user, { isActive: false });
         Object.assign(user, { isAdmin: false });
