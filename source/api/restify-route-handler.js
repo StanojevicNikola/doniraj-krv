@@ -18,9 +18,10 @@ class RestifyRouteHandler {
         const { activationId } = req.params;
         try {
             const result = await this.userController.activateUser(activationId);
-            this._sendSuccess(res, result, null);
+            this._sendSuccess(res, result, {});
         } catch (e) {
-            throw Error(e.message);
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
         }
         next();
     }
@@ -35,6 +36,7 @@ class RestifyRouteHandler {
             const result = await this.userController.registerUser(email, password, username, name);
             this._sendSuccess(res, result, null);
         } catch (e) {
+            this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
         }
         next();
@@ -48,7 +50,8 @@ class RestifyRouteHandler {
             const tokenData = await this.userController.authorize(username, password);
             this._sendSuccess(res, 'Welcome', tokenData);
         } catch (e) {
-            this._sendBadRequest(res, 'Authorization failed', null);
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
         }
 
         next();
@@ -62,10 +65,15 @@ class RestifyRouteHandler {
 
     async findPlaces(req, res, next) {
         this.logger.info('findPlaces');
-        const data = await this.placeController.find(req);
-        if (data.length > 0) this._sendSuccess(res, 'Success', data);
-        else {
-            this._sendSuccess(res, 'Nema lokacija u trazenoj okolini!', {});
+        try {
+            const data = await this.placeController.find(req);
+            if (data.length > 0) this._sendSuccess(res, 'Success', data);
+            else {
+                this._sendSuccess(res, 'Nema lokacija u trazenoj okolini!', {});
+            }
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
         }
         next();
     }
@@ -79,41 +87,67 @@ class RestifyRouteHandler {
 
     async getCities(req, res, next) {
         this.logger.info('getCities');
-        const data = await this.infoController.getCities();
-        this._sendSuccess(res, 'Success', data);
+        try {
+            const data = await this.infoController.getCities();
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
         next();
     }
 
     async getNews(req, res, next) {
         this.logger.info('getNews');
-        const data = await this.infoController.getNews();
-        this._sendSuccess(res, 'Success', data);
+        try {
+            const data = await this.infoController.getNews();
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
         next();
     }
 
     async getEvents(req, res, next) {
         this.logger.info('getEvents');
-        const data = await this.infoController.getEvents();
-        this._sendSuccess(res, 'Success', data);
+        try {
+            const data = await this.infoController.getEvents();
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
         next();
     }
 
     async getBloodGroups(req, res, next) {
         this.logger.info('getBloodGroups');
-        const data = await this.infoController.getBloodGroups();
-        this._sendSuccess(res, 'Success', utils.extract(data, 'groupType'));
+        try {
+            const data = await this.infoController.getBloodGroups();
+            this._sendSuccess(res, 'Success', utils.extract(data, 'groupType'));
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
         next();
     }
 
     async addRole(req, res, next) {
-        this.logger.info('add new user');
-        const userId = await this.userController.addNewRole(req.body);
-        this._sendSuccess(res, 'Success', {});
+        this.logger.info('addRole');
+        try {
+            const token = utils.extractToken(req);
+            const message = await this.userController.addNewRole({ ...req.body, rawToken: token });
+            this._sendSuccess(res, message, {});
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
         next();
     }
 
     async unauthorized(req, res, next) {
-        this._sendUnauthorized(res, 'You are not authorized to access this route', null);
+        this._sendUnauthorized(res, 'Niste autorizovani za pristup!', null);
         next();
     }
 

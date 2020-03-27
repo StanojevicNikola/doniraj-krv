@@ -1,7 +1,7 @@
 class UserController {
     constructor({
-        // eslint-disable-next-line max-len
-        logger, config, userService, donorService, recipientService, tokenService, activationService, emailService,
+        logger, config, userService, donorService, recipientService,
+        tokenService, activationService, emailService, tokenController,
     }) {
         this.logger = logger;
         this.config = config;
@@ -11,6 +11,7 @@ class UserController {
         this.tokenService = tokenService;
         this.activationService = activationService;
         this.emailService = emailService;
+        this.tokenController = tokenController;
     }
 
     async registerUser(email, password, username, name) {
@@ -29,14 +30,14 @@ class UserController {
 
         await this.activationService.create({ activationId: user.emailHash });
         const link = this.config.activationRoute + user.emailHash;
-        await this.emailService.sendEmail('activation', { name, link }, { receiverEmail: email, subject: 'Activation link' });
+        await this.emailService.sendEmail('activation', { name, link }, { recipientEmail: email, subject: 'Activation link' });
         return 'Poslat Vam je aktivacioni email';
     }
 
     async activateUser(activationId) {
         const activation = await this.activationService.findOne({ activationId });
         if (activation == null) {
-            throw Error('Bad activation ID');
+            throw Error('Los ID aktivacije!');
         }
         // TODO check if expired and throw error or new activation
         await this.userService.activateNewUser(activationId);
@@ -46,10 +47,10 @@ class UserController {
     async authorize(username, password) {
         const user = await this._findByUserPass(username, password);
         if (user == null) {
-            throw Error('Bad username or password');
+            throw Error('Los username ili password!');
         }
         if (user.isActive === false) {
-            throw Error('Not activated');
+            throw Error('Niste aktivirali Vas nalog! Molimo proverite email kako bi potvrdili.');
         }
         const tokenId = await this.tokenService.create(user);
         const token = await this.tokenService.findById(tokenId);
@@ -62,20 +63,29 @@ class UserController {
 
     async addNewRole(data) {
         const {
-            userId, role, roleData,
+            role, roleData, rawToken,
         } = data;
 
+        const user = await this.tokenController.findUserByToken(rawToken);
+
+        if (user.roles.includes(role)) { return 'Vec imate zahtevanu ulogu.'; }
+
+        const { _id, roles } = user;
+
+        roles.push(role);
         let id;
         if (role === 'DONOR') {
-            id = await this._createDonor({ ...roleData, user: userId });
-            await this.userService.updateOne(userId, { donor: id });
+            id = await this._createDonor({ ...roleData, user: _id });
+            await this.userService.updateOne(_id, { donor: id, roles });
         } else if (role === 'RECIPIENT') {
-            id = await this._createRecipient({ ...roleData, user: userId });
-            await this.userService.updateOne(userId, { recipient: id });
+            id = await this._createRecipient({ ...roleData, user: _id });
+            await this.userService.updateOne(_id, { recipient: id, roles });
         } else {
             throw Error('Losa vrednost parametra!');
         }
-        return id;
+
+        await this.tokenController.updateAccessibleRoutes(rawToken, role);
+        return 'Uspesno ste dodali ulogu!';
     }
 
     async _createDonor(user) {

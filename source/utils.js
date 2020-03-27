@@ -46,6 +46,10 @@ class Utils {
         return list;
     }
 
+    static extractToken(req) {
+        return req.headers.authorization.replace('Bearer ', '');
+    }
+
     static parseDate(date) {
         return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
     }

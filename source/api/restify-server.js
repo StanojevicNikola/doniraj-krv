@@ -1,5 +1,6 @@
 const restify = require('restify');
 const rjwt = require('restify-jwt-community');
+const utils = require('../utils');
 
 class RestifyServer {
     constructor({
@@ -19,7 +20,7 @@ class RestifyServer {
         });
         const accessControl = async (req, res, next) => {
             if (Object.prototype.hasOwnProperty.call(req.headers, 'authorization')) {
-                const rawToken = req.headers.authorization.replace('Bearer ', '');
+                const rawToken = utils.extractToken(req);
                 const routePrefix = req.url.substr(1, req.url.indexOf('/', 1) - 1);
                 const result = await this.tokenController.accessControl(routePrefix, rawToken);
                 if (!result) {
@@ -54,6 +55,7 @@ class RestifyServer {
         this.server.post('/users/register', this.routeHandlers.registerUser.bind(this.routeHandlers));
         this.server.get('/users/activate/:activationId', this.routeHandlers.activateUser.bind(this.routeHandlers));
         this.server.get('/unauthorized', this.routeHandlers.unauthorized.bind(this.routeHandlers));
+        this.server.post('/user/addRole', this.routeHandlers.addRole.bind(this.routeHandlers));
     }
 
     start() {
