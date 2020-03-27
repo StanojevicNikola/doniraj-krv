@@ -1,7 +1,7 @@
 class TokenController {
     constructor(
         {
-            logger, config, tokenService
+            logger, config, tokenService,
         },
     ) {
         this.logger = logger;
@@ -15,7 +15,7 @@ class TokenController {
 
     async accessControl(routePrefix, rawToken) {
         const token = await this.tokenService.findOne({ rawToken });
-        return token.data.accessibleRoutes.includes(routePrefix);
+        return token.data.accessibleRoutes.includes(routePrefix) && token.data.isActive;
     }
 }
 

@@ -22,7 +22,9 @@ class UserController {
         if (existingUser != null) {
             throw Error('User with that username already exists');
         }
-        const userId = await this.userService.create({ email, password, username, name });
+        const userId = await this.userService.create({
+            email, password, username, name,
+        });
         const user = await this.userService.findById(userId);
 
         await this.activationService.create({ activationId: user.emailHash });

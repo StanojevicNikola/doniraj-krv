@@ -16,12 +16,14 @@ class TokenService {
             id: user._id,
             name: user.name,
             isAdmin: user.isAdmin,
-            accessibleRoutes: ['app'],
+            isActive: user.isActive,
+            accessibleRoutes: ['user'],
         };
         // eslint-disable-next-line no-unused-expressions
-        user.roles.includes('Donor') ? (tokenData.donor = true, tokenData.accessibleRoutes.push('donor')) : tokenData.donor = false;
+        user.roles.includes('DONOR') ? (tokenData.donor = true, tokenData.accessibleRoutes.push('donor')) : tokenData.donor = false;
         // eslint-disable-next-line no-unused-expressions
-        user.roles.includes('Recipient') ? (tokenData.recipient = true, tokenData.accessibleRoutes.push('donor')) : tokenData.recipient = false;
+        user.roles.includes('RECIPIENT') ? (tokenData.recipient = true, tokenData.accessibleRoutes.push('recipient')) : tokenData.recipient = false;
+
         // eslint-disable-next-line no-unused-expressions
         user.isAdmin ? tokenData.accessibleRoutes.push('admin') : undefined;
 
@@ -29,6 +31,7 @@ class TokenService {
             expiresIn: `${this.config.jwt.expirationTime}m`,
         });
 
+        console.log(tokenData)
         const { iat, exp } = jwt.decode(rawTokenData);
         const result = await models.Token.create({
             _id: tokenId,
@@ -37,7 +40,6 @@ class TokenService {
             exp,
             rawToken: rawTokenData,
             data: tokenData,
-            isActive: true,
         });
         return result._id;
     }

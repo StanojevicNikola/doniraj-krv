@@ -35,7 +35,7 @@ class RestifyServer {
         this.server.use(rjwt({
             secret: this.config.jwt.secret,
         }).unless({
-            path: [/\/users*/],
+            path: [/\/users*/, /\/app*/],
         }));
         this._registerRoutes();
     }
