@@ -31,7 +31,6 @@ class TokenService {
             expiresIn: `${this.config.jwt.expirationTime}m`,
         });
 
-        console.log(tokenData)
         const { iat, exp } = jwt.decode(rawTokenData);
         const result = await models.Token.create({
             _id: tokenId,
@@ -63,6 +62,11 @@ class TokenService {
             .populate(fields)
             .lean()
             .exec();
+    }
+
+    async updateOne(_id, update) {
+        this.logger.debug(`updateOne ${_id}`);
+        return models.Token.updateOne({ _id }, update).lean().exec();
     }
 }
 

@@ -23,7 +23,6 @@ module.exports = [
     },
     {
         _id: ids.user2_Id,
-        donor: ids.donor2_Id,
         recipient: ids.recipient2_Id,
         email: 'mail_2@foo.com',
         name: 'user2',

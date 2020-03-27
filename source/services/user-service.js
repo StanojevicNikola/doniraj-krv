@@ -56,9 +56,9 @@ class UserService {
         return models.User.findById(id).populate(fields).lean().exec();
     }
 
-    async updateOne(id, update) {
-        this.logger.debug(`updateOne ${id}`);
-        return models.User.updateOne({ id }, update).lean().exec();
+    async updateOne(_id, update) {
+        this.logger.debug(`updateOne ${_id}`);
+        return models.User.updateOne({ _id }, update).lean().exec();
     }
 
     async activateNewUser(emailHash) {
