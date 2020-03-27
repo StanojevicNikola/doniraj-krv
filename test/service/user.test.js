@@ -28,6 +28,7 @@ describe('User service test', () => {
                 email: 'email1@gmail.com',
                 name: 'name1',
                 username: 'username1',
+                password: 'password1',
             };
             const id = await service.create(inserted);
             const fetched = await service.findById(id);
@@ -88,6 +89,7 @@ describe('User service test', () => {
                 email: 'email2@gmail.com',
                 name: 'name2',
                 username: 'username2',
+                password: 'password2',
             };
             const id = await service.create(inserted);
 
@@ -150,6 +152,7 @@ describe('User service test', () => {
                 email: 'email3@gmail.com',
                 name: 'name3',
                 username: 'username3',
+                password: 'password3',
             };
             const id = await service.create(inserted);
 
@@ -217,6 +220,7 @@ describe('User service test', () => {
                 email: 'email4@gmail.com',
                 name: 'name3',
                 username: 'username4',
+                password: 'password4',
             };
             const id = await service.create(inserted);
 
@@ -284,6 +288,7 @@ describe('User service test', () => {
                 email: 'email5@gmail.com',
                 name: 'name3',
                 username: 'username5',
+                password: 'password5',
             };
             const id = await service.create(inserted);
 
@@ -361,6 +366,7 @@ describe('User service test', () => {
                 email: 'email6@gmail.com',
                 name: 'name5',
                 username: 'username7',
+                password: 'password6',
             };
             const id = await service.create(inserted);
 
@@ -418,6 +424,7 @@ describe('User service test', () => {
     //             email: 'email9@gmail.com',
     //             name: 'name9',
     //             username: 'username9',
+    //             password: 'password7',
     //             donor: mongoose.Types.ObjectId(),
     //             recipient: mongoose.Types.ObjectId(),
     //         };
@@ -478,6 +485,7 @@ describe('User service test', () => {
                 email: 'email8@gmail.com',
                 name: 'name8',
                 username: 'username8',
+                password: 'password8',
             };
             const id = await service.create(inserted);
 
@@ -523,10 +531,10 @@ describe('User service test', () => {
 
             const fetchedById = await service.findById(id);
             // eslint-disable-next-line max-len
-            const fetched = await service.findByUserPass(fetchedById.username, fetchedById.emailHash);
+            const fetched = await service.findByUserPass(inserted.username, inserted.password);
 
             assert.equal(fetchedById.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.equal(fetchedById.passwordHash, fetched.passwordHash, 'Fetched <user.password> should BE same as inserted one');
+            assert.equal(fetchedById.passwordHash, fetched.passwordHash, 'Fetched <user.passwordHash> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -538,6 +546,7 @@ describe('User service test', () => {
     //             email: 'email9@gmail.com',
     //             name: 'name9',
     //             username: 'username9',
+    //             password: 'password9',
     //             // isActive: false,
     //         };
     //         const id = await service.create(inserted);
