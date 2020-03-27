@@ -22,30 +22,10 @@ describe('Event service test', () => {
 
     it('Should CREATE object in database', async () => {
         try {
-            const inserted = {
-                email: 'email1@gmail.com',
-                name: 'name1',
-                username: 'username1',
-                isAdmin: false,
-                isActive: true,
-            };
-            const id = await service.create(inserted);
-            const fetched = await service.findById(id);
-
             const inserted_refBlood = {
                 groupType: 'A+',
             };
             const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
-
-            const inserted_refRecipient = {
-                blood: {
-                    _id: id_refBlood,
-                },
-                user: {
-                    _id: id,
-                },
-            };
-            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
 
             const inserted_refGeolocation = {
                 city: 'Jagodina',
@@ -54,6 +34,13 @@ describe('Event service test', () => {
             };
             const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
 
+            const inserted_refUser = {
+                blood: 'email1@gmail.com',
+                name: 'name1',
+                username: 'username1',
+            };
+            const id_refUser = await serviceRefUser.create(inserted_refUser);
+
             const inserted_refDonor = {
                 blood: {
                     _id: id_refBlood,
@@ -62,21 +49,29 @@ describe('Event service test', () => {
                     _id: id_refGeolocation,
                 },
                 user: {
-                    _id: id,
+                    _id: id_refUser,
                 },
                 lastDonation: serviceTime.getTimeWithOffset(10, '+'),
             };
             const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
 
-            const update_id = { _id: id };
-            const updated = { donor: id_refDonor, recipient: id_refRecipient };
-            await service.updateOne(update_id, updated);
+            const inserted = {
+                blood: {
+                    _id: id_refBlood,
+                },
+                user: {
+                    _id: id_refUser,
+                },
+            };
+            const id = await service.create(inserted);
+            const fetched = await service.findById(id);
 
-            assert.equal(inserted.email, fetched.email, 'Fetched <user.email> should BE same as inserted one');
-            assert.equal(inserted.name, fetched.name, 'Fetched <user.name> should BE same as inserted one');
-            assert.equal(inserted.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.deepEqual(inserted.donor, fetched.donor, 'Fetched <user.donor> should BE same as inserted one');
-            assert.deepEqual(inserted.recipient, fetched.recipient, 'Fetched <user.recipient> should BE same as inserted one');
+            const update_id = { _id: id_refUser };
+            const updated = { donor: id_refDonor, recipient: id };
+            await serviceRefUser.updateOne(update_id, updated);
+
+            assert.deepEqual(inserted.blood._id, fetched.blood._id, 'Fetched <recipient.blood> should BE same as inserted one');
+            assert.deepEqual(inserted.user._id, fetched.user._id, 'Fetched <recipient.user> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -84,29 +79,10 @@ describe('Event service test', () => {
 
     it('Should FIND_ONE by FIELD object in database', async () => {
         try {
-            const inserted = {
-                email: 'email2@gmail.com',
-                name: 'name2',
-                username: 'username2',
-                isAdmin: false,
-                isActive: true,
-            };
-            const id = await service.create(inserted);
-
             const inserted_refBlood = {
-                groupType: 'B+',
+                groupType: 'A+',
             };
             const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
-
-            const inserted_refRecipient = {
-                blood: {
-                    _id: id_refBlood,
-                },
-                user: {
-                    _id: id,
-                },
-            };
-            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
 
             const inserted_refGeolocation = {
                 city: 'Cuprija',
@@ -115,6 +91,13 @@ describe('Event service test', () => {
             };
             const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
 
+            const inserted_refUser = {
+                blood: 'email2@gmail.com',
+                name: 'name2',
+                username: 'username2',
+            };
+            const id_refUser = await serviceRefUser.create(inserted_refUser);
+
             const inserted_refDonor = {
                 blood: {
                     _id: id_refBlood,
@@ -123,24 +106,27 @@ describe('Event service test', () => {
                     _id: id_refGeolocation,
                 },
                 user: {
-                    _id: id,
+                    _id: id_refUser,
                 },
-                lastDonation: serviceTime.getTimeWithOffset(20, '+'),
+                lastDonation: serviceTime.getTimeWithOffset(10, '+'),
             };
             const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
 
-            const update_id = { _id: id };
-            const updated = { donor: id_refDonor, recipient: id_refRecipient };
-            await service.updateOne(update_id, updated);
+            const inserted = {
+                blood: id_refBlood,
+                user: id_refUser,
+            };
+            const id = await service.create(inserted);
 
-            const query = { email: 'email2@gmail.com' };
+            const update_id = { _id: id_refUser };
+            const updated = { donor: id_refDonor, recipient: id };
+            await serviceRefUser.updateOne(update_id, updated);
+
+            const query = { blood: id_refBlood };
             const fetched = await service.findOne(query);
 
-            assert.equal(inserted.email, fetched.email, 'Fetched <user.email> should BE same as inserted one');
-            assert.equal(inserted.name, fetched.name, 'Fetched <user.name> should BE same as inserted one');
-            assert.equal(inserted.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.deepEqual(inserted.donor, fetched.donor, 'Fetched <user.donor> should BE same as inserted one');
-            assert.deepEqual(inserted.recipient, fetched.recipient, 'Fetched <user.recipient> should BE same as inserted one');
+            assert.deepEqual(inserted.blood, fetched.blood, 'Fetched <recipient.blood> should BE same as inserted one');
+            assert.deepEqual(inserted.user, fetched.user, 'Fetched <recipient.user> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -148,29 +134,10 @@ describe('Event service test', () => {
 
     it('Should FIND_ONE by OR object in database', async () => {
         try {
-            const inserted = {
-                email: 'email3@gmail.com',
-                name: 'name3',
-                username: 'username3',
-                isAdmin: false,
-                isActive: true,
-            };
-            const id = await service.create(inserted);
-
             const inserted_refBlood = {
-                groupType: 'AB+',
+                groupType: 'A-',
             };
             const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
-
-            const inserted_refRecipient = {
-                blood: {
-                    _id: id_refBlood,
-                },
-                user: {
-                    _id: id,
-                },
-            };
-            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
 
             const inserted_refGeolocation = {
                 city: 'Novi Sad',
@@ -179,6 +146,13 @@ describe('Event service test', () => {
             };
             const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
 
+            const inserted_refUser = {
+                blood: 'email3@gmail.com',
+                name: 'name2',
+                username: 'username3',
+            };
+            const id_refUser = await serviceRefUser.create(inserted_refUser);
+
             const inserted_refDonor = {
                 blood: {
                     _id: id_refBlood,
@@ -187,29 +161,32 @@ describe('Event service test', () => {
                     _id: id_refGeolocation,
                 },
                 user: {
-                    _id: id,
+                    _id: id_refUser,
                 },
-                lastDonation: serviceTime.getTimeWithOffset(30, '+'),
+                lastDonation: serviceTime.getTimeWithOffset(10, '+'),
             };
             const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
 
-            const update_id = { _id: id };
-            const updated = { donor: id_refDonor, recipient: id_refRecipient };
-            await service.updateOne(update_id, updated);
+            const inserted = {
+                blood: id_refBlood,
+                user: id_refUser,
+            };
+            const id = await service.create(inserted);
+
+            const update_id = { _id: id_refUser };
+            const updated = { donor: id_refDonor, recipient: id };
+            await serviceRefUser.updateOne(update_id, updated);
 
             const query = {
                 $or: [
-                    { email: 'email3@gmail.com' },
-                    { name: 'name2' },
+                    { blood: id_refBlood },
+                    { user: id_refUser },
                 ],
             };
             const fetched = await service.findOne(query);
 
-            assert.equal(inserted.email, fetched.email, 'Fetched <user.email> should BE same as inserted one');
-            assert.equal(inserted.name, fetched.name, 'Fetched <user.name> should BE same as inserted one');
-            assert.equal(inserted.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.deepEqual(inserted.donor, fetched.donor, 'Fetched <user.donor> should BE same as inserted one');
-            assert.deepEqual(inserted.recipient, fetched.recipient, 'Fetched <user.recipient> should BE same as inserted one');
+            assert.deepEqual(inserted.blood, fetched.blood, 'Fetched <recipient.blood> should BE same as inserted one');
+            assert.deepEqual(inserted.user, fetched.user, 'Fetched <recipient.user> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -217,29 +194,10 @@ describe('Event service test', () => {
 
     it('Should FIND_ONE by AND object in database', async () => {
         try {
-            const inserted = {
-                email: 'email4@gmail.com',
-                name: 'name3',
-                username: 'username4',
-                isAdmin: false,
-                isActive: true,
-            };
-            const id = await service.create(inserted);
-
             const inserted_refBlood = {
-                groupType: 'AB-',
+                groupType: 'B-',
             };
             const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
-
-            const inserted_refRecipient = {
-                blood: {
-                    _id: id_refBlood,
-                },
-                user: {
-                    _id: id,
-                },
-            };
-            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
 
             const inserted_refGeolocation = {
                 city: 'Novi Grad',
@@ -248,6 +206,13 @@ describe('Event service test', () => {
             };
             const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
 
+            const inserted_refUser = {
+                blood: 'email4@gmail.com',
+                name: 'name3',
+                username: 'username4',
+            };
+            const id_refUser = await serviceRefUser.create(inserted_refUser);
+
             const inserted_refDonor = {
                 blood: {
                     _id: id_refBlood,
@@ -256,94 +221,32 @@ describe('Event service test', () => {
                     _id: id_refGeolocation,
                 },
                 user: {
-                    _id: id,
+                    _id: id_refUser,
                 },
-                lastDonation: serviceTime.getTimeWithOffset(30, '+'),
+                lastDonation: serviceTime.getTimeWithOffset(20, '+'),
             };
             const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
 
-            const update_id = { _id: id };
-            const updated = { donor: id_refDonor, recipient: id_refRecipient };
-            await service.updateOne(update_id, updated);
+            const inserted = {
+                blood: id_refBlood,
+                user: id_refUser,
+            };
+            const id = await service.create(inserted);
+
+            const update_id = { _id: id_refUser };
+            const updated = { donor: id_refDonor, recipient: id };
+            await serviceRefUser.updateOne(update_id, updated);
 
             const query = {
                 $and: [
-                    { email: 'email4@gmail.com' },
-                    { name: 'name3' },
+                    { blood: id_refBlood },
+                    { user: id_refUser },
                 ],
             };
             const fetched = await service.findOne(query);
 
-            assert.equal(inserted.email, fetched.email, 'Fetched <user.email> should BE same as inserted one');
-            assert.equal(inserted.name, fetched.name, 'Fetched <user.name> should BE same as inserted one');
-            assert.equal(inserted.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.deepEqual(inserted.donor, fetched.donor, 'Fetched <user.donor> should BE same as inserted one');
-            assert.deepEqual(inserted.recipient, fetched.recipient, 'Fetched <user.recipient> should BE same as inserted one');
-        } catch (err) {
-            assert(false, err);
-        }
-    });
-
-    it('Should FIND_ALL by PROJECTION object in database', async () => {
-        try {
-            const inserted = {
-                email: 'email5@gmail.com',
-                name: 'name3',
-                username: 'username5',
-                isAdmin: false,
-                isActive: true,
-            };
-            const id = await service.create(inserted);
-
-            const inserted_refBlood = {
-                groupType: 'B-',
-            };
-            const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
-
-            const inserted_refRecipient = {
-                blood: {
-                    _id: id_refBlood,
-                },
-                user: {
-                    _id: id,
-                },
-            };
-            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
-
-            const inserted_refGeolocation = {
-                city: 'Novi Becej',
-                lat: '113',
-                lng: '997',
-            };
-            const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
-
-            const inserted_refDonor = {
-                blood: {
-                    _id: id_refBlood,
-                },
-                geolocation: {
-                    _id: id_refGeolocation,
-                },
-                user: {
-                    _id: id,
-                },
-                lastDonation: serviceTime.getTimeWithOffset(30, '+'),
-            };
-            const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
-
-            const update_id = { _id: id };
-            const updated = { donor: id_refDonor, recipient: id_refRecipient };
-            await service.updateOne(update_id, updated);
-
-            const query = ({ }, { name: 'name3' });
-            const fetched = await service.find(query);
-
-            let size = 0;
-            fetched.forEach((el) => {
-                if (el.name === 'name3') size += 1;
-            });
-
-            assert.equal(fetched.length, size, 'Fetched <all by projection user> should BE found');
+            assert.deepEqual(inserted.blood, fetched.blood, 'Fetched <recipient.blood> should BE same as inserted one');
+            assert.deepEqual(inserted.user, fetched.user, 'Fetched <recipient.user> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -357,7 +260,7 @@ describe('Event service test', () => {
                 size += 1;
             });
 
-            assert.equal(fetched.length, size, 'Fetched <all user> should BE found');
+            assert.equal(fetched.length, size, 'Fetched <all recipient> should BE found');
         } catch (err) {
             assert(false, err);
         }
@@ -365,36 +268,24 @@ describe('Event service test', () => {
 
     it('Should REMOVE_ONE by ID object in database', async () => {
         try {
-            const inserted = {
-                email: 'email6@gmail.com',
-                name: 'name5',
-                username: 'username7',
-                isAdmin: false,
-                isActive: true,
-            };
-            const id = await service.create(inserted);
-
             const inserted_refBlood = {
-                groupType: 'O-',
+                groupType: 'O+',
             };
             const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
 
-            const inserted_refRecipient = {
-                blood: {
-                    _id: id_refBlood,
-                },
-                user: {
-                    _id: id,
-                },
-            };
-            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
-
             const inserted_refGeolocation = {
-                city: 'Smederevo',
-                lat: '114',
-                lng: '996',
+                city: 'Pozarevac',
+                lat: '115',
+                lng: '995',
             };
             const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
+
+            const inserted_refUser = {
+                blood: 'email5@gmail.com',
+                name: 'name5',
+                username: 'username5',
+            };
+            const id_refUser = await serviceRefUser.create(inserted_refUser);
 
             const inserted_refDonor = {
                 blood: {
@@ -404,19 +295,25 @@ describe('Event service test', () => {
                     _id: id_refGeolocation,
                 },
                 user: {
-                    _id: id,
+                    _id: id_refUser,
                 },
-                lastDonation: serviceTime.getTimeWithOffset(350, '+'),
+                lastDonation: serviceTime.getTimeWithOffset(20, '+'),
             };
             const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
 
-            const update_id = { _id: id };
-            const updated = { donor: id_refDonor, recipient: id_refRecipient };
-            await service.updateOne(update_id, updated);
+            const inserted = {
+                blood: id_refBlood,
+                user: id_refUser,
+            };
+            const id = await service.create(inserted);
+
+            const update_id = { _id: id_refUser };
+            const updated = { donor: id_refDonor, recipient: id };
+            await serviceRefUser.updateOne(update_id, updated);
 
             const deleted = await service.removeById(id);
 
-            assert.notEqual(deleted, null, 'Deleted <user> should NOT be same as inserted one');
+            assert.notEqual(deleted, null, 'Deleted <recipient> should NOT be same as inserted one');
         } catch (err) {
             assert(false, err);
         }
