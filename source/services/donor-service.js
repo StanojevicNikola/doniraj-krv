@@ -35,7 +35,25 @@ class DonorService {
 
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
-        return models.Donor.findById(id).populate(fields).lean().exec();
+        return models.Donor.findById(id)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
+    async findOne(query, fields = null) {
+        this.logger.debug(`find ${query}`);
+        return models.Donor.findOne(query)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Donor.updateOne({ id }, { $set: { update } })
+            .lean()
+            .exec();
     }
 
     async findEligibleDonors(locations, groups = this.config.bloodGroups.all) {

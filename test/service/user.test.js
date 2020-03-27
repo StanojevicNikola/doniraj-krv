@@ -4,7 +4,9 @@ const {
 
 const assert = require('assert');
 
+const mongoose = require('mongoose');
 const app = require('../test-app');
+const models = require('../../source/models/user');
 
 const serviceTime = app.container.resolve('timeService');
 
@@ -14,7 +16,7 @@ const serviceRefRecipient = app.container.resolve('recipientService');
 const serviceRefGeolocation = app.container.resolve('geolocationService');
 const serviceRefDonor = app.container.resolve('donorService');
 
-describe('Event service test', () => {
+describe('User service test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();
@@ -410,6 +412,66 @@ describe('Event service test', () => {
         }
     });
 
+    // it('Should UPDATE_ONE by ID object in database', async () => {
+    //     try {
+    //         const inserted = {
+    //             email: 'email9@gmail.com',
+    //             name: 'name9',
+    //             username: 'username9',
+    //             donor: mongoose.Types.ObjectId(),
+    //             recipient: mongoose.Types.ObjectId(),
+    //         };
+    //         const id = await service.create(inserted);
+
+    //         const inserted_refBlood = {
+    //             groupType: 'O+',
+    //         };
+    //         const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
+
+    //         const inserted_refRecipient = {
+    //             blood: {
+    //                 _id: id_refBlood,
+    //             },
+    //             user: {
+    //                 _id: id,
+    //             },
+    //         };
+    //         const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
+
+    //         const inserted_refGeolocation = {
+    //             city: 'Begej',
+    //             lat: '116',
+    //             lng: '994',
+    //         };
+    //         const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
+
+    //         const inserted_refDonor = {
+    //             blood: {
+    //                 _id: id_refBlood,
+    //             },
+    //             geolocation: {
+    //                 _id: id_refGeolocation,
+    //             },
+    //             user: {
+    //                 _id: id,
+    //             },
+    //             lastDonation: serviceTime.getTimeWithOffset(350, '+'),
+    //         };
+    //         const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
+
+    //         const update_id = { _id: id };
+    //         const updated = { donor: id_refDonor, recipient: id_refRecipient };
+    //         await service.updateOne(update_id, updated);
+
+    //         const fetched = await service.findById(id);
+
+    //         assert.deepEqual(fetched.donor, id_refDonor, '<User> should BE updated with <donor>');
+    //         assert.deepEqual(fetched.recipient, id_refRecipient, '<User> should BE updated with <recipient>');
+    //     } catch (err) {
+    //         assert(false, err);
+    //     }
+    // });
+
     it('Should FIND_ONE by USERNAME and PASSWORD object in database', async () => {
         try {
             const inserted = {
@@ -476,6 +538,7 @@ describe('Event service test', () => {
     //             email: 'email9@gmail.com',
     //             name: 'name9',
     //             username: 'username9',
+    //             // isActive: false,
     //         };
     //         const id = await service.create(inserted);
 

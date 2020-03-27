@@ -215,7 +215,7 @@ describe('Event service test', () => {
     it('Should REMOVE_ONE by ID object in database', async () => {
         try {
             const inserted_ref = {
-                city: 'Novi Grad',
+                city: 'Vracar',
                 lat: '115',
                 lng: '995',
             };

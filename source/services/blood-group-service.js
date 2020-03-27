@@ -33,6 +33,14 @@ class BloodGroupService {
             .exec();
     }
 
+    async findOne(query, fields = null) {
+        this.logger.debug(`find ${query}`);
+        return models.Blood.findOne(query)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
         return models.Blood.findById(id).populate(fields).lean().exec();

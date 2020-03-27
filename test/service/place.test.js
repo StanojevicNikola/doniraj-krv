@@ -11,7 +11,7 @@ const serviceTime = app.container.resolve('timeService');
 const service = app.container.resolve('placeService');
 const serviceRef = app.container.resolve('geolocationService');
 
-describe('Event service test', () => {
+describe('Place service test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();

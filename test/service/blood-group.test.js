@@ -9,7 +9,7 @@ const config = require('../../config');
 
 const service = app.container.resolve('bloodGroupService');
 
-describe('Blood service test', () => {
+describe('Blood group service test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();

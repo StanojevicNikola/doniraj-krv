@@ -14,7 +14,7 @@ const serviceRefUser = app.container.resolve('userService');
 const serviceRefGeolocation = app.container.resolve('geolocationService');
 const serviceRefDonor = app.container.resolve('donorService');
 
-describe('Event service test', () => {
+describe('Recepient service test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();
@@ -247,6 +247,65 @@ describe('Event service test', () => {
 
             assert.deepEqual(inserted.blood, fetched.blood, 'Fetched <recipient.blood> should BE same as inserted one');
             assert.deepEqual(inserted.user, fetched.user, 'Fetched <recipient.user> should BE same as inserted one');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
+    it('Should FIND_ALL by PROJECTION object in database', async () => {
+        try {
+            const inserted_refBlood = {
+                groupType: 'AB-',
+            };
+            const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
+
+            const inserted_refGeolocation = {
+                city: 'Novi Becej',
+                lat: '117',
+                lng: '993',
+            };
+            const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
+
+            const inserted_refUser = {
+                blood: 'email0@gmail.com',
+                name: 'name3',
+                username: 'username0',
+            };
+            const id_refUser = await serviceRefUser.create(inserted_refUser);
+
+            const inserted_refDonor = {
+                blood: {
+                    _id: id_refBlood,
+                },
+                geolocation: {
+                    _id: id_refGeolocation,
+                },
+                user: {
+                    _id: id_refUser,
+                },
+                lastDonation: serviceTime.getTimeWithOffset(20, '+'),
+            };
+            const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
+
+            const inserted = {
+                blood: id_refBlood,
+                user: id_refUser,
+            };
+            const id = await service.create(inserted);
+
+            const update_id = { _id: id_refUser };
+            const updated = { donor: id_refDonor, recipient: id };
+            await serviceRefUser.updateOne(update_id, updated);
+
+            const query = ({ }, { 'blood.id_refBlood': id_refBlood });
+            const fetched = await service.find(query);
+
+            let size = 0;
+            fetched.forEach((el) => {
+                if (el.blood.id_refBlood === id_refBlood) size += 1;
+            });
+
+            assert.equal(fetched.length, size, 'Fetched <all by projection recipients> should BE found');
         } catch (err) {
             assert(false, err);
         }

@@ -10,7 +10,7 @@ const serviceTime = app.container.resolve('timeService');
 
 const service = app.container.resolve('newsService');
 
-describe('Event service test', () => {
+describe('News service test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();
