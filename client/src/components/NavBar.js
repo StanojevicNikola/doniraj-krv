@@ -13,7 +13,7 @@ class NavBar extends Component {
                         <li>
                             <Link to="/">
                                 <img
-                                    class="img-logo responsive-img logo"
+                                    className="img-logo responsive-img logo"
                                     src={logo}
                                     alt="Logo"
                                 />

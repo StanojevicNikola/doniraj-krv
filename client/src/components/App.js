@@ -17,6 +17,7 @@ import store from '../store/index'
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import LoginDash from "./LoginDash";
+import RegisterDash from "./RegisterDash";
 
 class App extends Component{
 
@@ -37,6 +38,9 @@ class App extends Component{
                             </Route>
                             <Route exact path="/login">
                                 <LoginDash/>
+                            </Route>
+                            <Route exact path="/register">
+                                <RegisterDash/>
                             </Route>
                         </div>
                     </Switch>

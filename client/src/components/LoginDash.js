@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {Link} from "react-router-dom";
 
 class LoginDash extends Component{
 
@@ -16,6 +16,9 @@ class LoginDash extends Component{
                         </div>
                         <div className="row">
                             <button className="col offset-s4 s4 btn btn-large red accent-4">Login</button>
+                        </div>
+                        <div className="row">
+                            <Link className="col offset-s5 s4" to="/register">register</Link>
                         </div>
                     </form>
                     <br/>
