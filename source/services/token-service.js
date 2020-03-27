@@ -64,9 +64,9 @@ class TokenService {
             .exec();
     }
 
-    async updateOne(_id, update) {
-        this.logger.debug(`updateOne ${_id}`);
-        return models.Token.updateOne({ _id }, update).lean().exec();
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Token.updateOne({ _id: id }, update).lean().exec();
     }
 }
 
