@@ -16,13 +16,12 @@ class UserController {
 
     async registerUser(email, password, username, name) {
         let existingUser = await this.userService.findOne({ email });
-        if (existingUser != null
-            && existingUser.email === email) {
+        if (existingUser != null) {
             throw Error('Korisnik sa istom email adresom je vec registrovan!');
         }
+
         existingUser = await this.userService.findOne({ username });
-        if (existingUser != null
-            && existingUser.username === username) {
+        if (existingUser != null) {
             throw Error('Korisnik sa istim korisnickim imenom je vec registrovan!');
         }
         const userId = await this.userService.create({

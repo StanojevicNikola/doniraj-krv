@@ -61,7 +61,9 @@ describe('User controller test', () => {
                 email, username, password, name,
             } = userData;
 
-            const userId = await userService.create({ username, password, name });
+            const userId = await userService.create({
+                email: 'pass', username, password, name,
+            });
 
 
             await userController.registerUser(email, password, username, name);
