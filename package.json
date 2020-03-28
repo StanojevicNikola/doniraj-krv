@@ -24,6 +24,7 @@
     "awilix": "latest",
     "geoip-lite": "^1.4.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
     "mongo-seeding-cli": "latest",
     "mongoose": "latest",
     "nodemailer": "latest",

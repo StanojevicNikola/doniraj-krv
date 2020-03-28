@@ -1,3 +1,5 @@
+const jwtDecode = require('jwt-decode');
+
 class TokenController {
     constructor(
         {
@@ -30,9 +32,9 @@ class TokenController {
     }
 
     async accessControl(routePrefix, rawToken) {
-        const token = await this.tokenService.findOne({ rawToken });
+        const token = jwtDecode.decode(rawToken);
         if (routePrefix === 'app') return true;
-        return token.data.accessibleRoutes.includes(routePrefix) && token.data.isActive;
+        return token.accessibleRoutes.includes(routePrefix) && token.isActive;
     }
 }
 
