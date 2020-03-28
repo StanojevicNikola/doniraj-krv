@@ -33,6 +33,7 @@
     "winston": "latest"
   },
   "devDependencies": {
+    "sinon": "^9.0.1",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",

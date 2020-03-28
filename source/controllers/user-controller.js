@@ -29,19 +29,19 @@ class UserController {
         });
         const user = await this.userService.findById(userId);
 
-        await this.activationService.create({ activationId: user.emailHash });
+        await this.activationService.create({ emailHash: user.emailHash });
         const link = this.config.activationRoute + user.emailHash;
         await this.emailService.sendEmail('activation', { name, link }, { recipientEmail: email, subject: 'Activation link' });
         return 'Poslat Vam je aktivacioni email';
     }
 
-    async activateUser(activationId) {
-        const activation = await this.activationService.findOne({ activationId });
+    async activateUser(emailHash) {
+        const activation = await this.activationService.findOne({ emailHash });
         if (activation == null) {
             throw Error('Los ID aktivacije!');
         }
         // TODO check if expired and throw error or new activation
-        await this.userService.activateNewUser(activationId);
+        await this.userService.activateNewUser(emailHash);
         return 'Uspesno ste aktivirali Vas nalog';
     }
 
