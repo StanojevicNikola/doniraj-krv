@@ -12,7 +12,7 @@ class ActivationService {
     async create(data, id = null) {
         this.logger.debug(`create(data=${data})`);
         if (data == null) {
-            throw new Error('No news');
+            throw new Error('No activation data');
         }
 
         const activation = utils.clone(data);

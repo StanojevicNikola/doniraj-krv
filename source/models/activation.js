@@ -4,7 +4,7 @@ module.exports.Activation = mongoose.model(
     'Activation',
     new mongoose.Schema(
         {
-            activationId: String,
+            emailHash: String,
         },
         {
             timestamps: true,
