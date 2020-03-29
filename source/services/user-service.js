@@ -48,12 +48,16 @@ class UserService {
 
     async findOne(query) {
         this.logger.debug('User: find one');
-        return models.User.findOne(query).lean().exec();
+        return models.User.findOne(query)
+            .lean()
+            .exec();
     }
 
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
-        return models.User.findById(id).populate(fields).lean().exec();
+        return models.User.findById(id).populate(fields)
+            .lean()
+            .exec();
     }
 
     async updateOne(id, update) {

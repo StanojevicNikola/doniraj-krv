@@ -33,6 +33,34 @@ class NewsService {
             .lean()
             .exec();
     }
+
+    async findOne(query, fields = null) {
+        this.logger.debug(`find ${query}`);
+        return models.News.findOne(query)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.News.updateOne(id, update)
+            .lean()
+            .exec();
+    }
+
+    async findById(id, fields = null) {
+        this.logger.debug(`findById ${id}`);
+        return models.News.findById(id)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
+    async removeById(id) {
+        this.logger.debug(`removeById by ID ${id}`);
+        return models.News.deleteOne({ _id: id });
+    }
 }
 
 module.exports = NewsService;

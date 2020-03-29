@@ -33,6 +33,13 @@ class RequestService {
             .exec();
     }
 
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Request.updateOne(id, update)
+            .lean()
+            .exec();
+    }
+
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
         return models.Request.findById(id).populate(fields).lean().exec();

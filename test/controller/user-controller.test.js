@@ -14,7 +14,7 @@ describe('User controller test', () => {
         const storage = app.container.resolve('storage');
         await storage.connect();
 
-        sinonSandbox = sinon.createSandbox();
+        // sinonSandbox = sinon.createSandbox();
     });
 
     it('should throw error registerUser - exits by email', async () => {

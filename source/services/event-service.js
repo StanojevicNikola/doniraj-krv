@@ -23,13 +23,40 @@ class EventService {
         return result._id;
     }
 
+    async findOne(query, fields = null) {
+        this.logger.debug(`find ${query}`);
+        return models.Event.findOne(query)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
+    async findById(id, fields = null) {
+        this.logger.debug(`findById ${id}`);
+        return models.Event.findById(id)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
     async find(query, fields = null) {
         this.logger.debug(`find ${query}`);
-
         return models.Event.find(query)
             .populate(fields)
             .lean()
             .exec();
+    }
+
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Event.updateOne(id, update)
+            .lean()
+            .exec();
+    }
+
+    async removeById(id) {
+        this.logger.debug(`removeById by ID ${id}`);
+        return models.Event.deleteOne({ _id: id });
     }
 }
 

@@ -25,9 +25,24 @@ class BloodGroupService {
         return result._id;
     }
 
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Blood.updateOne(id, update)
+            .lean()
+            .exec();
+    }
+
     async find(query, fields = null) {
         this.logger.debug(`find ${query}`);
         return models.Blood.find(query)
+            .populate(fields)
+            .lean()
+            .exec();
+    }
+
+    async findOne(query, fields = null) {
+        this.logger.debug(`find ${query}`);
+        return models.Blood.findOne(query)
             .populate(fields)
             .lean()
             .exec();

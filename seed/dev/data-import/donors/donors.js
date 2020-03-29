@@ -16,7 +16,7 @@ module.exports = [
         user: ids.user2_Id,
         blood: ids.a_minus,
         geolocation: ids.cuprija,
-        lastDonation: getDate(40, offset),
+        lastDonation: getDate(60, offset),
     },
     {
         _id: ids.donor3_Id,
