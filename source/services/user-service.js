@@ -26,6 +26,7 @@ class UserService {
         Object.assign(user, { passwordHash, emailHash });
         Object.assign(user, { isActive: false });
         Object.assign(user, { isAdmin: false });
+        Object.assign(user, { isAdmin: false });
         delete user.password;
         const result = await models.User.create(user);
         return result._id;
@@ -63,7 +64,7 @@ class UserService {
 
     async activateNewUser(emailHash) {
         this.logger.debug('Activate new user');
-        return models.User.updateOne({ emailHash }, { isActive: true }).lean().exec();
+        return models.User.updateOne({ emailHash }, { $set: { isActive: true } }).lean().exec();
     }
 
     async removeById(id) {

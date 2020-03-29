@@ -6,17 +6,12 @@ class TimeService {
     }
 
     getTimeWithOffset(days = 0, offset = '+') {
-        const miliseconds = 24 * 60 * 60 * 1000;
-        let seconds;
+        const date = new Date();
 
-        if (offset === '+') seconds = new Date(Date.now() + days * miliseconds);
-        else if (offset === '-') seconds = new Date(Date.now() - days * miliseconds);
-        else return null;
-        const date = seconds.getDate();
-        const month = seconds.getMonth() + 1;
-        const year = seconds.getFullYear();
+        if (offset === '+') date.setDate(date.getDate() + days);
+        else if (offset === '-') date.setDate(date.getDate() - days);
 
-        return `${date}-${month}-${year}`;
+        return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     }
 }
 

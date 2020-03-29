@@ -6,5 +6,5 @@ module.exports = (days, offset = '-') => {
     if (offset === '+') date.setDate(date.getDate() + days);
     else if (offset === '-') date.setDate(date.getDate() - days);
 
-    return date;
+    return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
 };
