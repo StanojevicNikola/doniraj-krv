@@ -222,15 +222,26 @@ describe('Place service test', () => {
         }
     });
 
-    it('Should FIND_ALL object in database', async () => {
+    it('Should UPDATE_ONE by ID object in database', async () => {
         try {
-            const fetched = await service.find({});
-            let size = 0;
-            fetched.forEach(() => {
-                size += 1;
-            });
+            const inserted = {
+                address: 'Adresa10',
+                name: 'Ime10',
+                description: 'Description10',
+                workingHours: '100',
+                date: serviceTime.getTimeWithOffset(60, '+'),
+                isStatic: false,
+            };
+            const id = await service.create(inserted);
 
-            assert.equal(fetched.length, size, 'Fetched <all place> should BE found');
+            const update_id = { _id: id };
+            const updated = { address: 'Adresa11', workingHours: '110' };
+            await service.updateOne(update_id, updated);
+
+            const fetched = await service.findById(id);
+
+            assert.equal(fetched.address, 'Adresa11', '<Place> should BE updated with <adress>');
+            assert.equal(fetched.workingHours, '110', '<Place> should BE updated with <workingHours>');
         } catch (err) {
             assert(false, err);
         }

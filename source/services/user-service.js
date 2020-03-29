@@ -49,22 +49,30 @@ class UserService {
 
     async findOne(query) {
         this.logger.debug('User: find one');
-        return models.User.findOne(query).lean().exec();
+        return models.User.findOne(query)
+            .lean()
+            .exec();
     }
 
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
-        return models.User.findById(id).populate(fields).lean().exec();
+        return models.User.findById(id).populate(fields)
+            .lean()
+            .exec();
     }
 
     async updateOne(id, update) {
         this.logger.debug(`updateOne ${id}`);
-        return models.User.findOneAndUpdate({ _id: id }, update).lean().exec();
+        return models.User.updateOne(id, update)
+            .lean()
+            .exec();
     }
 
-    async activateNewUser(emailHash) {
+    async activateNewUser(emailHash_param) {
         this.logger.debug('Activate new user');
-        return models.User.updateOne({ emailHash }, { $set: { isActive: true } }).lean().exec();
+        return models.User.updateOne({ emailHash: emailHash_param }, { isActive: true })
+            .lean()
+            .exec();
     }
 
     async removeById(id) {

@@ -134,15 +134,23 @@ describe('News service test', () => {
         }
     });
 
-    it('Should FIND_ALL object in database', async () => {
+    it('Should UPDATE_ONE by ID object in database', async () => {
         try {
-            const fetched = await service.find({});
-            let size = 0;
-            fetched.forEach(() => {
-                size += 1;
-            });
+            const inserted = {
+                title: 'Title10',
+                description: 'Description10',
+                date: serviceTime.getTimeWithOffset(10, '+'),
+            };
+            const id = await service.create(inserted);
 
-            assert.equal(fetched.length, size, 'Fetched <all news> should BE found');
+            const update_id = { _id: id };
+            const updated = { title: 'Title10', description: 'Description10' };
+            await service.updateOne(update_id, updated);
+
+            const fetched = await service.findById(id);
+
+            assert.equal(fetched.title, 'Title10', '<News> should BE updated with <title>');
+            assert.equal(fetched.description, 'Description10', '<News> should BE updated with <description>');
         } catch (err) {
             assert(false, err);
         }

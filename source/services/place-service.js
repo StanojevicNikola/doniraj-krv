@@ -41,6 +41,13 @@ class PlaceService {
             .exec();
     }
 
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Place.updateOne(id, update)
+            .lean()
+            .exec();
+    }
+
     async findById(id, fields = null) {
         this.logger.debug(`findById ${id}`);
         return models.Place.findById(id).populate(fields).lean().exec();

@@ -47,6 +47,13 @@ class EventService {
             .exec();
     }
 
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Event.updateOne(id, update)
+            .lean()
+            .exec();
+    }
+
     async removeById(id) {
         this.logger.debug(`removeById by ID ${id}`);
         return models.Event.deleteOne({ _id: id });

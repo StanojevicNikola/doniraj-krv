@@ -51,7 +51,7 @@ class DonorService {
 
     async updateOne(id, update) {
         this.logger.debug(`updateOne ${id}`);
-        return models.Donor.updateOne({ id }, { $set: { update } })
+        return models.Donor.updateOne(id, update)
             .lean()
             .exec();
     }

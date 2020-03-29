@@ -317,20 +317,6 @@ describe('Donor service test', () => {
         }
     });
 
-    it('Should FIND_ALL object in database', async () => {
-        try {
-            const fetched = await service.find({});
-            let size = 0;
-            fetched.forEach(() => {
-                size += 1;
-            });
-
-            assert.equal(fetched.length, size, 'Fetched <all donors> should BE found');
-        } catch (err) {
-            assert(false, err);
-        }
-    });
-
     it('Should REMOVE_ONE by ID object in database', async () => {
         try {
             const inserted_refUser = {
@@ -382,65 +368,65 @@ describe('Donor service test', () => {
         }
     });
 
-    // it('Should UPDATE_ONE by ID object in database', async () => {
-    //     try {
-    //         const inserted_refUser = {
-    //             email: 'email5@gmail.com',
-    //             name: 'name3',
-    //             username: 'username4',
-    //         };
-    //         const id_refUser = await serviceRefUser.create(inserted_refUser);
+    it('Should UPDATE_ONE by ID object in database', async () => {
+        try {
+            const inserted_refUser = {
+                email: 'email5@gmail.com',
+                name: 'name3',
+                username: 'username4',
+            };
+            const id_refUser = await serviceRefUser.create(inserted_refUser);
 
-    //         const inserted_refBlood = {
-    //             groupType: 'O+',
-    //         };
-    //         const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
+            const inserted_refBlood = {
+                groupType: 'O+',
+            };
+            const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
 
-    //         const inserted_refBlood_update = {
-    //             groupType: 'O-',
-    //         };
-    //         const id_refBlood_update = await serviceRefBlood.create(inserted_refBlood_update);
+            const inserted_refBlood_update = {
+                groupType: 'O-',
+            };
+            const id_refBlood_update = await serviceRefBlood.create(inserted_refBlood_update);
 
-    //         const inserted_refRecipient = {
-    //             blood: {
-    //                 _id: id_refBlood,
-    //             },
-    //             user: {
-    //                 _id: id_refUser,
-    //             },
-    //         };
-    //         const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
+            const inserted_refRecipient = {
+                blood: {
+                    _id: id_refBlood,
+                },
+                user: {
+                    _id: id_refUser,
+                },
+            };
+            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
 
-    //         const inserted_refGeolocation = {
-    //             city: 'Aleksinac',
-    //             lat: '115',
-    //             lng: '995',
-    //         };
-    //         const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
+            const inserted_refGeolocation = {
+                city: 'Aleksinac',
+                lat: '115',
+                lng: '995',
+            };
+            const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
 
-    //         const inserted = {
-    //             blood: id_refBlood,
-    //             geolocation: id_refGeolocation,
-    //             user: id_refUser,
-    //             lastDonation: serviceTime.getTimeWithOffset(10, '+'),
-    //         };
-    //         const id = await service.create(inserted);
+            const inserted = {
+                blood: id_refBlood,
+                geolocation: id_refGeolocation,
+                user: id_refUser,
+                lastDonation: serviceTime.getTimeWithOffset(10, '+'),
+            };
+            const id = await service.create(inserted);
 
-    //         const update_id_user = { _id: id_refUser };
-    //         const updated_user = { donor: id, recipient: id_refRecipient };
-    //         await serviceRefUser.updateOne(update_id_user, updated_user);
+            const update_id_user = { _id: id_refUser };
+            const updated_user = { donor: id, recipient: id_refRecipient };
+            await serviceRefUser.updateOne(update_id_user, updated_user);
 
-    //         const update_id = { _id: id };
-    //         const updated = { blood: id_refBlood_update };
-    //         await service.updateOne(update_id, updated);
+            const update_id = { _id: id };
+            const updated = { blood: id_refBlood_update };
+            await service.updateOne(update_id, updated);
 
-    //         const fetched = await service.findById(id);
+            const fetched = await service.findById(id);
 
-    //         assert.equal(fetched.blood._id, id_refBlood_update, '<Donor> should BE updated with <blood group>');
-    //     } catch (err) {
-    //         assert(false, err);
-    //     }
-    // });
+            assert.deepEqual(fetched.blood, id_refBlood_update, '<Donor> should BE updated with <blood group>');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
 
     it('Should FIND ELIGIBLE DONORS object in database', async () => {
         try {

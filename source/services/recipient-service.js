@@ -46,6 +46,13 @@ class RecipientService {
         return models.Recipient.findById(id).populate(fields).lean().exec();
     }
 
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Recipient.updateOne(id, update)
+            .lean()
+            .exec();
+    }
+
     async removeById(id) {
         this.logger.debug(`removeById by ID ${id}`);
         return models.Recipient.deleteOne({ _id: id });

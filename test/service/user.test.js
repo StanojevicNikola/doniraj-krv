@@ -76,8 +76,6 @@ describe('User service test', () => {
             assert.equal(inserted.email, fetched.email, 'Fetched <user.email> should BE same as inserted one');
             assert.equal(inserted.name, fetched.name, 'Fetched <user.name> should BE same as inserted one');
             assert.equal(inserted.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.deepEqual(inserted.donor, fetched.donor, 'Fetched <user.donor> should BE same as inserted one');
-            assert.deepEqual(inserted.recipient, fetched.recipient, 'Fetched <user.recipient> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -139,8 +137,6 @@ describe('User service test', () => {
             assert.equal(inserted.email, fetched.email, 'Fetched <user.email> should BE same as inserted one');
             assert.equal(inserted.name, fetched.name, 'Fetched <user.name> should BE same as inserted one');
             assert.equal(inserted.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.deepEqual(inserted.donor, fetched.donor, 'Fetched <user.donor> should BE same as inserted one');
-            assert.deepEqual(inserted.recipient, fetched.recipient, 'Fetched <user.recipient> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -207,8 +203,6 @@ describe('User service test', () => {
             assert.equal(inserted.email, fetched.email, 'Fetched <user.email> should BE same as inserted one');
             assert.equal(inserted.name, fetched.name, 'Fetched <user.name> should BE same as inserted one');
             assert.equal(inserted.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.deepEqual(inserted.donor, fetched.donor, 'Fetched <user.donor> should BE same as inserted one');
-            assert.deepEqual(inserted.recipient, fetched.recipient, 'Fetched <user.recipient> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -275,8 +269,6 @@ describe('User service test', () => {
             assert.equal(inserted.email, fetched.email, 'Fetched <user.email> should BE same as inserted one');
             assert.equal(inserted.name, fetched.name, 'Fetched <user.name> should BE same as inserted one');
             assert.equal(inserted.username, fetched.username, 'Fetched <user.username> should BE same as inserted one');
-            assert.deepEqual(inserted.donor, fetched.donor, 'Fetched <user.donor> should BE same as inserted one');
-            assert.deepEqual(inserted.recipient, fetched.recipient, 'Fetched <user.recipient> should BE same as inserted one');
         } catch (err) {
             assert(false, err);
         }
@@ -346,20 +338,6 @@ describe('User service test', () => {
         }
     });
 
-    it('Should FIND_ALL object in database', async () => {
-        try {
-            const fetched = await service.find({});
-            let size = 0;
-            fetched.forEach(() => {
-                size += 1;
-            });
-
-            assert.equal(fetched.length, size, 'Fetched <all user> should BE found');
-        } catch (err) {
-            assert(false, err);
-        }
-    });
-
     it('Should REMOVE_ONE by ID object in database', async () => {
         try {
             const inserted = {
@@ -418,66 +396,66 @@ describe('User service test', () => {
         }
     });
 
-    // it('Should UPDATE_ONE by ID object in database', async () => {
-    //     try {
-    //         const inserted = {
-    //             email: 'email9@gmail.com',
-    //             name: 'name9',
-    //             username: 'username9',
-    //             password: 'password7',
-    //             donor: mongoose.Types.ObjectId(),
-    //             recipient: mongoose.Types.ObjectId(),
-    //         };
-    //         const id = await service.create(inserted);
+    it('Should UPDATE_ONE by ID object in database', async () => {
+        try {
+            const inserted = {
+                email: 'email9@gmail.com',
+                name: 'name9',
+                username: 'username9',
+                password: 'password7',
+                donor: mongoose.Types.ObjectId(),
+                recipient: mongoose.Types.ObjectId(),
+            };
+            const id = await service.create(inserted);
 
-    //         const inserted_refBlood = {
-    //             groupType: 'O+',
-    //         };
-    //         const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
+            const inserted_refBlood = {
+                groupType: 'O+',
+            };
+            const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
 
-    //         const inserted_refRecipient = {
-    //             blood: {
-    //                 _id: id_refBlood,
-    //             },
-    //             user: {
-    //                 _id: id,
-    //             },
-    //         };
-    //         const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
+            const inserted_refRecipient = {
+                blood: {
+                    _id: id_refBlood,
+                },
+                user: {
+                    _id: id,
+                },
+            };
+            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
 
-    //         const inserted_refGeolocation = {
-    //             city: 'Begej',
-    //             lat: '116',
-    //             lng: '994',
-    //         };
-    //         const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
+            const inserted_refGeolocation = {
+                city: 'Begej',
+                lat: '116',
+                lng: '994',
+            };
+            const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
 
-    //         const inserted_refDonor = {
-    //             blood: {
-    //                 _id: id_refBlood,
-    //             },
-    //             geolocation: {
-    //                 _id: id_refGeolocation,
-    //             },
-    //             user: {
-    //                 _id: id,
-    //             },
-    //             lastDonation: serviceTime.getTimeWithOffset(350, '+'),
-    //         };
-    //         const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
+            const inserted_refDonor = {
+                blood: {
+                    _id: id_refBlood,
+                },
+                geolocation: {
+                    _id: id_refGeolocation,
+                },
+                user: {
+                    _id: id,
+                },
+                lastDonation: serviceTime.getTimeWithOffset(350, '+'),
+            };
+            const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
 
-    //         const update_id = { _id: id };
-    //         const updated = { donor: id_refDonor, recipient: id_refRecipient };
-    //         await service.updateOne(update_id, updated);
+            const update_id = { _id: id };
+            const updated = { donor: id_refDonor, recipient: id_refRecipient };
+            await service.updateOne(update_id, updated);
 
-    //         const fetched = await service.findById(id);
+            const fetched = await service.findById(id);
 
-    //         assert.deepEqual(fetched.donor, id_refDonor, '<User> should BE updated with <donor>');
-    //         assert.deepEqual(fetched.recipient, id_refRecipient, '<User> should BE updated with <recipient>');
-    //     } catch (err) {
-    //         assert(false, err);
-    //     }
-    // });
+            assert.deepEqual(fetched.donor, id_refDonor, '<User> should BE updated with <donor>');
+            assert.deepEqual(fetched.recipient, id_refRecipient, '<User> should BE updated with <recipient>');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
 
     it('Should FIND_ONE by USERNAME and PASSWORD object in database', async () => {
         try {
@@ -540,69 +518,67 @@ describe('User service test', () => {
         }
     });
 
-    // it('Should ACTIVATE new USER object in database', async () => {
-    //     try {
-    //         const inserted = {
-    //             email: 'email9@gmail.com',
-    //             name: 'name9',
-    //             username: 'username9',
-    //             password: 'password9',
-    //             // isActive: false,
-    //         };
-    //         const id = await service.create(inserted);
+    it('Should ACTIVATE new USER object in database', async () => {
+        try {
+            const inserted = {
+                email: 'email9@gmail.com',
+                name: 'name9',
+                username: 'username9',
+                password: 'password9',
+            };
+            const id = await service.create(inserted);
 
-    //         const inserted_refBlood = {
-    //             groupType: 'O+',
-    //         };
-    //         const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
+            const inserted_refBlood = {
+                groupType: 'O+',
+            };
+            const id_refBlood = await serviceRefBlood.create(inserted_refBlood);
 
-    //         const inserted_refRecipient = {
-    //             blood: {
-    //                 _id: id_refBlood,
-    //             },
-    //             user: {
-    //                 _id: id,
-    //             },
-    //         };
-    //         const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
+            const inserted_refRecipient = {
+                blood: {
+                    _id: id_refBlood,
+                },
+                user: {
+                    _id: id,
+                },
+            };
+            const id_refRecipient = await serviceRefRecipient.create(inserted_refRecipient);
 
-    //         const inserted_refGeolocation = {
-    //             city: 'Aleksinac',
-    //             lat: '116',
-    //             lng: '994',
-    //         };
-    //         const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
+            const inserted_refGeolocation = {
+                city: 'Aleksinac',
+                lat: '116',
+                lng: '994',
+            };
+            const id_refGeolocation = await serviceRefGeolocation.create(inserted_refGeolocation);
 
-    //         const inserted_refDonor = {
-    //             blood: {
-    //                 _id: id_refBlood,
-    //             },
-    //             geolocation: {
-    //                 _id: id_refGeolocation,
-    //             },
-    //             user: {
-    //                 _id: id,
-    //             },
-    //             lastDonation: serviceTime.getTimeWithOffset(35, '+'),
-    //         };
-    //         const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
+            const inserted_refDonor = {
+                blood: {
+                    _id: id_refBlood,
+                },
+                geolocation: {
+                    _id: id_refGeolocation,
+                },
+                user: {
+                    _id: id,
+                },
+                lastDonation: serviceTime.getTimeWithOffset(35, '+'),
+            };
+            const id_refDonor = await serviceRefDonor.create(inserted_refDonor);
 
-    //         const update_id = { _id: id };
-    //         const updated = { donor: id_refDonor, recipient: id_refRecipient };
-    //         await service.updateOne(update_id, updated);
+            const update_id = { _id: id };
+            const updated = { donor: id_refDonor, recipient: id_refRecipient };
+            await service.updateOne(update_id, updated);
 
-    //         const fetched = await service.findById(id);
-    //         // eslint-disable-next-line max-len
-    //         await service.activateNewUser(fetched.emailHash);
+            const fetched = await service.findById(id);
+            // eslint-disable-next-line max-len
+            await service.activateNewUser(fetched.emailHash);
+            const fetched_updated = await service.findById(id);
 
-    //         // await service.updateOne({ _id: id }, { isActive: true });
-    //         // const fetched = await service.findById(id);
 
-    //         assert.equal(fetched.isActive, true, 'Fetched <user.isActive> should BE true');
-    //     } catch (err) {
-    //         assert(false, err);
-    //     }
-    // });
+            assert.equal(fetched_updated.isActive, true, 'Fetched <user.isActive> should BE true');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
 
     afterEach(async () => {
         const storage = app.container.resolve('storage');

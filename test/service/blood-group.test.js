@@ -49,19 +49,6 @@ describe('Blood group service test', () => {
         }
     });
 
-    it('Should FIND_ALL object in database', async () => {
-        try {
-            const fetched = await service.find({});
-            let size = 0;
-            fetched.forEach(() => {
-                size += 1;
-            });
-            assert.equal(fetched.length, size, 'Fetched <all groupTypes> should BE found');
-        } catch (err) {
-            assert(false, err);
-        }
-    });
-
     it('Should FIND_ALL by PROJECTION object in database', async () => {
         try {
             const inserted = {
@@ -76,6 +63,25 @@ describe('Blood group service test', () => {
             });
 
             assert.equal(fetched.length, size, 'Fetched <all by projection groupTypes> should BE found');
+        } catch (err) {
+            assert(false, err);
+        }
+    });
+
+    it('Should UPDATE_ONE by ID object in database', async () => {
+        try {
+            const inserted = {
+                groupType: 'CCC+',
+            };
+            const id = await service.create(inserted);
+
+            const update_id = { _id: id };
+            const updated = { groupType: 'DDD+' };
+            await service.updateOne(update_id, updated);
+
+            const fetched = await service.findById(id);
+
+            assert.equal(fetched.groupType, 'DDD+', '<Blood group> should BE updated with <group type>');
         } catch (err) {
             assert(false, err);
         }
