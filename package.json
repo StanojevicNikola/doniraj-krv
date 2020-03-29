@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint source/ index.js --fix",
-    "test": "./node_modules/mocha/bin/mocha ./test/controller/info-controller.test.js --recursive",
+    "test": "./node_modules/mocha/bin/mocha ./test/**/*.test.js --recursive",
     "test:controller": "./node_modules/mocha/bin/mocha ./test/controller/*.test.js --recursive",
     "test:service": "./node_modules/mocha/bin/mocha ./test/service/*.test.js --recursive",
     "seed": "seed --db-name Donate seed/dev/data-import",
