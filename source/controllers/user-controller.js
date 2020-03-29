@@ -1,3 +1,5 @@
+const utils = require('../utils');
+
 class UserController {
     constructor({
         logger, config, userService, donorService, recipientService,
@@ -67,26 +69,36 @@ class UserController {
             role, roleData, rawToken,
         } = data;
 
-        const user = await this.tokenController.findUserByToken(rawToken);
+        const tokenData = utils.decodeToken(rawToken);
 
-        if (user.roles.includes(role)) { return 'Vec imate zahtevanu ulogu.'; }
+        if (tokenData[role.toLowerCase()] != null) { return { message: 'Vec imate zahtevanu ulogu.', data: null }; }
 
-        const { _id, roles } = user;
 
-        roles.push(role);
+        let user = await this.userService.findById(tokenData.userId);
+        user.roles.push(role);
         let id;
         if (role === 'DONOR') {
-            id = await this._createDonor({ ...roleData, user: _id });
-            await this.userService.updateOne(_id, { donor: id, roles });
+            id = await this._createDonor({ ...roleData, user: tokenData.userId });
+            await this.userService.updateOne(tokenData.userId, { donor: id, roles: user.roles });
         } else if (role === 'RECIPIENT') {
-            id = await this._createRecipient({ ...roleData, user: _id });
-            await this.userService.updateOne(_id, { recipient: id, roles });
+            id = await this._createRecipient({ ...roleData, user: tokenData.userId });
+            await this.userService
+                .updateOne(tokenData.userId, { recipient: id, roles: user.roles });
         } else {
             throw Error('Losa vrednost parametra!');
         }
 
-        await this.tokenController.updateAccessibleRoutes(rawToken, role);
-        return 'Uspesno ste dodali ulogu!';
+        user = await this.userService.findById(tokenData.userId);
+        const tokenId = await this.tokenService.create(user);
+        const token = await this.tokenService.findById(tokenId);
+        return {
+            message: 'Uspesno ste dodali novu ulogu!',
+            data: {
+                iat: token.iat,
+                exp: token.exp,
+                token: token.rawToken,
+            },
+        };
     }
 
     async _createDonor(user) {
