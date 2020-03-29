@@ -5,7 +5,7 @@
   "activationRoute": "http://localhost:5000/users/activate/",
   "jwt": {
     "secret": "DoNaTeBlOoD",
-    "expirationTime": 15
+    "expirationTime": 60
   },
   "storage": {
     "mongodb": {

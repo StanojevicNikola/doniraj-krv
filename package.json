@@ -7,9 +7,11 @@
     "start": "node index.js",
     "lint": "eslint source/ index.js --fix",
     "test": "./node_modules/mocha/bin/mocha ./test/**/*.test.js --recursive",
+    "test:controller": "./node_modules/mocha/bin/mocha ./test/controller/*.test.js --recursive",
+    "test:service": "./node_modules/mocha/bin/mocha ./test/service/*.test.js --recursive",
     "seed": "seed --db-name Donate seed/dev/data-import",
     "reset-and-seed": "seed --db-name Donate --drop-database seed/dev/data-import",
-    "reset-and-seed-test": "seed --db-name Donate-Test --drop-database seed/test/data-import",
+    "reset-and-seed:test": "seed --db-name Donate-Test --drop-database seed/test/data-import",
     "freePort": "kill -9 $(lsof -t -i:5000)"
   },
   "repository": {
@@ -22,6 +24,7 @@
     "awilix": "latest",
     "geoip-lite": "^1.4.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
     "mongo-seeding-cli": "latest",
     "mongoose": "latest",
     "nodemailer": "latest",
@@ -31,6 +34,7 @@
     "winston": "latest"
   },
   "devDependencies": {
+    "sinon": "^9.0.1",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",

@@ -59,9 +59,7 @@ class UserService {
 
     async updateOne(id, update) {
         this.logger.debug(`updateOne ${id}`);
-        return models.User.updateOne({ id }, { $set: { update } })
-            .lean()
-            .exec();
+        return models.User.findOneAndUpdate({ _id: id }, update).lean().exec();
     }
 
     async activateNewUser(emailHash) {

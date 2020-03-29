@@ -14,7 +14,11 @@ module.exports.Request = mongoose.model(
             ref: 'Recipient',
         },
         groups: [String],
-        searchFor: String,
+        queryType: String,
+        places: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Place',
+        }],
     },
     {
         timestamps: true,

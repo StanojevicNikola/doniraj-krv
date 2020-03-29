@@ -16,7 +16,17 @@ class TokenService {
             id: user._id,
             name: user.name,
             isAdmin: user.isAdmin,
+            isActive: user.isActive,
+            accessibleRoutes: ['user'],
         };
+        // eslint-disable-next-line no-unused-expressions
+        user.roles.includes('DONOR') ? (tokenData.donor = true, tokenData.accessibleRoutes.push('donor')) : tokenData.donor = false;
+        // eslint-disable-next-line no-unused-expressions
+        user.roles.includes('RECIPIENT') ? (tokenData.recipient = true, tokenData.accessibleRoutes.push('recipient')) : tokenData.recipient = false;
+
+        // eslint-disable-next-line no-unused-expressions
+        user.isAdmin ? tokenData.accessibleRoutes.push('admin') : undefined;
+
         const rawTokenData = jwt.sign(tokenData, this.config.jwt.secret, {
             expiresIn: `${this.config.jwt.expirationTime}m`,
         });
@@ -29,7 +39,6 @@ class TokenService {
             exp,
             rawToken: rawTokenData,
             data: tokenData,
-            isActive: true,
         });
         return result._id;
     }
@@ -39,9 +48,9 @@ class TokenService {
         await models.Token.findOneAndUpdate({ _id: id }, { ...token });
     }
 
-    async find(query, fields = null) {
+    async findOne(query, fields = null) {
         this.logger.debug('Token:find');
-        return models.Token.find(query)
+        return models.Token.findOne(query)
             .populate(fields)
             .lean()
             .exec();
@@ -53,6 +62,11 @@ class TokenService {
             .populate(fields)
             .lean()
             .exec();
+    }
+
+    async updateOne(id, update) {
+        this.logger.debug(`updateOne ${id}`);
+        return models.Token.updateOne({ _id: id }, update).lean().exec();
     }
 }
 

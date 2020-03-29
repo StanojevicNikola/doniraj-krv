@@ -162,6 +162,16 @@ describe('Geolocation service test', () => {
         }
     });
 
+    it('update', async () => {
+        const inserted = {
+            city: 'Subotica',
+            lat: '114',
+            lng: '996',
+        };
+
+        const id = await service.create(inserted);
+    });
+
     afterEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.drop();
