@@ -18,17 +18,13 @@ class RequestController {
         this.geolocationService = geolocationService;
     }
 
-    async publishRequest(request) {
-        const {
-            radius, city, recipientId, queryType, groups, places,
-        } = request;
-
+    async publishRequest(radius, city, recipient, queryType, groups, places) {
         const geolocation = await this.geolocationService.findOne({ city });
         const requestId = await this.requestService
             .create({
                 radius,
                 geolocation: geolocation._id,
-                recipient: recipientId,
+                recipient,
                 groups,
                 queryType,
                 places,

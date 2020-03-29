@@ -1,4 +1,5 @@
 const sha3 = require('sha3');
+const jwtDecode = require('jwt-decode');
 
 class Utils {
     static clone(obj) {
@@ -52,6 +53,10 @@ class Utils {
 
     static parseDate(date) {
         return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+    }
+
+    static decodeToken(rawToken) {
+        return jwtDecode(rawToken);
     }
 
     static hash(text, salt) {

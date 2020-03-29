@@ -471,13 +471,12 @@ describe('Donor service test', () => {
             const updated_user = { donor: id, recipient: id_refRecipient };
             await serviceRefUser.updateOne(update_id_user, updated_user);
 
-            const locations = ['Cuprija'];
             const groups = ['A+', 'A-'];
-            const donors = service.findEligibleDonors(locations, groups);
-            const true_size = 3;
+            const donors = await service.findEligibleDonors([id_refGeolocation], groups);
+            const true_size = 1;
 
             // function < findEligibleDonors(locations, groups) > NOT WORKING, return NULL
-            assert.equal(donors.length, null, 'Should <find eligible donors> <by locations and blood groups>');
+            assert.equal(donors.length, true_size, 'Should <find eligible donors> <by locations and blood groups>');
         } catch (err) {
             assert(false, err);
         }

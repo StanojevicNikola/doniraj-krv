@@ -1,4 +1,4 @@
-const jwtDecode = require('jwt-decode');
+const utils = require('../utils');
 
 class TokenController {
     constructor(
@@ -16,23 +16,8 @@ class TokenController {
         return this.tokenService.findOne(query);
     }
 
-    async findUserByToken(rawToken) {
-        const token = await this.tokenService.findOne({ rawToken });
-        return this.userService.findById(token.user);
-    }
-
-    async updateAccessibleRoutes(rawToken, role) {
-        role = role.toLowerCase();
-
-        const { _id, data } = await this.tokenService.findOne({ rawToken });
-        data.accessibleRoutes.push(role);
-        data[role] = true;
-
-        return this.tokenService.updateOne(_id, { data });
-    }
-
     async accessControl(routePrefix, rawToken) {
-        const token = jwtDecode.decode(rawToken);
+        const token = utils.decodeToken(rawToken);
         if (routePrefix === 'app') return true;
         return token.accessibleRoutes.includes(routePrefix) && token.isActive;
     }

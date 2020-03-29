@@ -80,7 +80,14 @@ class RestifyRouteHandler {
 
     async requestBlood(req, res, next) {
         this.logger.info('requestBlood');
-        const donors = await this.requestController.publishRequest(req.body);
+        const rawToken = utils.extractToken(req);
+        const tokenData = utils.decodeToken(rawToken);
+        const {
+            radius, city, queryType, groups, places,
+        } = req.body;
+        const { recipient } = tokenData;
+        const donors = await this.requestController
+            .publishRequest(radius, city, recipient, queryType, groups, places);
         this._sendSuccess(res, 'Kompatibilni donori su obavesteni o Vasem zahtevu!', { donors });
         next();
     }
@@ -137,8 +144,9 @@ class RestifyRouteHandler {
         this.logger.info('addRole');
         try {
             const token = utils.extractToken(req);
-            const message = await this.userController.addNewRole({ ...req.body, rawToken: token });
-            this._sendSuccess(res, message, {});
+            const { data, message } = await this.userController
+                .addNewRole({ ...req.body, rawToken: token });
+            this._sendSuccess(res, message, data);
         } catch (e) {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);

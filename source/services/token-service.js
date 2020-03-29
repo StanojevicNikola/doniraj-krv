@@ -9,32 +9,35 @@ class TokenService {
         this.config = config;
     }
 
+    signToken(tokenData) {
+        return jwt.sign(tokenData, this.config.jwt.secret, {
+            expiresIn: `${this.config.jwt.expirationTime}m`,
+        });
+    }
+
     async create(user, id = null) {
         const tokenId = id || mongoose.Types.ObjectId();
         const tokenData = {
             tokenId: tokenId.toString(),
-            id: user._id,
+            userId: user._id.toString(),
             name: user.name,
             isAdmin: user.isAdmin,
             isActive: user.isActive,
             accessibleRoutes: ['user'],
         };
         // eslint-disable-next-line no-unused-expressions
-        user.roles.includes('DONOR') ? (tokenData.donor = true, tokenData.accessibleRoutes.push('donor')) : tokenData.donor = false;
+        user.roles.includes('DONOR') ? (tokenData.donor = user.donor, tokenData.accessibleRoutes.push('donor')) : tokenData.donor = null;
         // eslint-disable-next-line no-unused-expressions
-        user.roles.includes('RECIPIENT') ? (tokenData.recipient = true, tokenData.accessibleRoutes.push('recipient')) : tokenData.recipient = false;
+        user.roles.includes('RECIPIENT') ? (tokenData.recipient = user.recipient, tokenData.accessibleRoutes.push('recipient')) : tokenData.recipient = null;
 
         // eslint-disable-next-line no-unused-expressions
         user.isAdmin ? tokenData.accessibleRoutes.push('admin') : undefined;
 
-        const rawTokenData = jwt.sign(tokenData, this.config.jwt.secret, {
-            expiresIn: `${this.config.jwt.expirationTime}m`,
-        });
+        const rawTokenData = this.signToken(tokenData);
 
         const { iat, exp } = jwt.decode(rawTokenData);
         const result = await models.Token.create({
             _id: tokenId,
-            user: user._id,
             iat,
             exp,
             rawToken: rawTokenData,
@@ -45,7 +48,7 @@ class TokenService {
 
     async update(id, token) {
         this.logger.debug(`Token:update(id=${id})`);
-        await models.Token.findOneAndUpdate({ _id: id }, { ...token });
+        await models.Token.findOneAndUpdate({ _id: id }, { ...token }, { useFindAndModify: false });
     }
 
     async findOne(query, fields = null) {
