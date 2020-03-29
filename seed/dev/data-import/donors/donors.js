@@ -1,5 +1,5 @@
 const ids = require('../../ids/ids');
-const getTime = require('../time-converter');
+const getDate = require('../time-converter');
 
 const offset = '-';
 
@@ -9,28 +9,28 @@ module.exports = [
         user: ids.user1_Id,
         blood: ids.a_plus,
         geolocation: ids.beograd,
-        lastDonation: getTime(30, offset),
+        lastDonation: getDate(30, offset),
     },
     {
         _id: ids.donor2_Id,
         user: ids.user2_Id,
         blood: ids.a_minus,
         geolocation: ids.cuprija,
-        lastDonation: getTime(60, offset),
+        lastDonation: getDate(60, offset),
     },
     {
         _id: ids.donor3_Id,
         user: ids.user3_Id,
         blood: ids.ab_plus,
         geolocation: ids.nis,
-        lastDonation: getTime(91, offset),
+        lastDonation: getDate(91, offset),
     },
     {
         _id: ids.donor4_Id,
         user: ids.user4_Id,
         blood: ids.o_minus,
         geolocation: ids.vranje,
-        lastDonation: getTime(99, offset),
+        lastDonation: getDate(99, offset),
     },
     {
         _id: ids.donor5_Id,
