@@ -43,7 +43,7 @@ describe('INFO controller test', () => {
             // const { title, description } = inserted;
 
             const fetched = await controller.getNews();
-            assert.equal(inserted.title, fetched.title, 'This is all news!');
+            assert.equal(inserted.title, fetched[0].title, 'This is all news!');
         } catch (e) {
             assert(false, e);
         }
