@@ -81,15 +81,19 @@ class RestifyRouteHandler {
 
     async requestBlood(req, res, next) {
         this.logger.info('requestBlood');
-        const rawToken = utils.extractToken(req);
-        const tokenData = utils.decodeToken(rawToken);
-        const {
-            radius, city, queryType, groups, places,
-        } = req.body;
-        const { recipient } = tokenData;
-        const { data, message } = await this.requestController
-            .publishRequest(radius, city, recipient, queryType, groups, places);
-        this._sendSuccess(res, message, data);
+        try {
+            const rawToken = utils.extractToken(req);
+            const tokenData = utils.decodeToken(rawToken);
+            const {
+                radius, city, queryType, groups, places,
+            } = req.body;
+            const { recipient } = tokenData;
+            const { data, message } = await this.requestController
+                .publishRequest(radius, city, recipient, queryType, groups, places);
+            this._sendSuccess(res, message, data);
+        } catch (e) {
+            this._sendBadRequest(res, e.message, null);
+        }
         next();
     }
 

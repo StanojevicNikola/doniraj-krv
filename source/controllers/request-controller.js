@@ -20,6 +20,9 @@ class RequestController {
 
     async publishRequest(radius, city, recipient, queryType, groups, places) {
         const geolocation = await this.geolocationService.findOne({ city });
+        if (geolocation == null) {
+            throw Error('Izabrali ste nepostojecu lokaciju!');
+        }
         const requestId = await this.requestService
             .create({
                 radius,
