@@ -34,7 +34,7 @@ class UserController {
         await this.activationService.create({ emailHash: user.emailHash });
         const link = this.config.activationRoute + user.emailHash;
         await this.emailService.sendEmail('activation', { name, link }, { recipientEmail: email, subject: 'Activation link' });
-        return 'Poslat Vam je aktivacioni email';
+        return { data: link, message: 'Poslat Vam je aktivacioni email' };
     }
 
     async activateUser(emailHash) {

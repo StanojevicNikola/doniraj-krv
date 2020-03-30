@@ -29,7 +29,8 @@ class RequestController {
                 queryType,
                 places,
             });
-        return this._notify(requestId);
+        const data = await this._notify(requestId);
+        return { data, message: 'Kompatibilni donori su obavesteni o Vasem zahtevu!' };
     }
 
     async _notify(requestId) {

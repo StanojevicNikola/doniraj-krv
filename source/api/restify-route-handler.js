@@ -33,8 +33,9 @@ class RestifyRouteHandler {
         } = req.body;
 
         try {
-            const result = await this.userController.registerUser(email, password, username, name);
-            this._sendSuccess(res, result, null);
+            const { data, message } = await this.userController
+                .registerUser(email, password, username, name);
+            this._sendSuccess(res, message, data);
         } catch (e) {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
@@ -86,9 +87,9 @@ class RestifyRouteHandler {
             radius, city, queryType, groups, places,
         } = req.body;
         const { recipient } = tokenData;
-        const donors = await this.requestController
+        const { data, message } = await this.requestController
             .publishRequest(radius, city, recipient, queryType, groups, places);
-        this._sendSuccess(res, 'Kompatibilni donori su obavesteni o Vasem zahtevu!', { donors });
+        this._sendSuccess(res, message, data);
         next();
     }
 

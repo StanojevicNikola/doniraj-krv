@@ -14,7 +14,7 @@ module.exports = [
     {
         _id: ids.user1_Id,
         donor: ids.donor1_Id,
-        email: 'dimitrije.misa@gmail.com',
+        email: 'dimitrije.misa@foo.com',
         username: 'user1',
         roles: ['DONOR'],
         name: 'user1',
