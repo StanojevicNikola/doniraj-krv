@@ -12,6 +12,7 @@
       "database": "Donate-Test"
     }
   },
+  "activationRoute": "api/mock_route/",
   "APIserver": {
     "port": "5000"
   },

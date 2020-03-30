@@ -17,7 +17,7 @@ describe('User controller test', () => {
         // sinonSandbox = sinon.createSandbox();
     });
 
-    it('should throw error registerUser - exits by email', async () => {
+    it('should throw error registerUser - exists by email', async () => {
         const userData = {
             email: 'should_throw',
             username: 'should_pass',
@@ -80,6 +80,7 @@ describe('User controller test', () => {
             password: '1234',
             username: 'user1',
             name: 'Ime Prezime',
+            emailHash: utils.hash('dimitrije.sistem@gmail.com', config.salt),
         };
         try {
             const userService = app.container.resolve('userService');
@@ -96,9 +97,12 @@ describe('User controller test', () => {
             const {
                 email, password, username, name,
             } = userData;
-            const result = await userController.registerUser(email, password, username, name);
-            console.log(result);
-            assert.deepEqual('Poslat Vam je aktivacioni email', result);
+            const { data, message } = await userController
+                .registerUser(email, password, username, name);
+            const hash = data.replace(config.activationRoute, '');
+
+            assert.deepEqual('Poslat Vam je aktivacioni email', message);
+            assert.deepEqual(userData.emailHash, hash);
         } catch (e) {
             assert(false, e);
         }
@@ -316,13 +320,14 @@ describe('User controller test', () => {
                     tokenController,
                 },
             );
-            const result = await userController
+            const { message, data } = await userController
                 .addNewRole({ role, roleData: {}, rawToken: token.rawToken });
             user = await userService.findById(userId);
 
-            assert.deepEqual('Uspesno ste dodali ulogu!', result);
+            assert.deepEqual('Uspesno ste dodali novu ulogu!', message);
             assert.deepEqual(user.roles, ['DONOR', 'RECIPIENT']);
             assert.notDeepEqual(user[role.toLowerCase()], null);
+            assert.deepEqual(Object.keys(data), ['iat', 'exp', 'token']);
         } catch (e) {
             assert(false, e);
         }
@@ -368,13 +373,14 @@ describe('User controller test', () => {
                     tokenController,
                 },
             );
-            const result = await userController
+            const { message, data } = await userController
                 .addNewRole({ role, roleData: {}, rawToken: token.rawToken });
             user = await userService.findById(userId);
 
-            assert.deepEqual('Uspesno ste dodali ulogu!', result);
+            assert.deepEqual('Uspesno ste dodali novu ulogu!', message);
             assert.deepEqual(user.roles, ['RECIPIENT', 'DONOR']);
             assert.notDeepEqual(user[role.toLowerCase()], null);
+            assert.deepEqual(Object.keys(data), ['iat', 'exp', 'token']);
         } catch (e) {
             assert(false, e);
         }
@@ -427,16 +433,16 @@ describe('User controller test', () => {
         }
     });
 
-    it('should should pass - adding existing role', async () => {
+    it('should pass - adding existing role', async () => {
         const userData = {
             email: 'dimitrije@foo.com',
             password: '1234',
             username: 'user1',
             name: 'Ime Prezime',
-            roles: ['RECIPIENT'],
+            roles: ['DONOR'],
         };
 
-        const role = 'RECIPIENT';
+        const role = 'DONOR';
         try {
             const userService = app.container.resolve('userService');
             const logger = app.container.resolve('logger');
@@ -467,9 +473,10 @@ describe('User controller test', () => {
                     tokenController,
                 },
             );
-            const result = await userController
+            const { data, message } = await userController
                 .addNewRole({ role, roleData: {}, rawToken: token.rawToken });
-            assert.deepEqual('Vec imate zahtevanu ulogu.', result);
+            assert.deepEqual('Vec imate zahtevanu ulogu.', message);
+            assert.deepEqual(data, null);
         } catch (e) {
             assert(false, e);
         }
