@@ -40,7 +40,13 @@ class App {
     }
 
     async start() {
+        this.container.resolve('storage').connect();
         this.container.resolve('api').start();
+    }
+
+    async stop() {
+        this.container.resolve('api').stop();
+        this.container.resolve('storage').disconnect();
     }
 }
 

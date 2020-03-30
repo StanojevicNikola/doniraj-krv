@@ -66,7 +66,7 @@ class RestifyServer {
     }
 
     stop() {
-        this.server.stop();
+        this.server.close();
     }
 }
 

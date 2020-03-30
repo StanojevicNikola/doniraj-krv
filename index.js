@@ -8,6 +8,4 @@ const app = new App(config);
 const logger = app.container.resolve('logger');
 const storage = app.container.resolve('storage');
 
-App.connect(storage)
-    .then(() => app.start()
-        .then(() => logger.debug('Server started')));
+app.start().then(() => logger.debug('Server started'));
