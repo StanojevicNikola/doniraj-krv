@@ -7,7 +7,7 @@
     "start": "node index.js",
     "lint": "eslint source/ index.js --fix",
     "test": "./node_modules/mocha/bin/mocha ./test/**/*.test.js --recursive",
-    "test:controller": "./node_modules/mocha/bin/mocha ./test/controller/*.test.js --recursive",
+    "test:controller": "./node_modules/mocha/bin/mocha ./test/controller/admin-controller.test.js --recursive",
     "test:service": "./node_modules/mocha/bin/mocha ./test/service/*.test.js --recursive",
     "seed": "seed --db-name Donate seed/dev/data-import",
     "reset-and-seed": "seed --db-name Donate --drop-database seed/dev/data-import",
