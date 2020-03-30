@@ -12,14 +12,16 @@ class GeoService {
     async filterByRadius(lat, lng, radius) {
         const locations = await this.geolocationService.find({});
 
-        const result = locations.filter(
-            (l) => {
-                const dist = this.euclDistance(lat, lng, l.lat, l.lng);
-                return dist < radius;
-            },
+        return locations.filter(
+            (l) => this.euclDistance(lat, lng, l.lat, l.lng) < radius,
         );
+    }
 
-        return result;
+    async getPlacesInRadius(lat, lng, radius, places) {
+        return places.filter(
+            // eslint-disable-next-line max-len
+            (place) => this.euclDistance(lat, lng, place.geolocation.lat, place.geolocation.lng) < radius,
+        );
     }
 
     async getCoords(ip) {
