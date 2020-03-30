@@ -3,14 +3,16 @@ const utils = require('../utils');
 
 class RestifyRouteHandler {
     constructor({
-        logger, placeController, requestController, userController, infoController, config,
+        // eslint-disable-next-line max-len
+        logger, config, adminController, placeController, requestController, userController, infoController,
     }) {
         this.logger = logger;
+        this.config = config;
         this.placeController = placeController;
         this.requestController = requestController;
         this.userController = userController;
         this.infoController = infoController;
-        this.config = config;
+        this.adminController = adminController;
     }
 
     async activateUser(req, res, next) {
@@ -121,10 +123,84 @@ class RestifyRouteHandler {
         next();
     }
 
+    async createNews(req, res, next) {
+        this.logger.info('createNews');
+        try {
+            const data = await this.adminController.createNews(req.body);
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
+    async updateNews(req, res, next) {
+        this.logger.info('updateNews');
+        try {
+            const data = await this.adminController.updateNews(req.body.title, req.body);
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
     async getEvents(req, res, next) {
         this.logger.info('getEvents');
         try {
             const data = await this.infoController.getEvents();
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
+    async createEvent(req, res, next) {
+        this.logger.info('createEvent');
+        try {
+            // eslint-disable-next-line max-len
+            const data = await this.adminController.createEvent(req.body);
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
+    async updateEvent(req, res, next) {
+        this.logger.info('updateEvent');
+        try {
+            // eslint-disable-next-line max-len
+            const data = await this.adminController.updateEvent(req.body.title, req.body);
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
+    async createPlace(req, res, next) {
+        this.logger.info('createPlace');
+        try {
+            const data = await this.adminController.createPlace(req.body);
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
+    async updatePlace(req, res, next) {
+        this.logger.info('updatePlace');
+        try {
+            const data = await this.adminController.updatePlace(req.body.name, req.body);
             this._sendSuccess(res, 'Success', data);
         } catch (e) {
             this.logger.error(e.message);
