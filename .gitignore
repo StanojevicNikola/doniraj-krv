@@ -2,3 +2,4 @@ node_modules
 combined.log
 error.log
 .idea
+.nyc_output/

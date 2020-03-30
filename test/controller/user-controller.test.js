@@ -13,14 +13,12 @@ describe('User controller test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();
-
-        // sinonSandbox = sinon.createSandbox();
     });
 
     it('should throw error registerUser - exists by email', async () => {
         const userData = {
             email: 'should_throw',
-            username: 'should_pass',
+            username: 'asd',
             password: '123',
             name: 'Ime Prezime',
         };
@@ -46,7 +44,7 @@ describe('User controller test', () => {
 
     it('should throw error registerUser - exits by username', async () => {
         const userData = {
-            email: 'should_pass',
+            email: 'asd',
             username: 'should_throw',
             password: '123',
             name: 'Ime Prezime',
@@ -68,7 +66,7 @@ describe('User controller test', () => {
                 email: 'pass', username, password, name,
             });
 
-            await userController.registerUser(email, password, username, name);
+            await userController.registerUser(email, password, 'should_throw', name);
         } catch (e) {
             assert.deepEqual('Korisnik sa istim korisnickim imenom je vec registrovan!', e.message);
         }
@@ -76,11 +74,11 @@ describe('User controller test', () => {
 
     it('should pass registerUser', async () => {
         const userData = {
-            email: 'dimitrije.sistem@gmail.com',
+            email: 'dimitrije.sistem@fooo.com',
             password: '1234',
-            username: 'user1',
+            username: 'prolazi',
             name: 'Ime Prezime',
-            emailHash: utils.hash('dimitrije.sistem@gmail.com', config.salt),
+            emailHash: utils.hash('dimitrije.sistem@fooo.com', config.salt),
         };
         try {
             const userService = app.container.resolve('userService');
@@ -138,12 +136,12 @@ describe('User controller test', () => {
     });
 
     it('should pass activateUser', async () => {
-        const emailHash = utils.hash('dimitrije@foo.com', config.salt);
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'unique@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_unique',
             name: 'Ime Prezime',
+            emailHash: utils.hash('unique@foo.com', config.salt),
         };
         try {
             const userService = app.container.resolve('userService');
@@ -158,8 +156,8 @@ describe('User controller test', () => {
                 },
             );
 
-            const activationId = await activationService.create({ emailHash });
-            const result = await userController.activateUser(emailHash);
+            const activationId = await activationService.create({ emailHash: userData.emailHash });
+            const result = await userController.activateUser(userData.emailHash);
 
             const user = await userService.findById(userId);
 
@@ -172,9 +170,9 @@ describe('User controller test', () => {
 
     it('should throw authorize - bad username', async () => {
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'dimi@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_dimi',
             name: 'Ime Prezime',
         };
         try {
@@ -197,9 +195,9 @@ describe('User controller test', () => {
 
     it('should throw authorize - bad username/password', async () => {
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'misa@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_misa',
             name: 'Ime Prezime',
         };
         try {
@@ -222,9 +220,9 @@ describe('User controller test', () => {
 
     it('should throw authorize - user not active', async () => {
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'asd@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_asd',
             name: 'Ime Prezime',
         };
         try {
@@ -247,9 +245,9 @@ describe('User controller test', () => {
 
     it('should pass authorize', async () => {
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'qwerty@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_qwerty',
             name: 'Ime Prezime',
         };
         const emailHash = utils.hash(userData.email, config.salt);
@@ -282,9 +280,9 @@ describe('User controller test', () => {
 
     it('should pass addNewRole - RECIPIENT', async () => {
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'recipient@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_recipient',
             name: 'Ime Prezime',
             roles: ['DONOR'],
         };
@@ -335,9 +333,9 @@ describe('User controller test', () => {
 
     it('should pass addNewRole - DONOR', async () => {
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'donor@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_donor',
             name: 'Ime Prezime',
             roles: ['RECIPIENT'],
         };
@@ -388,9 +386,9 @@ describe('User controller test', () => {
 
     it('should fail addNewRole - unknown role', async () => {
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'unknown@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_unknown',
             name: 'Ime Prezime',
             roles: ['RECIPIENT'],
         };
@@ -435,9 +433,9 @@ describe('User controller test', () => {
 
     it('should pass - adding existing role', async () => {
         const userData = {
-            email: 'dimitrije@foo.com',
+            email: 'existing@foo.com',
             password: '1234',
-            username: 'user1',
+            username: 'user_existing',
             name: 'Ime Prezime',
             roles: ['DONOR'],
         };
@@ -484,7 +482,7 @@ describe('User controller test', () => {
 
     afterEach(async () => {
         const storage = app.container.resolve('storage');
-        await storage.drop();
+        // await storage.drop();
         await storage.disconnect();
     });
 });

@@ -16,6 +16,7 @@ const app = require('../test-app');
 const config = app.container.resolve('config');
 const logger = app.container.resolve('logger');
 const utils = require('../../source/utils');
+const ids = require('../../seed/test/ids/ids');
 
 const Client = {};
 
@@ -137,14 +138,15 @@ describe('Integration test', () => {
     });
 
     it('Should successfully requestBlood', (done) => {
+        const compDonorsLen = 3;
         chai.request(`http://localhost:${config.APIserver.port}`)
             .post('/recipient/requestBlood')
             .set('Authorization', `Bearer ${Client.tokenId}`)
             .send({
                 city: 'Beograd',
-                places: [],
+                places: [ids.place_dz_nbg, ids.place_dz_vracar],
                 radius: 50000,
-                queryType: 'ALL',
+                queryType: 'COMPATIBLE',
                 groups: ['A+'],
             })
             .end((err, res) => {
@@ -153,11 +155,11 @@ describe('Integration test', () => {
 
                 expect(body).to.be.not.equal(null);
                 // TODO fix this when database is seeded
-                expect(body.data).to.be.deep.equal([]);
+                expect(body.data.length).to.be.deep.equal(compDonorsLen);
                 expect(body.message).to.be.deep.equal('Kompatibilni donori su obavesteni o Vasem zahtevu!');
                 done();
             });
-    });
+    }).timeout(20000);
 
     after(async () => {
         await app.stop();

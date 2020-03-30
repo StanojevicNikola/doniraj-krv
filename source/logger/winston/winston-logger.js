@@ -10,7 +10,7 @@ const customFormat = printf((info) => `[${info.timestamp}] ${info.level}: ${info
 class WinstonLogger {
     constructor() {
         this.instance = winston.createLogger({
-            level: 'debug',
+            level: process.env.NODE_ENV === 'test' ? [] : 'debug',
             format: combine(
                 timestamp({ format: 'YYYY-MM-DD HH:mm:ss.ms' }),
                 customFormat,
