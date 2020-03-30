@@ -12,14 +12,22 @@ class GeoService {
     async filterByRadius(lat, lng, radius) {
         const locations = await this.geolocationService.find({});
 
-        const result = locations.filter(
+        return locations.filter(
             (l) => {
                 const dist = this.euclDistance(lat, lng, l.lat, l.lng);
                 return dist < radius;
             },
         );
+    }
 
-        return result;
+    async getPlacesInRadius(lat, lng, radius, places) {
+        return places.filter(
+            (place) => {
+                const dist = this
+                    .euclDistance(lat, lng, place.geolocation.lat, place.geolocation.lng);
+                return dist < radius;
+            },
+        );
     }
 
     async getCoords(ip) {
