@@ -21,8 +21,6 @@ describe('PLACE controller test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();
-
-        // sinonSandbox = sinon.createSandbox();
     });
 
     it('Should find places by geolocation without distance constraint', async () => {

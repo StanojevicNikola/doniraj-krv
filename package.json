@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint source/ index.js --fix",
-    "test": "npm run reset-and-seed:test && NODE_ENV=test nyc ./node_modules/mocha/bin/mocha ./test/**/*.test.js --recursive",
+    "test": "NODE_ENV=test nyc ./node_modules/mocha/bin/mocha ./test/**/*.test.js --recursive",
     "test:controller": "NODE_ENV=test ./node_modules/mocha/bin/mocha ./test/controller/*.test.js --recursive",
     "test:service": "NODE_ENV=test ./node_modules/mocha/bin/mocha ./test/service/*.test.js --recursive",
     "test:integration": "npm run reset-and-seed:test && NODE_ENV=test  ./node_modules/mocha/bin/mocha ./test/integration/*.test.js --recursive",
@@ -35,13 +35,13 @@
     "winston": "latest"
   },
   "devDependencies": {
-    "nyc": "^15.0.0",
-    "chai-http": "^4.3.0",
-    "sinon": "^9.0.1",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
-    "mocha": "^7.1.1"
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "sinon": "^9.0.1"
   }
 }

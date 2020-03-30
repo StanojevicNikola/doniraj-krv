@@ -482,7 +482,7 @@ describe('User controller test', () => {
 
     afterEach(async () => {
         const storage = app.container.resolve('storage');
-        // await storage.drop();
+        await storage.drop();
         await storage.disconnect();
     });
 });

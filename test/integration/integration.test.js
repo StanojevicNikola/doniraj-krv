@@ -23,6 +23,12 @@ const Client = {};
 describe('Integration test', () => {
     before(async () => {
         await app.start();
+        await app.container.resolve('geolocationService').create({
+            _id: ids.beograd,
+            city: 'Beograd',
+            lat: '44.818611',
+            lng: '20.468056',
+        });
     });
 
     it('Should register a user', (done) => {
@@ -138,7 +144,7 @@ describe('Integration test', () => {
     });
 
     it('Should successfully requestBlood', (done) => {
-        const compDonorsLen = 3;
+        const compDonorsLen = 0;
         chai.request(`http://localhost:${config.APIserver.port}`)
             .post('/recipient/requestBlood')
             .set('Authorization', `Bearer ${Client.tokenId}`)
