@@ -14,15 +14,15 @@ class PlaceController {
         const { query, constraint } = request.body;
 
         const constraintKeys = Object.keys(constraint);
-        let data = await this.placeService.find(query, ['geolocation']);
+        let places = await this.placeService.find(query, ['geolocation']);
         if (constraintKeys.includes('distance')) {
             const remoteIP = utils.getIP(request);
             const { lat, lng } = await this.geoService.getCoords(remoteIP);
 
-            data = await this.geoService.getPlacesInRadius(lat, lng, constraint.distance);
+            places = await this.geoService.getPlacesInRadius(lat, lng, constraint.distance, places);
         }
 
-        return data;
+        return places;
     }
 }
 
