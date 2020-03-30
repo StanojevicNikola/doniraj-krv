@@ -90,7 +90,7 @@ describe('PLACE controller test', () => {
             };
             const data_geolocation = await controller.find(tested_data);
 
-            assert.equal(data_geolocation[0].city, inserted_geo.city, 'Should find places by distance constraint!');
+            assert.equal(data_geolocation[0].geolocation.city, inserted_geo.city, 'Should find places by distance constraint!');
         } catch (e) {
             assert(false, e);
         }
@@ -127,7 +127,7 @@ describe('PLACE controller test', () => {
 
             assert.equal(data_geolocation.length, 0, 'Should NOT find places by distance constraint <small distance>!');
         } catch (e) {
-            assert.deepEqual('Ne postoji grad u zadatom radijusu!', e.message);
+            assert(false, e);
         }
     });
 

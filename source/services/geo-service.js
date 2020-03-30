@@ -13,20 +13,14 @@ class GeoService {
         const locations = await this.geolocationService.find({});
 
         return locations.filter(
-            (l) => {
-                const dist = this.euclDistance(lat, lng, l.lat, l.lng);
-                return dist < radius;
-            },
+            (l) => this.euclDistance(lat, lng, l.lat, l.lng) < radius,
         );
     }
 
     async getPlacesInRadius(lat, lng, radius, places) {
         return places.filter(
-            (place) => {
-                const dist = this
-                    .euclDistance(lat, lng, place.geolocation.lat, place.geolocation.lng);
-                return dist < radius;
-            },
+            // eslint-disable-next-line max-len
+            (place) => this.euclDistance(lat, lng, place.geolocation.lat, place.geolocation.lng) < radius,
         );
     }
 
