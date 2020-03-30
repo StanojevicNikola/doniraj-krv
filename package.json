@@ -34,6 +34,7 @@
     "winston": "latest"
   },
   "devDependencies": {
+    "chai-http": "^4.3.0",
     "sinon": "^9.0.1",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
