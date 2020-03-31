@@ -1,7 +1,7 @@
 class AdminController {
     constructor({
         logger, config, placeService, newsService, eventService, geolocationService,
-        transactionService, storageService,
+        transactionService, storageService, bloodGroupService,
     }) {
         this.logger = logger;
         this.config = config;
@@ -10,6 +10,7 @@ class AdminController {
         this.placeService = placeService;
         this.geolocationService = geolocationService;
         this.transactionService = transactionService;
+        this.bloodGroupService = bloodGroupService;
         this.storageService = storageService;
     }
 
@@ -39,9 +40,18 @@ class AdminController {
     }
 
     async createTransaction(data) {
-        // TODO validate data
         const { place, blood, amount } = data;
-        await this.transactionService.create(data);
+        const placeId = await this.placeService.findById(place);
+        if (placeId == null) {
+            throw Error('Izabrali ste nepostojecu lokaciju!');
+        }
+
+        const bloodId = await this.bloodGroupService.findById(blood);
+        if (bloodId == null) {
+            throw Error('Izabrali ste nepostojecu krvnu grupu!');
+        }
+
+        // await this.transactionService.create(data);
         await this.storageService.updateBlood(place, blood, amount);
         return { data: null, message: 'Uspesno ste azurirali stanje krvi' };
     }
