@@ -1,0 +1,47 @@
+{
+  "name": "06-doniraj-krv",
+  "version": "1.0.0",
+  "description": "Projekat ima cilj da spoji donore i ljude kojima je potrebna krv na jedinstvenoj platformi",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint source/ index.js --fix",
+    "test": "NODE_ENV=test nyc ./node_modules/mocha/bin/mocha ./test/**/*.test.js --recursive",
+    "test:controller": "NODE_ENV=test ./node_modules/mocha/bin/mocha ./test/controller/*.test.js --recursive",
+    "test:service": "NODE_ENV=test ./node_modules/mocha/bin/mocha ./test/service/*.test.js --recursive",
+    "test:integration": "npm run reset-and-seed:test && NODE_ENV=test  ./node_modules/mocha/bin/mocha ./test/integration/*.test.js --recursive",
+    "seed": "seed --db-name Donate seed/dev/data-import",
+    "reset-and-seed": "seed --db-name Donate --drop-database seed/dev/data-import",
+    "reset-and-seed:test": "seed --db-name Donate-Test --drop-database seed/test/data-import",
+    "freePort": "kill -9 $(lsof -t -i:5000)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:matfpveb/projekti/2019-2020/06-doniraj-krv.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "awilix": "latest",
+    "geoip-lite": "^1.4.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
+    "mongo-seeding-cli": "latest",
+    "mongoose": "latest",
+    "nodemailer": "latest",
+    "restify": "latest",
+    "restify-jwt-community": "^1.1.2",
+    "sha3": "^2.1.2",
+    "winston": "latest"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "sinon": "^9.0.1"
+  }
+}
