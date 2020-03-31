@@ -18,6 +18,7 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import LoginDash from "./LoginDash";
 import RegisterDash from "./RegisterDash";
+import UserDash from "./UserDash";
 
 class App extends Component{
 
@@ -27,23 +28,27 @@ class App extends Component{
             <Router>
                 <div>
                     <NavBar/>
+                    <div className="container">
+                        <Switch>
 
-                    <Switch>
-                        <div className="container">
                             <Route exact path="/">
                                 <HomePage />
                             </Route>
                             <Route exact path="/about">
                                 <Test />
                             </Route>
-                            <Route exact path="/login">
+                                <Route exact path="/login">
                                 <LoginDash/>
                             </Route>
                             <Route exact path="/register">
                                 <RegisterDash/>
                             </Route>
-                        </div>
-                    </Switch>
+                            <Route exact path="/userdash">
+                                <UserDash/>
+                            </Route>
+
+                        </Switch>
+                    </div>
                     <Footer/>
                 </div>
             </Router>

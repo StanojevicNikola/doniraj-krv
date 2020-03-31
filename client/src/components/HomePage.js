@@ -12,13 +12,13 @@ class HomePage extends Component {
 
                 <div className="main-wrapper">
                     <section className="donor">
-                        <a href="#">
+                        <a >
                             <span>Donor</span>
                         </a>
                     </section>
 
                     <section className="coordinator">
-                        <a href="#">
+                        <a>
                             <span>Coordinator</span>
                         </a>
                     </section>

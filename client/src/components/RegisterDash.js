@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
+import axios from 'axios';
+//
 
 class RegisterDash extends Component{
     constructor(props) {
@@ -10,16 +12,13 @@ class RegisterDash extends Component{
             email : '',
             pass : '',
             passRepeat: '',
-            place : '',
-            blood : ''
-        }
+
+        };
         this.nameChange = this.nameChange.bind(this);
         this.userChange = this.userChange.bind(this);
         this.emailChange = this.emailChange.bind(this);
         this.passChange = this.passChange.bind(this);
         this.passRepeatChange = this.passRepeatChange.bind(this);
-        this.bloodChange = this.bloodChange.bind(this);
-        this.placeChange = this.placeChange.bind(this);
 
         this.submit = this.submit.bind(this);
     }
@@ -43,33 +42,32 @@ class RegisterDash extends Component{
     }
 
     passChange(e) {
-        console.log(e.target.value)
         this.setState({
             pass: e.target.value
         })
     }
 
     passRepeatChange(e) {
+        console.log(e.target.value)
         this.setState({
             passRepeat: e.target.value
         })
     }
 
+    async submit() {
+        if(this.state.pass !== this.state.passRepeat)
+            alert('Pass repeat didn\'t match');
+        else {
+            const body = {
+                "email": this.state.email,
+                "username": this.state.username,
+                "password": this.state.pass,
+                "name": this.state.name
+            };
+            const res = await axios.post('/users/register', body);
 
-    placeChange(e) {
-        this.setState({
-            place: e.target.value
-        })
-    }
-
-    bloodChange(e) {
-        this.setState({
-            blood: e.target.value
-        })
-    }
-
-    submit() {
-        console.log(this.state)
+            console.log(res);
+        }
     }
 
     render() {
@@ -90,16 +88,11 @@ class RegisterDash extends Component{
                         <input className="col offset-s2 s8 validate" type="password" placeholder="Password" onChange={this.passChange}/>
                     </div>
                     <div className="row">
-                        <input className="col offset-s2 s8 validate" type="password" placeholder="Repeat Password"/>
+                        <input className="col offset-s2 s8 validate" type="password" placeholder="Repeat Password" onChange={this.passRepeatChange}/>
                     </div>
+
                     <div className="row">
-                        <input className="col offset-s2 s8 validate" type="text" placeholder="Place" onChange={this.placeChange}/>
-                    </div>
-                    <div className="row">
-                        <input className="col offset-s2 s8 validate" type="text" placeholder="Blood type" onChange={this.bloodChange}/>
-                    </div>
-                    <div className="row">
-                        <button className="col offset-s4 s4 btn btn-large red accent-4" onClick={this.submit}>Register</button>
+                        <div className="col offset-s4 s4 btn btn-large red accent-4" onClick={this.submit}>Register</div>
                     </div>
                 </form>
                 <br/>
