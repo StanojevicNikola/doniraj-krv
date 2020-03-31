@@ -238,6 +238,18 @@ class RestifyRouteHandler {
         next();
     }
 
+    async createTransaction(req, res, next) {
+        this.logger.info('Create transaction');
+        try {
+            const { data, message } = await this.adminController.createTransaction(req.body);
+            this._sendSuccess(res, message, data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
     async unauthorized(req, res, next) {
         this._sendUnauthorized(res, 'Niste autorizovani za pristup!', null);
         next();

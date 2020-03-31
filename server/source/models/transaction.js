@@ -15,7 +15,6 @@ module.exports.Transaction = mongoose.model(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Blood',
         },
-        operation: String,
         amount: Number,
         date: Date,
     },

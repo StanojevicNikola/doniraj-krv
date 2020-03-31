@@ -49,9 +49,9 @@ class StorageService {
             .exec();
     }
 
-    async updateOne(id, update) {
-        this.logger.debug(`updateOne ${id}`);
-        return models.Storage.updateOne(id, update)
+    async updateBlood(place, blood, amount) {
+        this.logger.debug(`update blood ${amount}`);
+        return models.Storage.updateOne({ place, blood }, { $inc: { amount } })
             .lean()
             .exec();
     }
