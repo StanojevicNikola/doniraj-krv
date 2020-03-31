@@ -56,7 +56,7 @@ describe('ADMIN controller test', () => {
 
         try {
             const id = await controller.createNews(inserted);
-            await controller.updateNews(inserted.title, updated);
+            await controller.updateNews(id, updated);
             const fetched = await newsService.findById(id);
 
             assert.equal(fetched.title, updated.title, 'News is created <title>!');
@@ -106,7 +106,7 @@ describe('ADMIN controller test', () => {
         };
         try {
             const id = await controller.createEvent(inserted);
-            await controller.updateEvent(inserted.title, updated);
+            await controller.updateEvent(id, updated);
             const fetched = await eventService.findById(id);
 
             assert.equal(updated.title, fetched.title, 'Event is updated <title>!');
@@ -165,7 +165,7 @@ describe('ADMIN controller test', () => {
         };
         try {
             const id = await controller.createPlace(inserted);
-            await controller.updatePlace(inserted.name, updated);
+            await controller.updatePlace(id, updated);
             const fetched = await placeService.findById(id);
 
             assert.equal(updated.address, fetched.address, 'Place is updated <address>!');
