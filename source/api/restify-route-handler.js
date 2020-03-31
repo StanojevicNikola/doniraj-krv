@@ -127,7 +127,7 @@ class RestifyRouteHandler {
         this.logger.info('createNews');
         try {
             const data = await this.adminController.createNews(req.body);
-            this._sendSuccess(res, 'Success', data);
+            this._sendSuccess(res, 'Uspesno ste kreirali vest', data);
         } catch (e) {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
@@ -137,9 +137,10 @@ class RestifyRouteHandler {
 
     async updateNews(req, res, next) {
         this.logger.info('updateNews');
+        const { id, query } = req.body;
         try {
-            const data = await this.adminController.updateNews(req.body.title, req.body);
-            this._sendSuccess(res, 'Success', data);
+            const data = await this.adminController.updateNews(id, query);
+            this._sendSuccess(res, 'Uspesno ste azurirali vest', data);
         } catch (e) {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
@@ -159,37 +160,11 @@ class RestifyRouteHandler {
         next();
     }
 
-    async createEvent(req, res, next) {
-        this.logger.info('createEvent');
-        try {
-            // eslint-disable-next-line max-len
-            const data = await this.adminController.createEvent(req.body);
-            this._sendSuccess(res, 'Success', data);
-        } catch (e) {
-            this.logger.error(e.message);
-            this._sendBadRequest(res, e.message, null);
-        }
-        next();
-    }
-
-    async updateEvent(req, res, next) {
-        this.logger.info('updateEvent');
-        try {
-            // eslint-disable-next-line max-len
-            const data = await this.adminController.updateEvent(req.body.title, req.body);
-            this._sendSuccess(res, 'Success', data);
-        } catch (e) {
-            this.logger.error(e.message);
-            this._sendBadRequest(res, e.message, null);
-        }
-        next();
-    }
-
     async createPlace(req, res, next) {
         this.logger.info('createPlace');
         try {
             const data = await this.adminController.createPlace(req.body);
-            this._sendSuccess(res, 'Success', data);
+            this._sendSuccess(res, 'Uspesno ste kreirali novo mesto', data);
         } catch (e) {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
@@ -199,9 +174,10 @@ class RestifyRouteHandler {
 
     async updatePlace(req, res, next) {
         this.logger.info('updatePlace');
+        const { id, query } = req.body;
         try {
-            const data = await this.adminController.updatePlace(req.body.name, req.body);
-            this._sendSuccess(res, 'Success', data);
+            const data = await this.adminController.updatePlace(id, query);
+            this._sendSuccess(res, 'Uspesno ste azurirali mesto', data);
         } catch (e) {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
@@ -232,6 +208,33 @@ class RestifyRouteHandler {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
         }
+        next();
+    }
+
+    async createEvent(req, res, next) {
+        this.logger.info('create Event');
+        try {
+            const result = await this.adminController.createEvent(req.body);
+            this._sendSuccess(res, 'Uspesno ste kreirali dogadjaj', result);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+
+        next();
+    }
+
+    async updateEvent(req, res, next) {
+        this.logger.info('update event');
+        const { id, query } = req.body;
+        try {
+            const result = await this.adminController.updateEvent(id, query);
+            this._sendSuccess(res, 'Uspesno ste azurirali dogadjaj', result);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+
         next();
     }
 

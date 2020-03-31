@@ -55,11 +55,12 @@ class RestifyServer {
         this.server.post('/users/register', this.routeHandlers.registerUser.bind(this.routeHandlers));
         this.server.get('/users/activate/:activationId', this.routeHandlers.activateUser.bind(this.routeHandlers));
         this.server.get('/unauthorized', this.routeHandlers.unauthorized.bind(this.routeHandlers));
+
         this.server.post('/user/addRole', this.routeHandlers.addRole.bind(this.routeHandlers));
         this.server.post('/admin/createNews', this.routeHandlers.createNews.bind(this.routeHandlers));
         this.server.post('/admin/updateNews', this.routeHandlers.updateNews.bind(this.routeHandlers));
-        this.server.post('/admin/createEvent', this.routeHandlers.createEvents.bind(this.routeHandlers));
-        this.server.post('/admin/updateEvent', this.routeHandlers.updateEvents.bind(this.routeHandlers));
+        this.server.post('/admin/createEvent', this.routeHandlers.createEvent.bind(this.routeHandlers));
+        this.server.post('/admin/updateEvent', this.routeHandlers.updateEvent.bind(this.routeHandlers));
         this.server.post('/admin/createPlace', this.routeHandlers.createPlace.bind(this.routeHandlers));
         this.server.post('/admin/updatePlace', this.routeHandlers.updatePlace.bind(this.routeHandlers));
     }
