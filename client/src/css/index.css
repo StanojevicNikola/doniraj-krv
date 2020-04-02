@@ -43,20 +43,20 @@ section:hover {
 }
 
 .donor {
-    background: url(./img/trevi-fountain-2225442.jpg) #b21919;
+    background: url(../img/trevi-fountain-2225442.jpg) #b21919;
     background-position: center;
     background-size: cover;
     background-blend-mode: multiply;
 }
 
 .coordinator {
-    background: url(./img/julius-caesar-marble-statue-615344.jpg) #367e74;
+    background: url(../img/julius-caesar-marble-statue-615344.jpg) #367e74;
     background-position: center;
     background-size: cover;
     background-blend-mode: multiply;
 }
 
-section a {
+section div{
     position: relative;
     text-align: center;
     width: 400px;
@@ -71,41 +71,41 @@ section a {
     transition: 0.5s;
 }
 
-section a:hover {
+section div:hover {
     color: #fff;
 }
 
-.donor a:before {
+.donor div:before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 0%;
     height: 100%;
-    background: url(./img/btn-bg1.png);
+    background: url(../img/btn-bg1.png);
     background-size: cover;
     transform-origin: left;
     transition: 0.5s;
 }
 
-.coordinator a:before {
+.coordinator div:before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 0%;
     height: 100%;
-    background: url(./img/btn-bg2.png);
+    background: url(../img/btn-bg2.png);
     background-size: cover;
     transform-origin: left;
     transition: 0.5s;
 }
 
-section a:hover:before {
+section div:hover:before {
     width: 100%;
 }
 
-section a span {
+section div span {
     position: relative;
     z-index: 1;
     display: inline-block;

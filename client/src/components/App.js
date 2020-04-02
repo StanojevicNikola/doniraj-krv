@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 
 import "materialize-css/dist/css/materialize.min.css"
-import './App.css';
+import '../css/App.css';
 
 import Test from "./Test";
 import HomePage from "./HomePage";
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
 } from "react-router-dom";
 
 import { Provider } from 'react-redux'
@@ -19,6 +18,8 @@ import Footer from "./Footer";
 import LoginDash from "./LoginDash";
 import RegisterDash from "./RegisterDash";
 import UserDash from "./UserDash";
+import DonorDash from "./DonorDash";
+import CoordinatorDash from "./CoordinatorDash";
 
 class App extends Component{
 
@@ -45,6 +46,12 @@ class App extends Component{
                             </Route>
                             <Route exact path="/userdash">
                                 <UserDash/>
+                            </Route>
+                            <Route exact path="/donor">
+                                <DonorDash/>
+                            </Route>
+                            <Route exact path="/coordinator">
+                                <CoordinatorDash/>
                             </Route>
 
                         </Switch>

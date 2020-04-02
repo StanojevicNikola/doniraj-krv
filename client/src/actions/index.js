@@ -1,4 +1,4 @@
-import {SET_DATA, ADD_DATA, RESET_DATA, SET_TOKEN} from "../constants/action-types";
+import {SET_DATA, ADD_DATA, RESET_DATA, SET_TOKEN, DELETE_TOKEN} from "../constants/action-types";
 
 export function setData(payload) {
     return { type: SET_DATA, payload }
@@ -14,4 +14,7 @@ export function resetData(payload) {
 
 export function setToken(payload) {
     return { type: SET_TOKEN, payload};
+}
+export function deleteToken(payload) {
+    return { type: DELETE_TOKEN, payload};
 }

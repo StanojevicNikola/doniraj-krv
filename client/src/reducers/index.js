@@ -1,4 +1,4 @@
-import {SET_DATA, SET_TOKEN} from "../constants/action-types"
+import {SET_DATA, SET_TOKEN, DELETE_TOKEN} from "../constants/action-types"
 import { ADD_DATA } from "../constants/action-types";
 import { RESET_DATA } from "../constants/action-types";
 
@@ -24,6 +24,11 @@ function rootReducer(state = initialState, action) {
         return Object.assign({}, state, {
             data: state.data,
             token: action.payload.token
+        })
+    } else if(action.type === DELETE_TOKEN) {
+        return Object.assign({}, state, {
+            data: state.data,
+            token: ''
         })
     }
 

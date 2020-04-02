@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
+import {Link } from "react-router-dom";
 import {setToken} from "../actions";
 import {connect} from "react-redux";
-import store from '../store/index'
 import axios from "axios";
 
 
@@ -11,7 +10,8 @@ class LoginDash extends Component{
         super(props);
         this.state = {
             user: "",
-            pass: ""
+            pass: "",
+            token: ''
         };
 
         this.userChange = this.userChange.bind(this);
@@ -34,10 +34,11 @@ class LoginDash extends Component{
 
     async loginClick(e) {
         e.preventDefault();
-        let res = await axios.post('/users/login', {username: this.state.user, password: this.state.pass})
+        let res = await axios.post('/users/login', {username: this.state.user, password: this.state.pass});
+        console.log(res)
         const token = res.data.data.token;
+        // this.setState({ token: token });
         this.props.setToken({token: token});
-        console.log(store.getState())
     }
 
     render() {
@@ -55,9 +56,9 @@ class LoginDash extends Component{
                         </div>
                         <div className="row">
 
-                               <Link to='/userdash' className="col offset-s4 s4 btn btn-large red accent-4" onClick={this.loginClick}>
-                                   Login
-                               </Link>
+                               <div onClick={this.loginClick}>
+                                  <Link to='/' className="col offset-s4 s4 btn btn-large red accent-4 white-text">Login</Link>
+                               </div>
 
                        </div>
                         <div className="row">

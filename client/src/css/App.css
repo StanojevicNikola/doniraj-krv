@@ -63,3 +63,8 @@
   height: 400px;
   width: 100%;
 }
+.bad-login {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}

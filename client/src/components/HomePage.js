@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-
-import logo from "./logo.png";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 class HomePage extends Component {
     render() {
@@ -11,22 +11,29 @@ class HomePage extends Component {
                 </div>
 
                 <div className="main-wrapper">
+
                     <section className="donor">
-                        <a >
-                            <span>Donor</span>
-                        </a>
+                        <Link to={this.props.token ? '/donor' : '/login'}>
+                            <div>
+                                <span>Donor</span>
+                            </div>
+                        </Link>
                     </section>
+
 
                     <section className="coordinator">
-                        <a>
-                            <span>Coordinator</span>
-                        </a>
+                        <Link to={this.props.token ? '/coordinator' : '/login'}>
+                            <div>
+                                <span>Coordinator</span>
+                            </div>
+                        </Link>
                     </section>
 
+
                     <div className="box">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                        <span/>
+                        <span/>
+                        <span/>
                     </div>
                 </div>
 
@@ -38,21 +45,21 @@ class HomePage extends Component {
                     </div>
                     <div className="row center">
                         <div className="col s4">
-                            <a className="btn-floating btn-large waves-effect waves-light red">
+                            <div className="btn-floating btn-large waves-effect waves-light red">
                                 +
-                            </a>
+                            </div>
                             <h5>Donation Process</h5>
                         </div>
                         <div className="col s4">
-                            <a className="btn-floating btn-large waves-effect waves-light red">
+                            <div className="btn-floating btn-large waves-effect waves-light red">
                                 +
-                            </a>
+                            </div>
                             <h5>Check Eligibility</h5>
                         </div>
                         <div className="col s4">
-                            <a className="btn-floating btn-large waves-effect waves-light red">
+                            <div className="btn-floating btn-large waves-effect waves-light red">
                                 +
-                            </a>
+                            </div>
                             <h5>Donation Types</h5>
                         </div>
                     </div>
@@ -66,16 +73,7 @@ class HomePage extends Component {
                     <div className="row center">
                         <div className="col s4">
                             <div className="card">
-                                <div className="card-image">
-                                    <img
-                                        className="img-logo responsive-img"
-                                        src={logo}
-                                        alt="Logo"
-                                    />
-                                    <span className="card-title">
-                                        Card Title
-                                    </span>
-                                </div>
+
                                 <div className="card-content">
                                     <p>
                                         I am a very simple card. I am good at
@@ -85,22 +83,13 @@ class HomePage extends Component {
                                     </p>
                                 </div>
                                 <div className="card-action">
-                                    <a href="#">This is a link</a>
+                                    <div >This is a link</div>
                                 </div>
                             </div>
                         </div>
                         <div className="col s4">
                             <div className="card">
-                                <div className="card-image">
-                                    <img
-                                        className="img-logo responsive-img"
-                                        src={logo}
-                                        alt="Logo"
-                                    />
-                                    <span className="card-title">
-                                        Card Title
-                                    </span>
-                                </div>
+
                                 <div className="card-content">
                                     <p>
                                         I am a very simple card. I am good at
@@ -110,22 +99,13 @@ class HomePage extends Component {
                                     </p>
                                 </div>
                                 <div className="card-action">
-                                    <a href="#">This is a link</a>
+                                    <div >This is a link</div>
                                 </div>
                             </div>
                         </div>
                         <div className="col s4">
                             <div className="card">
-                                <div className="card-image">
-                                    <img
-                                        className="img-logo responsive-img"
-                                        src={logo}
-                                        alt="Logo"
-                                    />
-                                    <span className="card-title">
-                                        Card Title
-                                    </span>
-                                </div>
+
                                 <div className="card-content">
                                     <p>
                                         I am a very simple card. I am good at
@@ -135,7 +115,7 @@ class HomePage extends Component {
                                     </p>
                                 </div>
                                 <div className="card-action">
-                                    <a href="#">This is a link</a>
+                                    <div >This is a link</div>
                                 </div>
                             </div>
                         </div>
@@ -146,4 +126,8 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage;
+const mapStateToProps = state => {
+    return { token: state.token }
+};
+
+export default connect(mapStateToProps, {})(HomePage);

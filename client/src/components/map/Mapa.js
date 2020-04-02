@@ -3,7 +3,7 @@ import { Map, TileLayer, Marker } from 'react-leaflet';
 //import { OpenStreetMapProvider } from 'leaflet-geosearch';
 
 //import axios from 'axios'
-import "./App.css";
+import "../../css/App.css";
 import MarkerClusterGroup from "./MarkerClusterGroup";
 
 require('react-leaflet-markercluster/dist/styles.min.css');

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-class Test extends Component{
+class DonorDash extends Component{
 
     render() {
         return (
             <div>
-                NESTO O NAMA!!!
+               DONOR
             </div>
         );
     }
@@ -13,4 +13,4 @@ class Test extends Component{
 
 }
 
-export default Test;
+export default DonorDash;
