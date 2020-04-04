@@ -20,6 +20,7 @@ import RegisterDash from "./RegisterDash";
 import UserDash from "./UserDash";
 import DonorDash from "./DonorDash";
 import CoordinatorDash from "./CoordinatorDash";
+import Dashboard from "./Dashboard";
 
 class App extends Component{
 
@@ -52,6 +53,10 @@ class App extends Component{
                             </Route>
                             <Route exact path="/coordinator">
                                 <CoordinatorDash/>
+                            </Route>
+
+                            <Route exact path="/dashboard">
+                                <Dashboard />
                             </Route>
 
                         </Switch>

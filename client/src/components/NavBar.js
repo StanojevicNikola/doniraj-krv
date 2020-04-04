@@ -6,6 +6,7 @@ import logo from "../img/blood-donation.png";
 import {connect} from "react-redux";
 import {deleteToken} from "../actions";
 
+
 class NavBar extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +38,11 @@ class NavBar extends Component {
                         <li>
                             <Link to="/">Home</Link>
                         </li>
+
+                        <li>
+                            <Link to="/dashboard">Dashboard</Link>
+                        </li>
+
                         <li className="right">
                             <Link to="/about">About</Link>
                         </li>

@@ -9,8 +9,8 @@ class LoginDash extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            user: "",
-            pass: "",
+            user: '',
+            pass: '',
             token: ''
         };
 
@@ -35,7 +35,7 @@ class LoginDash extends Component{
     async loginClick(e) {
         e.preventDefault();
         let res = await axios.post('/users/login', {username: this.state.user, password: this.state.pass});
-        console.log(res)
+        console.log(res);
         const token = res.data.data.token;
         // this.setState({ token: token });
         this.props.setToken({token: token});

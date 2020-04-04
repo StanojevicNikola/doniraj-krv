@@ -68,3 +68,12 @@
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+
+.wrapper div{
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.dash button{
+  width: 150px;
+  border: 1px solid white;
+}
