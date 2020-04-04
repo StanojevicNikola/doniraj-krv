@@ -5,7 +5,14 @@ class DonorDash extends Component{
     render() {
         return (
             <div>
-               DONOR
+               <div className="card blue-grey darken-1">
+                   <div className="card-content white-text">
+                       <p> Blood Type: A+ </p>
+
+                       <br />
+                       <p>Location: Batajnica </p>
+                   </div>
+               </div>
             </div>
         );
     }
