@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 class HomePage extends Component {
+
     render() {
         return (
             <div>
@@ -87,6 +88,7 @@ class HomePage extends Component {
                                 </div>
                             </div>
                         </div>
+
                         <div className="col s4">
                             <div className="card">
 
