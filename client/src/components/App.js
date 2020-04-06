@@ -21,6 +21,7 @@ import UserDash from "./UserDash";
 import DonorDash from "./DonorDash";
 import CoordinatorDash from "./CoordinatorDash";
 import Dashboard from "./Dashboard";
+import AdminDash from "./AdminDash";
 
 class App extends Component{
 
@@ -57,6 +58,10 @@ class App extends Component{
 
                             <Route exact path="/dashboard">
                                 <Dashboard />
+                            </Route>
+
+                            <Route exact path="/admindash">
+                                <AdminDash />
                             </Route>
 
                         </Switch>

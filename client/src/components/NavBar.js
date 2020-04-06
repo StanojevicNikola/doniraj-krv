@@ -44,6 +44,10 @@ class NavBar extends Component {
                         </li>
 
                         <li className="right">
+                            <Link to='/admindash'>Admin</Link>
+                        </li>
+
+                        <li className="right">
                             <Link to="/about">About</Link>
                         </li>
                         <li className="right">
