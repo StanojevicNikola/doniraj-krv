@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import "materialize-css/dist/css/materialize.min.css"
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import "materialize-css/dist/css/materialize.min.css";
 import '../css/App.css';
 
 import Test from "./Test";
@@ -21,7 +21,7 @@ import UserDash from "./UserDash";
 import DonorDash from "./DonorDash";
 import CoordinatorDash from "./CoordinatorDash";
 import Dashboard from "./Dashboard";
-import AdminDash from "./AdminDash";
+import AdminDash from "./admin/AdminDash";
 
 class App extends Component{
 

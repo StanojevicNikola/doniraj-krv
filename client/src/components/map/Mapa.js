@@ -13,7 +13,7 @@ require('react-leaflet-markercluster/dist/styles.min.css');
 class Mapa extends Component{
     constructor(props) {
         super(props);
-        console.log(props)
+        console.log(props);
         this.state = {
             data: props.data,
             places: []
