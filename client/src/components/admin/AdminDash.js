@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NewsPanel from "./NewsPanel";
 import EventsPanel from './EventsPanel';
 import LocationsPanel from './LocationsPanel';
+import {Row, Tab, Col, Nav} from "react-bootstrap";
 
 class AdminDash extends Component {
 
@@ -80,15 +81,36 @@ class AdminDash extends Component {
 
     render(){
         return(
-            <div className="wrapper row" >
-                <div className="col s2">
-                    {this.renderCollections()}
-                </div>
-
-                <div className="col s8">
-                    {this.renderContent()}
-                </div>
-            </div>
+            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Row>
+                    <Col sm={3}>
+                        <Nav variant="pills" className="flex-column">
+                            <Nav.Item>
+                                <Nav.Link eventKey="first">News</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="second">Events</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="third">Locations</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col sm={9}>
+                        <Tab.Content>
+                            <Tab.Pane eventKey="first">
+                                <NewsPanel />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="second">
+                                ASDASDASDASD
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="third">
+                                LOCATIONS
+                            </Tab.Pane>
+                        </Tab.Content>
+                    </Col>
+                </Row>
+            </Tab.Container>
         );
     }
 }
