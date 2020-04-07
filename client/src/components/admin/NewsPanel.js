@@ -23,7 +23,8 @@ class NewsPanel extends Component{
             status: 'Create new',
             send: 'Submit',
             key: 'first',
-            errors: {}
+            errors: {},
+            cards: []
         }
 
         this.myRef = React.createRef();
@@ -34,6 +35,7 @@ class NewsPanel extends Component{
         this.sendNews = this.sendNews.bind(this);
         this.setFirst = this.setFirst.bind(this);
         this.setSecond = this.setSecond.bind(this);
+        // this.setCards = this.setCards.bind(this);
     }
 
     componentDidMount() {
@@ -59,6 +61,7 @@ class NewsPanel extends Component{
                 </Card>
             )
         });
+
         return (
             <Accordion defaultActiveKey="0">
                 {cards}
@@ -114,6 +117,7 @@ class NewsPanel extends Component{
                     date: new Date()
                 });
 
+                this.setFirst();
                 this.clearFealds(e);
             }
         }
@@ -127,12 +131,7 @@ class NewsPanel extends Component{
                     date: new Date()
                 });
 
-                this.setState({
-                    status: 'Create new',
-                    send: 'Submit',
-                    key: 'first'
-                })
-
+                this.setFirst();
                 this.clearFealds(e);
             }
         }
@@ -158,7 +157,11 @@ class NewsPanel extends Component{
         );
     }
 
-    updateNews(){
+    updateNews(e){
+
+        // e.target.form.exampleFormControlInput1.value = "title";
+        // e.target.form.exampleFormControlTextarea1.value = "decsription";
+
         this.setState({
             status: 'Update',
             send: 'Save',
@@ -168,8 +171,10 @@ class NewsPanel extends Component{
 
     setFirst(){
         this.setState({
+            status: 'Create new',
+            send: 'Submit',
             key: 'first'
-        });
+        })
     }
 
     setSecond(){
@@ -180,7 +185,7 @@ class NewsPanel extends Component{
 
     render(){
         return(
-            <div>
+            <div id='forUpdate'>
                 <Tab.Container id="leftTabsExample" activeKey={this.state.key}>
                     <Nav variant="pills" className="">
                         <Nav.Item onClick={this.setFirst}>
