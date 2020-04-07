@@ -16,14 +16,14 @@ const fakeNews = [
 
 class NewsPanel extends Component{
 
-
-
     constructor(props) {
         super(props);
         this.state = {
             news: [],
             status: 'Create new',
-            send: 'Submit'
+            send: 'Submit',
+            key: 'first',
+            errors: {}
         }
 
         this.myRef = React.createRef();
@@ -32,6 +32,8 @@ class NewsPanel extends Component{
         this.createNews = this.createNews.bind(this);
         this.updateNews = this.updateNews.bind(this);
         this.sendNews = this.sendNews.bind(this);
+        this.setFirst = this.setFirst.bind(this);
+        this.setSecond = this.setSecond.bind(this);
     }
 
     componentDidMount() {
@@ -64,33 +66,76 @@ class NewsPanel extends Component{
         );
     }
 
+    validate(title, description){
+
+        let errors = {};
+        let clear = {};
+
+        if(title == undefined || title === '')
+            errors["title"] = 'Required field!';
+        else{
+            errors["title"] = '';
+            clear["title"] = true;
+        }
+
+        if(description == undefined || description === '')
+            errors["description"] = 'Required field!';
+        else{
+            errors["description"] = '';
+            clear["description"] = true;
+        }
+        
+        this.setState({
+            errors: errors
+        });
+
+        return clear["title"] && clear["description"];
+    }
+
+    clearFealds(event){
+
+        event.target.form.exampleFormControlInput1.value = '';
+        event.target.form.exampleFormControlTextarea1.value = '';
+    }
+
     sendNews(e) {
 
+        e.preventDefault();
         const title = e.target.form.exampleFormControlInput1.value;
         const description = e.target.form.exampleFormControlTextarea1.value;
 
         if(this.state.send == "Submit") {
 
-            const res = axios.post('/admin/createNews', {
-                title,
-                description,
-                date: new Date()
-            });
+            if(this.validate(title, description)){
+            
+                const res = axios.post('/admin/createNews', {
+                    title,
+                    description,
+                    date: new Date()
+                });
 
+                this.clearFealds(e);
+            }
         }
-        else if(this.state.send == "Save"){
-            const res = axios.post('/admin/updateNews', {
-                title,
-                description,
-                date: new Date()
-            });
+        if(this.state.send == "Save"){
 
-            this.setState({
-                status: 'Create new',
-                send: 'Submit'
-            })
+            if(this.validate(title, description)){
+            
+                const res = axios.post('/admin/updateNews', {
+                    title,
+                    description,
+                    date: new Date()
+                });
+
+                this.setState({
+                    status: 'Create new',
+                    send: 'Submit',
+                    key: 'first'
+                })
+
+                this.clearFealds(e);
+            }
         }
-
     }
 
     createNews(){
@@ -99,10 +144,12 @@ class NewsPanel extends Component{
                 <Form.Group controlId="exampleFormControlInput1">
                     <Form.Label>Title</Form.Label>
                     <Form.Control type="text" />
+                    <span style={{color: "red"}}>{this.state.errors.title}</span>
                 </Form.Group>
                 <Form.Group controlId="exampleFormControlTextarea1">
                     <Form.Label>Description</Form.Label>
                     <Form.Control as="textarea" rows="3" />
+                    <span style={{color: "red"}}>{this.state.errors.description}</span>
                 </Form.Group>
                 <Button variant="primary" type="submit" onClick={this.sendNews}>
                     {this.state.send}
@@ -114,19 +161,32 @@ class NewsPanel extends Component{
     updateNews(){
         this.setState({
             status: 'Update',
-            send: 'Save'
+            send: 'Save',
+            key: 'second'
+        });
+    }
+
+    setFirst(){
+        this.setState({
+            key: 'first'
+        });
+    }
+
+    setSecond(){
+        this.setState({
+            key: 'second'
         });
     }
 
     render(){
         return(
             <div>
-                <Tab.Container id="leftTabsExample" defaultActiveKey="first" >
+                <Tab.Container id="leftTabsExample" activeKey={this.state.key}>
                     <Nav variant="pills" className="">
-                        <Nav.Item>
+                        <Nav.Item onClick={this.setFirst}>
                             <Nav.Link eventKey="first">View old</Nav.Link>
                         </Nav.Item>
-                        <Nav.Item active>
+                        <Nav.Item onClick={this.setSecond}>
                             <Nav.Link eventKey="second">{this.state.status}</Nav.Link>
                         </Nav.Item>
                     </Nav>
