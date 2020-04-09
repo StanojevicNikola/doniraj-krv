@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Accordion, Card, Button, Nav, Tab, Row, Form } from "react-bootstrap";
+import React, {Component, useState} from 'react';
+import {Accordion, Card, Button, Nav, Tab, Row, Form, Modal } from "react-bootstrap";
 import axios from 'axios';
 
 const fakeNews = [
@@ -13,6 +13,38 @@ const fakeNews = [
         description: 'SVI CE IZGINEMO',
         date: '26.07.1984'}
 ];
+
+
+function Example() {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    return (
+        <>
+            <Button variant="primary" onClick={handleShow}>
+                Launch demo modal
+            </Button>
+
+            <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+}
+
 
 class NewsPanel extends Component{
 
@@ -49,7 +81,7 @@ class NewsPanel extends Component{
                     <Accordion.Toggle as={Card.Header} eventKey={index}>
                         {article.title}
                         <span className="right">
-                            <Nav.Link onClick={this.updateNews}>Edit</Nav.Link>
+                            <Example/>
                         </span>
                         <div style={{fontStyle: 'italic', fontSize: '12px'}}>{article.date}</div>
                     </Accordion.Toggle>
@@ -183,7 +215,7 @@ class NewsPanel extends Component{
             <div>
                 <Tab.Container id="leftTabsExample" activeKey={this.state.key}>
                     <Nav variant="pills" className="">
-                        <Nav.Item onClick={this.setFirst}>
+                        <Nav.Item onClick={this.setFirst()}>
                             <Nav.Link eventKey="first">View old</Nav.Link>
                         </Nav.Item>
                         <Nav.Item onClick={this.setSecond}>

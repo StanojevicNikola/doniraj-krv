@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NewsPanel from "./NewsPanel";
+import NewsPanel_v2 from './NewsPanel_v2';
 import EventsPanel from './EventsPanel';
 import LocationsPanel from './LocationsPanel';
 import {Row, Tab, Col, Nav} from "react-bootstrap";
@@ -40,7 +40,7 @@ class AdminDash extends Component {
     renderContent(){
         switch (this.state.propertySelected) {
             case 1:
-                return <NewsPanel />;
+                return <NewsPanel_v2 />;
                 break;
             case 2:
                 return <EventsPanel />;
@@ -99,7 +99,7 @@ class AdminDash extends Component {
                     <Col sm={9}>
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
-                                <NewsPanel />
+                                <NewsPanel_v2 />
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
                                 ASDASDASDASD
