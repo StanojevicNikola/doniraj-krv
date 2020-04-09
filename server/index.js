@@ -1,34 +1,11 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cookieSession = require('cookie-session');
-const passport = require('passport');
-const keys = require('./config/keys');
-require('./models/User');
-require('./services/passport');
+const fs = require('fs');
 
-mongoose.connect(keys.mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+const App = require('./source/app');
 
-const app = express();
+const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
+const app = new App(config);
 
-app.use(
-    cookieSession({
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        keys: [keys.cookieKey],
-    }),
-);
+const logger = app.container.resolve('logger');
+const storage = app.container.resolve('storage');
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-require('./routes/authRoutes')(app);
-
-app.get('/', (req, res) => {
-    res.send('HOMEPAGE');
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT);
-console.log(`Listening on port ${PORT}...`);
+app.start().then(() => logger.debug('Server started'));
