@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import NewsPanel_v2 from './NewsPanel_v2';
 import EventsPanel from './EventsPanel';
-import LocationsPanel from './LocationsPanel';
 import {Row, Tab, Col, Nav} from "react-bootstrap";
+import Mapa from "../map/Mapa";
 
 class AdminDash extends Component {
 
@@ -14,7 +14,7 @@ class AdminDash extends Component {
         };
 
         this.renderCollections = this.renderCollections.bind(this);
-        this.renderContent = this.renderContent.bind(this);
+        // this.renderContent = this.renderContent.bind(this);
         this.showNewsPanel = this.showNewsPanel.bind(this);
         this.showEventsPanel = this.showEventsPanel.bind(this);
         this.showLocationsPanel = this.showLocationsPanel.bind(this);
@@ -31,24 +31,11 @@ class AdminDash extends Component {
             propertySelected: 2
         });
     }
+
     showLocationsPanel(){
         this.setState({
             propertySelected: 3
         });
-    }
-
-    renderContent(){
-        switch (this.state.propertySelected) {
-            case 1:
-                return <NewsPanel_v2 />;
-                break;
-            case 2:
-                return <EventsPanel />;
-                break;
-            case 3:
-                return <LocationsPanel />;
-                break;
-        }
     }
 
     renderCollections(){
@@ -102,10 +89,10 @@ class AdminDash extends Component {
                                 <NewsPanel_v2 />
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
-                                ASDASDASDASD
+                                <EventsPanel />
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
-                                LOCATIONS
+                                <Mapa />
                             </Tab.Pane>
                         </Tab.Content>
                     </Col>
