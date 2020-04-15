@@ -1,5 +1,18 @@
 import React, {Component, useState} from 'react';
-import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+import {
+    Button,
+    Modal,
+    FormControl,
+    FormLabel,
+    FormGroup,
+    Tab,
+    Nav,
+    Row,
+    Form,
+    Card,
+    Accordion,
+    Container
+} from "react-bootstrap";
 import axios from 'axios';
 
 const fakeNews = [
@@ -82,7 +95,7 @@ class CreateNewForm extends Component{
 
     render(){
         return(
-            <Form>
+            <Form className="text-left">
                 <Form.Group controlId="exampleFormControlInput1">
                     <Form.Label>Title</Form.Label>
                     <Form.Control type="text" />
@@ -151,7 +164,7 @@ class Example extends Component {
 
         return (
             <div>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow} className="justify-content-end">
                     Edit
                 </Button>
 
@@ -219,21 +232,24 @@ class NewsPanel_v2 extends Component{
 
         const cards = this.state.news.map( (article, index)=> {
             return (
-                <Card key={index}>
-                    <Accordion.Toggle as={Card.Header} eventKey={index}>
-                        {article.title}
-                        <span className="right">
-                            <Example
-                                title={article.title}
-                                description={article.description}
-                            />
-                        </span>
-                        <div style={{fontStyle: 'italic', fontSize: '12px'}}>{article.date}</div>
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey={index}>
-                        <Card.Body>{article.description}</Card.Body>
-                    </Accordion.Collapse>
-                </Card>
+                <Container className="text-left">
+                    <Card key={index} >
+                        <Accordion.Toggle as={Card.Header} eventKey={index}>
+                            {article.title}
+                            <span className="text-right">
+                                <Example
+                                    title={article.title}
+                                    description={article.description}
+                                    className="text-left"
+                                />
+                            </span>
+                            <div style={{fontStyle: 'italic', fontSize: '12px'}}>{article.date}</div>
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey={index}>
+                            <Card.Body>{article.description}</Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                </Container>
             )
         });
         return (
@@ -248,7 +264,7 @@ class NewsPanel_v2 extends Component{
         return(
             <div>
                 <Tab.Container id="leftTabsExample">
-                    <Nav variant="pills" className="">
+                    <Nav variant="pills" className="" defaultActiveKey="second">
                         <Nav.Item >
                             <Nav.Link eventKey="first">View old</Nav.Link>
                         </Nav.Item>
@@ -261,7 +277,6 @@ class NewsPanel_v2 extends Component{
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
                                 {this.renderNews()}
-                                {/*{this.renderNews()}*/}
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
                                 <CreateNewForm />

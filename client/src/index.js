@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/index.css';
+import './fonts/Sailec-Bold.ttf';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 

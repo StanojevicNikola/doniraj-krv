@@ -40,8 +40,6 @@ class AdminDash extends Component {
 
     renderCollections(){
         return(
-
-
             <div className="dash col s2" >
                 <button className= "btn-large waves-effect waves-light red darken-1 white-text btn-flat"
                         style={{textAlign:'left'}}

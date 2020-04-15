@@ -1,14 +1,84 @@
 import React, { Component } from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import * as Icon from 'react-bootstrap-icons';
+import {Button, Container, Row, Col, Card} from "react-bootstrap";
+import icon_1 from '../img/icon_1.jpg';
+import icon_2 from '../img/icon_2.png';
+import icon_3 from '../img/icon_3.png';
+
+import axios from 'axios';
+
+const fakeEvent = {
+    title: 'BRAVO',
+    description: 'ovo je opis',
+    date: '23.23.23012',
+    hour: '15h',
+    geolocation: 's223asd'
+};
+
+
+class EventCard extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: props.event.title,
+            description: props.event.description,
+            date: props.event.date,
+            hour: props.event.hour,
+            geolocation: props.event.geolocation
+        }
+
+    }
+
+    render(){
+        return(
+            <Card style={{ width: '18rem', height: '15rem'}}>
+                <Card.Body>
+                    <Card.Title>
+                        {this.state.title}
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                        {this.state.date} at {this.state.hour}
+                    </Card.Subtitle>
+                    <br/>
+                    <br/>
+                    <Card.Text>
+                        {this.state.description}
+                    </Card.Text>
+                    <Card.Link href="#">Card Link</Card.Link>
+                    <Card.Link href="#">Another Link</Card.Link>
+                </Card.Body>
+            </Card>
+        );
+    }
+}
 
 class HomePage extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            upcomingEvents: []
+        }
+    }
+
+    async componentDidMount() {
+        // axios zahtev na get events
+        const res = await axios.get('/app/getEvents');
+
+        this.setState({
+            upcomingEvents: res.data.data.slice(0,3)
+        });
+    }
+
     render() {
+        // console.log(this.state.upcomingEvents[2].title);
+
         return (
             <div>
-                <div className="center ">
-                    <h3>Start helping as</h3>
+                <div className="landing-title">
+                    <h2>Start helping as</h2>
                 </div>
 
                 <div className="main-wrapper">
@@ -21,7 +91,6 @@ class HomePage extends Component {
                         </Link>
                     </section>
 
-
                     <section className="coordinator">
                         <Link to={this.props.token ? '/coordinator' : '/login'}>
                             <div>
@@ -29,99 +98,90 @@ class HomePage extends Component {
                             </div>
                         </Link>
                     </section>
-
-
-                    <div className="box">
-                        <span/>
-                        <span/>
-                        <span/>
-                    </div>
                 </div>
 
-                <div className="line divider" />
+                <br/>
+                <br/>
+
+                <h2 className="landing-title">How to prepare</h2>
+                <br />
+                {/* How to prepare sekcija*/}
+                <Container>
+                    <Row>
+                        <Col>
+                            <Link to="/donationProcess">
+                                <img src={icon_1} />
+                            </Link>
+                            <div>
+                                <br />
+                                <h4>
+                                    Donation Process
+                                </h4>
+                                <h5 style={{fontWeight: 'bold'}}>
+                                    Transform lives in just 10 easy steps.
+                                </h5>
+                            </div>
+                        </Col>
+                        <Col>
+                            <Link to="/eligibility">
+                                <img src={icon_2} />
+                            </Link>
+                            <div>
+                                <br />
+                                <h4>
+                                    Check Eligibility
+                                </h4>
+                                <h5 style={{fontWeight: 'bold'}}>
+                                    Review our eligibility requirements.
+                                </h5>
+                            </div>
+                        </Col>
+                        <Col>
+                            <Link to="/donationTypes">
+                                <img src={icon_3} />
+                            </Link>
+                                <div>
+                                <br />
+                                <h4>
+                                    Donation Types
+                                </h4>
+                                <h5 style={{fontWeight: 'bold'}}>
+                                    Discover how certain donations impact more lives.
+                                </h5>
+                            </div>
+                        </Col>
+                    </Row>
+                    <br/>
+                    <br/>
+                </Container>
 
                 <div className="">
-                    <div className="center">
-                        <h3>How to prepare</h3>
+                    <div className="landing-title">
+                        <br />
+                        <h2>Upcoming events</h2>
+                        <br/>
                     </div>
-                    <div className="row center">
-                        <div className="col s4">
-                            <div className="btn-floating btn-large waves-effect waves-light red">
-                                +
-                            </div>
-                            <h5>Donation Process</h5>
-                        </div>
-                        <div className="col s4">
-                            <div className="btn-floating btn-large waves-effect waves-light red">
-                                +
-                            </div>
-                            <h5>Check Eligibility</h5>
-                        </div>
-                        <div className="col s4">
-                            <div className="btn-floating btn-large waves-effect waves-light red">
-                                +
-                            </div>
-                            <h5>Donation Types</h5>
-                        </div>
-                    </div>
-                </div>
-                <div className="line divider" />
 
-                <div className="">
-                    <div className="center">
-                        <h3>Upcoming events:</h3>
-                    </div>
-                    <div className="row center">
-                        <div className="col s4">
-                            <div className="card">
+                    <Container>
+                        <Row>
+                            <Col>
+                                <EventCard
+                                    event={fakeEvent}
+                                />
+                            </Col>
+                            <Col>
+                                <EventCard
+                                    event={fakeEvent}
+                                />
+                            </Col>
+                            <Col>
+                                <EventCard
+                                    event={fakeEvent}
+                                />
+                            </Col>
+                        </Row>
+                    </Container>
 
-                                <div className="card-content">
-                                    <p>
-                                        I am a very simple card. I am good at
-                                        containing small bits of information. I
-                                        am convenient because I require little
-                                        markup to use effectively.
-                                    </p>
-                                </div>
-                                <div className="card-action">
-                                    <div >This is a link</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col s4">
-                            <div className="card">
-
-                                <div className="card-content">
-                                    <p>
-                                        I am a very simple card. I am good at
-                                        containing small bits of information. I
-                                        am convenient because I require little
-                                        markup to use effectively.
-                                    </p>
-                                </div>
-                                <div className="card-action">
-                                    <div >This is a link</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col s4">
-                            <div className="card">
-
-                                <div className="card-content">
-                                    <p>
-                                        I am a very simple card. I am good at
-                                        containing small bits of information. I
-                                        am convenient because I require little
-                                        markup to use effectively.
-                                    </p>
-                                </div>
-                                <div className="card-action">
-                                    <div >This is a link</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         );

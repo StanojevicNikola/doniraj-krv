@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "materialize-css/dist/css/materialize.min.css";
+// import "materialize-css/dist/css/materialize.min.css";
 import '../css/App.css';
 
 import Test from "./Test";
@@ -22,6 +22,9 @@ import DonorDash from "./DonorDash";
 import CoordinatorDash from "./CoordinatorDash";
 import Dashboard from "./Dashboard";
 import AdminDash from "./admin/AdminDash";
+import DonationProcess from "./preparation/donationProcess";
+import DonationTypes from "./preparation/donationTypes";
+import Eligibility from "./preparation/eligibility";
 
 class App extends Component{
 
@@ -29,9 +32,9 @@ class App extends Component{
     return (
         <Provider store={store}>
             <Router>
-                <div>
+                <div >
                     <NavBar/>
-                    <div className="container">
+                    <div className="w-responsive text-center mx-auto p-3 mt-2" sm={6}>
                         <Switch>
 
                             <Route exact path="/">
@@ -62,6 +65,18 @@ class App extends Component{
 
                             <Route exact path="/admindash">
                                 <AdminDash />
+                            </Route>
+
+                            <Route exact path="/donationProcess">
+                                <DonationProcess />
+                            </Route>
+
+                            <Route exact path='/eligibility'>
+                                <Eligibility/>
+                            </Route>
+
+                            <Route exact path='/donationTypes'>
+                                <DonationTypes />
                             </Route>
 
                         </Switch>

@@ -54,7 +54,11 @@
 }
 .footer {
   margin-top: 10%;
+  background-color: #343a40;
+  padding-top: 30px;
+  color: white;
 }
+
 .login {
   margin-top: 10%;
 }
@@ -76,4 +80,14 @@
 .dash button{
   width: 150px;
   border: 1px solid white;
+}
+
+.specijalno {
+  color: darkred;
+  font-size: 50px;
+  /*background-color: #b21919;*/
+}
+
+.landing-title{
+  font-family: SailecBold;
 }

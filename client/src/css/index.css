@@ -2,6 +2,11 @@ html {
     scroll-behavior: smooth;
 }
 
+@font-face {
+    font-family: 'SailecBold';
+    src: local('SailecBold'), url("../fonts/Sailec-Bold.ttf") format("truetype");
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -9,7 +14,7 @@ html {
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "SailecBold",
         "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -137,8 +142,4 @@ section div span {
 
 .box span:nth-child(3) {
     animation-delay: -0.4s;
-}
-
-.logo {
-    margin-top: 10px;
 }

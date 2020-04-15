@@ -87,7 +87,7 @@ class CreateNewForm extends Component{
 
     render(){
         return(
-            <Form>
+            <Form className="text-left">
                 <Form.Group controlId="exampleFormControlInput1">
                     <Form.Label>Title</Form.Label>
                     <Form.Control type="text" />
@@ -173,7 +173,7 @@ class Example extends Component {
     render() {
 
         return (
-            <div>
+            <div className="text-left">
                 {/*<Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>*/}
                 {/*    Edit*/}
                 {/*</Button>*/}
@@ -245,7 +245,7 @@ class EventsPanel extends Component{
                 <Card key={index}>
                     <Accordion.Toggle as={Card.Header} eventKey={index}>
                         {article.title}
-                        <span className="right">
+                        <span className="text-right">
                             {article.geolocation}
                         </span>
                         <div style={{fontStyle: 'italic', fontSize: '12px'}}>
