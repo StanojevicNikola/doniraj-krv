@@ -91,3 +91,10 @@
 .landing-title{
   font-family: SailecBold;
 }
+
+.register-form div{
+  padding: 3px;
+}
+.register-form input {
+  width: 350px;
+}

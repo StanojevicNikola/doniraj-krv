@@ -3,6 +3,7 @@ import {Link } from "react-router-dom";
 import {setToken} from "../actions";
 import {connect} from "react-redux";
 import axios from "axios";
+import {Button, Col, Form, Row} from "react-bootstrap";
 
 
 class LoginDash extends Component{
@@ -43,30 +44,29 @@ class LoginDash extends Component{
 
     render() {
         return (
-            <div className="z-depth-1 grey lighten-4 row login">
-                    <br/>
-                    <div className="col s12">
-                        <div className="row">
-                            <input className="col offset-s2 s8 validate" type="email" placeholder="Email"
-                                   onChange={this.userChange}/>
-                        </div>
-                        <div className="row">
-                            <input className="col offset-s2 s8 validate" type="password" placeholder="Password"
-                                   onChange={this.passChange}/>
-                        </div>
-                        <div className="row">
+                <div>
+                    <div>
+                        <input type="username" placeholder="Username"
+                               onChange={this.userChange}
+                               style={{margin:'15px', padding:'5px'}}
+                        />
+                        <br/>
+                        <input type="password" placeholder="Password"
+                               onChange={this.passChange}
+                               style={{padding:'5px'}}
+                        />
 
-                               <div onClick={this.loginClick}>
-                                  <Link to='/' className="col offset-s4 s4 btn btn-large red accent-4 white-text">Login</Link>
-                               </div>
-
-                       </div>
-                        <div className="row">
-                            <Link className="col offset-s5 s4" to="/register">register</Link>
-                        </div>
+                        <br/>
+                        <br/>
+                        <Button onClick={this.loginClick} variant="danger" style={{color:'white'}}>
+                            <Link to='/' style={{color:'white'}}>
+                                Login
+                            </Link>
+                        </Button>
+                        <br/>
+                        <Link to="/register">register</Link>
                     </div>
-                    <br/>
-            </div>
+                </div>
         );
     }
 

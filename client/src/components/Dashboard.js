@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DonorDash from "./DonorDash";
 import CoordinatorDash from "./CoordinatorDash";
 import UserInfoDash from "./UserInfoDash";
+import {Button} from 'react-bootstrap';
 
 class Dashboard extends Component {
 
@@ -26,12 +27,12 @@ class Dashboard extends Component {
         return(
 
 
-            <div className="dash col s2" >
-                <button className= "btn-large waves-effect waves-light red darken-1 white-text btn-flat"
+            <div >
+                <Button
                         style={{textAlign:'left'}}
                         onClick={this.showUserInfo}>
                     User Info
-                </button>
+                </Button>
                 <br />
                 <button  className="btn-large waves-effect waves-light red darken-1 white-text btn-flat"
                          style={{textAlign:'left'}}

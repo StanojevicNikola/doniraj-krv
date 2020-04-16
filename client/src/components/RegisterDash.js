@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import axios from 'axios';
+import {Button} from "react-bootstrap";
 //
 
 class RegisterDash extends Component{
@@ -72,27 +73,27 @@ class RegisterDash extends Component{
 
     render() {
         return (
-            <div className="z-depth-1 grey lighten-4 row login">
+            <div>
                 <br/>
-                <form className="col s12">
-                    <div className="row">
-                        <input className="col offset-s2 s8 validate" type="text" placeholder="Name" onChange={this.nameChange}/>
+                <form className="register-form">
+                    <div>
+                        <input type="text" placeholder="Name" onChange={this.nameChange}/>
                     </div>
-                    <div className="row">
-                        <input className="col offset-s2 s8 validate" type="text" placeholder="Username" onChange={this.userChange}/>
+                    <div>
+                        <input type="text" placeholder="Username" onChange={this.userChange}/>
                     </div>
-                    <div className="row">
-                        <input className="col offset-s2 s8 validate" type="email" placeholder="Email" onChange={this.emailChange}/>
+                    <div>
+                        <input type="email" placeholder="Email" onChange={this.emailChange}/>
                     </div>
-                    <div className="row">
-                        <input className="col offset-s2 s8 validate" type="password" placeholder="Password" onChange={this.passChange}/>
+                    <div>
+                        <input type="password" placeholder="Password" onChange={this.passChange}/>
                     </div>
-                    <div className="row">
-                        <input className="col offset-s2 s8 validate" type="password" placeholder="Repeat Password" onChange={this.passRepeatChange}/>
+                    <div>
+                        <input type="password" placeholder="Repeat Password" onChange={this.passRepeatChange}/>
                     </div>
 
-                    <div className="row">
-                        <div className="col offset-s4 s4 btn btn-large red accent-4" onClick={this.submit}>Register</div>
+                    <div>
+                        <Button onClick={this.submit}>Register</Button>
                     </div>
                 </form>
                 <br/>
