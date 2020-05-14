@@ -3,6 +3,7 @@ import {Link } from "react-router-dom";
 import {setToken} from "../actions";
 import {connect} from "react-redux";
 import axios from "axios";
+import jwtDecode from "jwt-decode"
 import {Button, Col, Form, Row} from "react-bootstrap";
 
 
@@ -34,12 +35,22 @@ class LoginDash extends Component{
     }
 
     async loginClick(e) {
-        e.preventDefault();
+        // e.preventDefault();
         let res = await axios.post('/users/login', {username: this.state.user, password: this.state.pass});
-        console.log(res);
         const token = res.data.data.token;
-        // this.setState({ token: token });
-        this.props.setToken({token: token});
+        axios.defaults.headers.common = {'authorization': `Bearer ${token}`};
+        let resUser = await axios.post('/user/data');
+
+        this.props.setToken({
+            token: token,
+            username: this.state.user,
+            name: resUser.data.data.name,
+            roles: resUser.data.data.roles,
+            email: resUser.data.data.email,
+            isAdmin: resUser.data.data.isAdmin,
+            donor: resUser.data.data.donor,
+            coordinator: resUser.data.data.coordinator
+        });
     }
 
     render() {
@@ -58,11 +69,11 @@ class LoginDash extends Component{
 
                         <br/>
                         <br/>
-                        <Button onClick={this.loginClick} variant="danger" style={{color:'white'}}>
-                            <Link to='/' style={{color:'white'}}>
+                        <Link to='/' style={{color:'white'}}>
+                            <Button onClick={this.loginClick} variant="danger" style={{color:'white'}}>
                                 Login
-                            </Link>
-                        </Button>
+                            </Button>
+                        </Link>
                         <br/>
                         <Link to="/register">register</Link>
                     </div>

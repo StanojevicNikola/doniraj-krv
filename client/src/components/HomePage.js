@@ -8,6 +8,7 @@ import icon_2 from '../img/icon_2.png';
 import icon_3 from '../img/icon_3.png';
 
 import axios from 'axios';
+import {setBlood, setEvents, setNews, setPlaces, setToken} from "../actions";
 
 const fakeEvent = {
     title: 'BRAVO',
@@ -59,17 +60,23 @@ class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            upcomingEvents: []
+            upcomingEvents: [1,2,3]
         }
     }
 
     async componentDidMount() {
-        // axios zahtev na get events
-        const res = await axios.get('/app/getEvents');
+        let resCities = await axios.get('/app/getCities');
+        this.props.setPlaces({places: resCities.data.data});
 
-        this.setState({
-            upcomingEvents: res.data.data.slice(0,3)
-        });
+        let resEvents = await axios.get('/app/getEvents');
+        this.props.setEvents({events: resEvents.data.data});
+
+        let resBlood = await axios.get('/app/getBloodGroups');
+        this.props.setBlood({blood: resBlood.data.data});
+
+        let resNews = await axios.get('/app/getNews');
+        this.props.setNews({news: resNews.data.data});
+
     }
 
     render() {
@@ -84,7 +91,7 @@ class HomePage extends Component {
                 <div className="main-wrapper">
 
                     <section className="donor">
-                        <Link to={this.props.token ? '/donor' : '/login'}>
+                        <Link to={this.props.token ? '/dashboard' : '/login'}>
                             <div>
                                 <span>Donor</span>
                             </div>
@@ -92,7 +99,7 @@ class HomePage extends Component {
                     </section>
 
                     <section className="coordinator">
-                        <Link to={this.props.token ? '/coordinator' : '/login'}>
+                        <Link to={this.props.token ? '/dashboard' : '/login'}>
                             <div>
                                 <span>Coordinator</span>
                             </div>
@@ -192,4 +199,13 @@ const mapStateToProps = state => {
     return { token: state.token }
 };
 
-export default connect(mapStateToProps, {})(HomePage);
+function mapDispatchToProps(dispatch){
+    return {
+        setEvents: data => dispatch(setEvents(data)),
+        setPlaces: data => dispatch(setPlaces(data)),
+        setBlood: data => dispatch(setBlood(data)),
+        setNews: data => dispatch(setNews(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

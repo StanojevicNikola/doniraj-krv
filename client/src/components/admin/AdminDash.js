@@ -90,7 +90,7 @@ class AdminDash extends Component {
                                 <EventsPanel />
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
-                                <Mapa />
+                                {/*<Mapa data={''} />*/}
                             </Tab.Pane>
                         </Tab.Content>
                     </Col>

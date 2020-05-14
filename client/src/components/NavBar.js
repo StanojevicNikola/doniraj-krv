@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
-
+import axios from 'axios';
 import logo from "../img/blood-donation.png";
 import {connect} from "react-redux";
 import {deleteToken} from "../actions";
@@ -21,6 +21,7 @@ class NavBar extends Component {
 
     logoutMe() {
         this.props.deleteToken();
+        delete axios.defaults.headers.common['authorization'];
     }
 
         render(){
@@ -28,24 +29,37 @@ class NavBar extends Component {
                 <>
                     <Navbar bg="dark" variant="dark" className="">
                         <Container>
-                            <Navbar.Brand href="/">
+                            <Navbar.Brand>
                                 <img
                                     className="img-logo responsive-img logo"
                                      src={logo}
                                      alt="Logo"
                                 />
                             </Navbar.Brand>
-                            <Nav className="mr-auto">
-                                <Nav.Link href="/">Home</Nav.Link>
-                                <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                            <Nav className="mr-auto d-flex justify-content-around">
+                                <Link to="/" style={{color:'white', 'marginRight': '10px'}}>Home</Link>{' '}
+                                {this.props.token ? <Link to='/dashboard' style={{color:'white'}}>Dashboard</Link> : ''}
                             </Nav>
-                            <Nav className="justify-content-end">
-                                <Nav.Link href='/admindash'>Admin</Nav.Link>
-                                <Nav.Link href='/about'>About</Nav.Link>
+                            <Nav className="d-flex justify-content-around">
+                                {this.props.isAdmin ? <Link to='/admindash' style={{color:'white', 'marginRight': '10px'}}>Admin</Link> : ""}
+                                <Link to='/about' style={{color:'white', 'marginRight': '10px'}}>About</Link>
                             </Nav>
-                            <Nav className="justify-content-end">
+                            <Nav className="d-flex justify-content-around">
                                 <Nav.Item>
-                                    {this.props.token ?  <Button variant="outline-danger" onClick={this.logoutMe}><Nav.Link href="/">Logout</Nav.Link></Button> : <Button variant="danger"><Nav.Link href="/login">Login</Nav.Link></Button> }
+                                    {
+                                        this.props.token ?
+                                        <Link to='/' style={{color:'white'}}>
+                                            <Button variant="danger" onClick={this.logoutMe}>
+                                                Logout
+                                            </Button>
+                                        </Link>
+                                        :
+                                        <Link to="/login" style={{color:'white'}}>
+                                            <Button variant="danger">
+                                                Login
+                                            </Button>
+                                        </Link>
+                                    }
                                 </Nav.Item>
                             </Nav>
                         </Container>
@@ -54,47 +68,13 @@ class NavBar extends Component {
             );
         }
 
-    // render() {
-    //     return (
-    //         <nav className=" red accent-4">
-    //             <div className="container nav-wrapper">
-    //                 <ul>
-    //                     <li>
-    //                         <Link to="/">
-    //                             <img
-    //                                 className="img-logo responsive-img logo"
-    //                                 src={logo}
-    //                                 alt="Logo"
-    //                             />
-    //                         </Link>
-    //                     </li>
-    //                     <li>
-    //                         <Link to="/">Home</Link>
-    //                     </li>
-    //
-    //                     <li>
-    //                         <Link to="/dashboard">Dashboard</Link>
-    //                     </li>
-    //
-    //                     <li className="right">
-    //                         <Link to='/admindash'>Admin</Link>
-    //                     </li>
-    //
-    //                     <li className="right">
-    //                         <Link to="/about">About</Link>
-    //                     </li>
-    //                     <li className="right">
-    //                         {this.props.token ?  <div onClick={this.logoutMe}><Link to="/">Logout</Link></div> : <Link to="/login">Login</Link> }
-    //                     </li>
-    //                 </ul>
-    //             </div>
-    //         </nav>
-    //     );
-    // }
 }
 
 const mapStateToProps = state => {
-    return { token: state.token }
+    return {
+        token: state.token,
+        isAdmin: state.isAdmin
+    }
 };
 
 function mapDispatchToProps(dispatch){

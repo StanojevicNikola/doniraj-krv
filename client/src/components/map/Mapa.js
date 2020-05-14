@@ -21,12 +21,6 @@ class Mapa extends Component{
     }
     async componentDidMount() {
 
-        let res = await axios('/app/getCities');
-        console.log(res.data);
-        this.setState({
-            places: res.data.data
-        });
-
     }
 
 
@@ -42,12 +36,12 @@ class Mapa extends Component{
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />react
                     <MarkerClusterGroup>
-                        {this.state.places.map((e, i) => {
+                        {this.props.data.map((e, i) => {
                             if(e === undefined) return {};
 
                            return(
 
-                               <Marker key={i} position={[e['lat'], e['lng']]}>
+                               <Marker key={i} position={[e['geolocation']['lat'], e['geolocation']['lng']]}>
 
                                 </Marker>
 

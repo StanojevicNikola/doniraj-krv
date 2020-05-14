@@ -36,14 +36,14 @@ class CreateNewForm extends Component{
         let errors = {};
         let clear = {};
 
-        if(title == undefined || title === '')
+        if(title === undefined || title === '')
             errors["title"] = 'Required field!';
         else{
             errors["title"] = '';
             clear["title"] = true;
         }
 
-        if(description == undefined || description === '')
+        if(description === undefined || description === '')
             errors["description"] = 'Required field!';
         else{
             errors["description"] = '';
@@ -63,7 +63,7 @@ class CreateNewForm extends Component{
         event.target.form.exampleFormControlTextarea1.value = '';
     }
 
-    sendEvent(e) {
+    async sendEvent(e) {
 
         e.preventDefault();
         const title = e.target.form.exampleFormControlInput1.value;
@@ -73,13 +73,13 @@ class CreateNewForm extends Component{
 
         if(this.validate(title, description)){
 
-            const res = axios.post('/admin/createNews', {
+            const res = await axios.post('/admin/createNews', {
                 title,
                 description,
                 date: new Date()
             });
 
-            this.clearFealds(e);
+            // this.clearFealds(e);
         }
 
     }
@@ -230,11 +230,19 @@ class EventsPanel extends Component{
             events: []
         };
         this.renderEvents = this.renderEvents.bind(this);
+
+        this.loadEvents = this.loadEvents.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        this.loadEvents()
+    }
+
+    async loadEvents() {
+        const resEvents = await axios.get('/app/getEvents');
+        console.log(resEvents.data)
         this.setState({
-            events: fakeEvents
+            events: resEvents.data.data
         });
     }
 
@@ -246,7 +254,7 @@ class EventsPanel extends Component{
                     <Accordion.Toggle as={Card.Header} eventKey={index}>
                         {article.title}
                         <span className="text-right">
-                            {article.geolocation}
+                            {article.geolocation.city}
                         </span>
                         <div style={{fontStyle: 'italic', fontSize: '12px'}}>
                             {article.date}

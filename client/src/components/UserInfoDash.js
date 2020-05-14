@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux";
 
 class UserInfoDash extends Component{
+
+
     render(){
         return(
             <div className="col s5">
                 <div>
-                    <label>Name</label>
-                    <input type="text" value="Nikola Stanojevic" disabled />
+                    <label>Name: </label>
+                    <input type="text" value={this.props.name} disabled />
                 </div>
 
 
                 <div>
-                    <label>username</label>
-                    <input type="text" value="ov3rlord" disabled />
+                    <label>Username:</label>
+                    <input type="text" value={this.props.username} disabled />
                 </div>
 
                 <div>
-                    <label>Email</label>
-                    <input type="text" value="asdASDasdsa@asd.com" disabled />
-                </div>
-
-                <div>
-                    <label>Password</label>
-                    <input type="password" value="asdasd2e22" disabled />
+                    <label>Email:</label>
+                    <input type="text" value={this.props.email} disabled />
                 </div>
 
             </div>
@@ -30,4 +28,13 @@ class UserInfoDash extends Component{
     };
 }
 
-export default UserInfoDash;
+const mapStateToProps = state => {
+    return {
+        token: state.token,
+        name: state.name,
+        email: state.email,
+        username: state.username
+    }
+};
+
+export default connect(mapStateToProps, {})(UserInfoDash);

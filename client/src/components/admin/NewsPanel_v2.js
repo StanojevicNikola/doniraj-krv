@@ -15,17 +15,7 @@ import {
 } from "react-bootstrap";
 import axios from 'axios';
 
-const fakeNews = [
-    {
-        title: 'News Title #1',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        date: '24.5.2012'
-    },
-    {
-        title: 'News Title #2',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        date: '26.07.1984'}
-];
+
 
 class CreateNewForm extends Component{
     constructor(props) {
@@ -37,6 +27,9 @@ class CreateNewForm extends Component{
 
         this.sendNews = this.sendNews.bind(this);
         this.validate = this.validate.bind(this);
+
+        this.newsTitle = React.createRef();
+        this.newsDescription = React.createRef();
     }
 
     validate(title, description){
@@ -44,14 +37,14 @@ class CreateNewForm extends Component{
         let errors = {};
         let clear = {};
 
-        if(title == undefined || title === '')
+        if(title === undefined || title === '')
             errors["title"] = 'Required field!';
         else{
             errors["title"] = '';
             clear["title"] = true;
         }
 
-        if(description == undefined || description === '')
+        if(description === undefined || description === '')
             errors["description"] = 'Required field!';
         else{
             errors["description"] = '';
@@ -65,13 +58,12 @@ class CreateNewForm extends Component{
         return clear["title"] && clear["description"];
     }
 
-    clearFealds(event){
-
-        event.target.form.exampleFormControlInput1.value = '';
-        event.target.form.exampleFormControlTextarea1.value = '';
+    clearFealds(){
+        this.newsTitle.current.value = "";
+        this.newsDescription.current.value = "";
     }
 
-    sendNews(e) {
+    async sendNews(e) {
 
         e.preventDefault();
         const title = e.target.form.exampleFormControlInput1.value;
@@ -80,14 +72,14 @@ class CreateNewForm extends Component{
         console.log(`Created News with: ${title}, ${description}`);
 
         if(this.validate(title, description)){
-
-            const res = axios.post('/admin/createNews', {
-                title,
-                description,
-                date: new Date()
+            const res = await axios.post('/admin/createNews', {
+                "title": title,
+                "description": description,
+                "date": Date().toString()
             });
-
-            this.clearFealds(e);
+            console.log(res.data)
+            this.clearFealds();
+            this.props.functionReload();
         }
 
     }
@@ -98,12 +90,12 @@ class CreateNewForm extends Component{
             <Form className="text-left">
                 <Form.Group controlId="exampleFormControlInput1">
                     <Form.Label>Title</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control ref={this.newsTitle} type="text" />
                     <span style={{color: "red"}}>{this.state.errors.title}</span>
                 </Form.Group>
                 <Form.Group controlId="exampleFormControlTextarea1">
                     <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" rows="3" />
+                    <Form.Control ref={this.newsDescription} as="textarea" rows="3" />
                     <span style={{color: "red"}}>{this.state.errors.description}</span>
                 </Form.Group>
                 <Button variant="primary" type="submit" onClick={this.sendNews}>
@@ -127,7 +119,8 @@ class Example extends Component {
             title: props.title,
             description: props.description,
             show: false,
-            formIsValid: 'error'
+            formIsValid: 'error',
+            id: props.id
         };
     }
 
@@ -139,18 +132,21 @@ class Example extends Component {
         this.setState({ show: true });
     }
 
-    handleSave(e){
+    async handleSave(e){
         const newTitle = e.target.form.edit_title.value;
         const newDescription = e.target.form.edit_description.value;
 
         console.log(`Updated News with: ${newTitle}, ${newDescription}`);
 
-        const res = axios.post('/admin/updateNews', {
-            title: newTitle,
-            description: newDescription,
-            date: new Date()
+        const res = await axios.post('/admin/updateNews', {
+            id: this.state.id,
+            query: {
+                title: newTitle,
+                description: newDescription,
+                date: Date().toString()
+            }
         });
-
+        this.props.functionReload();
         this.setState({ show: false });
     }
 
@@ -182,7 +178,7 @@ class Example extends Component {
                                     <FormLabel>Change title</FormLabel>
                                     <FormControl
                                         type="text"
-                                        componentClass="input"
+                                        componentclass="input"
                                         defaultValue={this.state.title}
                                     />
                                     <FormControl.Feedback />
@@ -195,7 +191,7 @@ class Example extends Component {
                                 <FormControl
                                     id="edit_description"
                                     as="textarea"
-                                    componentClass="textarea"
+                                    componentclass="textarea"
                                     defaultValue={this.state.description}
                                 />
                             </FormGroup>
@@ -217,14 +213,23 @@ class NewsPanel_v2 extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            news: []
+            news: [],
+            first: false,
+            second: false
         };
         this.renderNews = this.renderNews.bind(this);
+
+        this.selectedFirst = this.selectedFirst.bind(this);
+        this.selectedSecond = this.selectedSecond.bind(this);
+
+        this.loadNews = this.loadNews.bind(this)
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const resNews = await axios.get('/app/getNews');
+        console.log(resNews.data)
         this.setState({
-            news: fakeNews
+            news: resNews.data.data
         });
     }
 
@@ -232,8 +237,8 @@ class NewsPanel_v2 extends Component{
 
         const cards = this.state.news.map( (article, index)=> {
             return (
-                <Container className="text-left">
-                    <Card key={index} >
+                <Container key={article['_id']} className="text-left">
+                    <Card>
                         <Accordion.Toggle as={Card.Header} eventKey={index}>
                             {article.title}
                             <span className="text-right">
@@ -241,6 +246,8 @@ class NewsPanel_v2 extends Component{
                                     title={article.title}
                                     description={article.description}
                                     className="text-left"
+                                    id = {article['_id']}
+                                    functionReload = {this.loadNews}
                                 />
                             </span>
                             <div style={{fontStyle: 'italic', fontSize: '12px'}}>{article.date}</div>
@@ -259,28 +266,49 @@ class NewsPanel_v2 extends Component{
         );
     }
 
+    selectedFirst() {
+        this.setState({
+            first: true,
+            second: false
+        })
+    }
+
+    selectedSecond() {
+        this.setState({
+            first: false,
+            second: true
+        })
+    }
+
+    async loadNews() {
+        const resNews = await axios.get('/app/getNews');
+        console.log(resNews.data)
+        this.setState({
+            news: resNews.data.data
+        });
+    }
 
     render(){
         return(
             <div>
                 <Tab.Container id="leftTabsExample">
                     <Nav variant="pills" className="" defaultActiveKey="second">
-                        <Nav.Item >
-                            <Nav.Link eventKey="first">View old</Nav.Link>
+                        <Nav.Item style={{"marignRight": "10px"}}>
+                            <button className="btn btn-danger" onClick={this.selectedFirst} >View old</button>
                         </Nav.Item>
                         <Nav.Item >
-                            <Nav.Link eventKey="second">Create new</Nav.Link>
+                            <button className="btn btn-danger" onClick={this.selectedSecond}>Create new</button>
                         </Nav.Item>
                     </Nav>
 
                     <Row sm={1}>
                         <Tab.Content>
-                            <Tab.Pane eventKey="first">
-                                {this.renderNews()}
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="second">
-                                <CreateNewForm />
-                            </Tab.Pane>
+
+                                {this.state.first ? this.renderNews() : ""}
+
+
+                                {this.state.second ? <CreateNewForm functionReload={this.loadNews} /> : ""}
+
                         </Tab.Content>
                     </Row>
                 </Tab.Container>
