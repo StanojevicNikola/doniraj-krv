@@ -10,8 +10,7 @@ class BecomeCoordinator extends Component{
         this.state = {
             cities: [],
             bloodGroups: [],
-            selectedBloodGroup: '',
-            selectedCity: ''
+            selectedBloodGroup: this.props.blood[0]['_id'],
         };
 
         this.handleBloodType = this.handleBloodType.bind(this);

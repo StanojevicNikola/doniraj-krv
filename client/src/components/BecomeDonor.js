@@ -10,8 +10,8 @@ class BecomeDonor extends Component{
         this.state = {
             cities: [],
             bloodGroups: [],
-            selectedBloodGroup: '',
-            selectedCity: ''
+            selectedBloodGroup: this.props.blood[0]['_id'],
+            selectedCity: this.props.places[0]['_id']
         };
 
         this.handleBloodType = this.handleBloodType.bind(this);
@@ -35,7 +35,7 @@ class BecomeDonor extends Component{
         };
 
         let resToken = await axios.post('/user/addRole', {role, roleData});
-
+        console.log(resToken)
         axios.defaults.headers.common = {'authorization': `Bearer ${resToken.data.data.token}`};
         this.props.setOnlyToken({token: resToken.data.data.token});
 
