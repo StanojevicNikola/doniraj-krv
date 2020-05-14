@@ -16,6 +16,7 @@ class AdminController {
 
     // TODO add validation of data
     async createNews(data) {
+        console.log(data)
         return this.newsService.create(data);
     }
 

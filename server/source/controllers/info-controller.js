@@ -15,7 +15,7 @@ class InfoController {
     }
 
     async getEvents() {
-        return this.eventService.find({});
+        return this.eventService.find({}, ['geolocation']);
     }
 
     async getBloodGroups() {

@@ -126,6 +126,7 @@ class RestifyRouteHandler {
     async createNews(req, res, next) {
         this.logger.info('createNews');
         try {
+            this.logger.info(req.body)
             const data = await this.adminController.createNews(req.body);
             this._sendSuccess(res, 'Uspesno ste kreirali vest', data);
         } catch (e) {
@@ -189,7 +190,7 @@ class RestifyRouteHandler {
         this.logger.info('getBloodGroups');
         try {
             const data = await this.infoController.getBloodGroups();
-            this._sendSuccess(res, 'Success', utils.extract(data, 'groupType'));
+            this._sendSuccess(res, 'Success', data);
         } catch (e) {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
@@ -203,6 +204,20 @@ class RestifyRouteHandler {
             const token = utils.extractToken(req);
             const { data, message } = await this.userController
                 .addNewRole({ ...req.body, rawToken: token });
+            this._sendSuccess(res, message, data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
+    async getUserData(req, res, next) {
+        this.logger.info('getUserData');
+        try {
+            const token = utils.extractToken(req);
+            const { data, message } = await this.userController
+                .getUser({ rawToken: token });
             this._sendSuccess(res, message, data);
         } catch (e) {
             this.logger.error(e.message);
@@ -269,11 +284,11 @@ class RestifyRouteHandler {
     }
 
     _sendBadRequest(res, message, data) {
-        this._sendResponse(res, 400, { message, data });
+        this._sendResponse(res, 200, { message, data });
     }
 
     _sendUnauthorized(res, message, data) {
-        this._sendResponse(res, 401, { message, data });
+        this._sendResponse(res, 200, { message, data });
     }
 }
 

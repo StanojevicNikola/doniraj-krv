@@ -56,6 +56,7 @@ class RestifyServer {
         this.server.get('/users/activate/:activationId', this.routeHandlers.activateUser.bind(this.routeHandlers));
         this.server.post('/users/login', this.routeHandlers.logIn.bind(this.routeHandlers));
         this.server.post('/user/addRole', this.routeHandlers.addRole.bind(this.routeHandlers));
+        this.server.post('/user/data', this.routeHandlers.getUserData.bind(this.routeHandlers));
 
         this.server.get('/unauthorized', this.routeHandlers.unauthorized.bind(this.routeHandlers));
         this.server.get('/test/hello', this.routeHandlers.hello.bind(this.routeHandlers));
