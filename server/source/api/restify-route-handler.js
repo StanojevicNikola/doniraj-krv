@@ -3,8 +3,13 @@ const utils = require('../utils');
 
 class RestifyRouteHandler {
     constructor({
-        // eslint-disable-next-line max-len
-        logger, config, adminController, placeController, requestController, userController, infoController,
+        logger,
+        config,
+        adminController,
+        placeController,
+        requestController,
+        userController,
+        infoController,
     }) {
         this.logger = logger;
         this.config = config;
@@ -57,12 +62,6 @@ class RestifyRouteHandler {
             this._sendBadRequest(res, e.message, null);
         }
 
-        next();
-    }
-
-    async hello(req, res, next) {
-        this.logger.info('Hello');
-        this._sendSuccess(res, 'Success', { data: 'caocao' });
         next();
     }
 
@@ -138,7 +137,7 @@ class RestifyRouteHandler {
     async createNews(req, res, next) {
         this.logger.info('createNews');
         try {
-            this.logger.info(req.body)
+            this.logger.info(req.body);
             const data = await this.adminController.createNews(req.body);
             this._sendSuccess(res, 'Uspesno ste kreirali vest', data);
         } catch (e) {
