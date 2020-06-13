@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// TODO ask for capacity
 module.exports.Place = mongoose.model(
     'Place',
     new mongoose.Schema({

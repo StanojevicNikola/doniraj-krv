@@ -51,6 +51,7 @@ class RestifyServer {
         this.server.get('/app/getBloodGroups', this.routeHandlers.getBloodGroups.bind(this.routeHandlers));
         this.server.get('/app/getNews', this.routeHandlers.getNews.bind(this.routeHandlers));
         this.server.get('/app/getEvents', this.routeHandlers.getEvents.bind(this.routeHandlers));
+        this.server.get('/app/getPlaces', this.routeHandlers.getPlaces.bind(this.routeHandlers));
 
         this.server.post('/users/register', this.routeHandlers.registerUser.bind(this.routeHandlers));
         this.server.get('/users/activate/:activationId', this.routeHandlers.activateUser.bind(this.routeHandlers));

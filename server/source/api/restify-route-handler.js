@@ -66,6 +66,18 @@ class RestifyRouteHandler {
         next();
     }
 
+    async getPlaces(req, res, next) {
+        this.logger.info('getPlaces');
+        try {
+            const data = await this.infoController.getPlaces();
+            this._sendSuccess(res, 'Success', data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
     async findPlaces(req, res, next) {
         this.logger.info('findPlaces');
         try {
@@ -284,7 +296,7 @@ class RestifyRouteHandler {
     }
 
     _sendBadRequest(res, message, data) {
-        this._sendResponse(res, 200, { message, data });
+        this._sendResponse(res, 400, { message, data });
     }
 
     _sendUnauthorized(res, message, data) {
