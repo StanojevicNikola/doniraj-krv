@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import {connect} from "react-redux";
 import {setDonor, setOnlyToken, setToken} from "../actions";
+import DatePicker from "react-datepicker";
 
 class BecomeDonor extends Component{
 
@@ -11,12 +12,14 @@ class BecomeDonor extends Component{
             cities: [],
             bloodGroups: [],
             selectedBloodGroup: this.props.blood[0]['_id'],
-            selectedCity: this.props.places[0]['_id']
+            selectedCity: this.props.places[0]['_id'],
+            selectedDate: new Date()
         };
 
         this.handleBloodType = this.handleBloodType.bind(this);
         this.handleCity = this.handleCity.bind(this);
         this.addDonor = this.addDonor.bind(this)
+        this.handleDate = this.handleDate.bind(this);
     }
 
     handleBloodType(event) {
@@ -27,11 +30,16 @@ class BecomeDonor extends Component{
         this.setState({selectedCity: event.target.value});
     }
 
+    handleDate(date ) {
+        this.setState({selectedDate: date});
+    }
+
     async addDonor() {
         const role = 'DONOR';
         const roleData = {
             blood: this.state.selectedBloodGroup,
-            geolocation: this.state.selectedCity
+            geolocation: this.state.selectedCity,
+            lastDonation: this.state.selectedDate
         };
 
         let resToken = await axios.post('/user/addRole', {role, roleData});
@@ -47,6 +55,9 @@ class BecomeDonor extends Component{
     render(){
         return(
             <div className="col s5">
+
+                <br/>
+                <br/>
                 <div>
                     <label>Blood type: </label>
                     <select value={this.state.selectedBloodGroup} onChange={this.handleBloodType}>
@@ -68,6 +79,14 @@ class BecomeDonor extends Component{
                         })}
                     </select>
                 </div>
+
+                <div>
+                    <DatePicker
+                        selected={this.state.selectedDate}
+                        onChange={this.handleDate}
+                    />
+                </div>
+
                 <button className="btn" onClick={this.addDonor}>Add</button>
             </div>
         )

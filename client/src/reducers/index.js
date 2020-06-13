@@ -5,7 +5,7 @@ import {
     SET_PLACES,
     SET_EVENTS,
     SET_BLOOD_GROUPS,
-    SET_NEWS, SET_ONLY_TOKEN, SET_DONOR, SET_COORD
+    SET_NEWS, SET_ONLY_TOKEN, SET_DONOR, SET_COORD, SET_HOSPITALS
 } from "../constants/action-types"
 import { ADD_DATA } from "../constants/action-types";
 import { RESET_DATA } from "../constants/action-types";
@@ -91,6 +91,10 @@ function rootReducer(state = initialState, action) {
     } else if(action.type === SET_COORD) {
         return Object.assign({}, state, {
             coordinator: action.payload.coordinator
+        })
+    } else if(action.type === SET_HOSPITALS) {
+        return Object.assign({}, state, {
+            hospitals: action.payload.hospitals
         })
     }
 

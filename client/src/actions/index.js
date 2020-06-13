@@ -7,7 +7,8 @@ import
     DELETE_TOKEN,
     SET_EVENTS,
     SET_PLACES,
-    SET_BLOOD_GROUPS, SET_NEWS, SET_ONLY_TOKEN, SET_DONOR, SET_COORD
+    SET_BLOOD_GROUPS, SET_NEWS, SET_ONLY_TOKEN, SET_DONOR, SET_COORD,
+    SET_HOSPITALS
 } from "../constants/action-types";
 
 export function setData(payload) {
@@ -57,4 +58,9 @@ export function setDonor(payload) {
 
 export function setCoord(payload) {
     return { type: SET_COORD, payload};
+}
+
+
+export function setHospitals(payload) {
+    return { type: SET_HOSPITALS, payload};
 }

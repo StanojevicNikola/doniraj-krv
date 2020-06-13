@@ -10,4 +10,5 @@ export const SET_BLOOD_GROUPS = "SET_BLOOD";
 export const SET_NEWS = "SET_NEWS";
 export const SET_DONOR = "SET_DONOR";
 export const SET_COORD = "SET_COORD";
+export const SET_HOSPITALS = "SET_HOSPITALS";
 

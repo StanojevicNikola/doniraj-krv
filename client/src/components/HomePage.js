@@ -8,7 +8,7 @@ import icon_2 from '../img/icon_2.png';
 import icon_3 from '../img/icon_3.png';
 
 import axios from 'axios';
-import {setBlood, setEvents, setNews, setPlaces, setToken} from "../actions";
+import {setBlood, setEvents, setNews, setPlaces, setHospitals} from "../actions";
 
 const fakeEvent = {
     title: 'BRAVO',
@@ -76,6 +76,9 @@ class HomePage extends Component {
 
         let resNews = await axios.get('/app/getNews');
         this.props.setNews({news: resNews.data.data});
+
+        let resHospitals = await axios.get('/app/getPlaces');
+        this.props.setHospitals({hospitals: resHospitals.data.data});
 
     }
 
@@ -204,7 +207,8 @@ function mapDispatchToProps(dispatch){
         setEvents: data => dispatch(setEvents(data)),
         setPlaces: data => dispatch(setPlaces(data)),
         setBlood: data => dispatch(setBlood(data)),
-        setNews: data => dispatch(setNews(data))
+        setNews: data => dispatch(setNews(data)),
+        setHospitals: data => dispatch(setHospitals(data))
     }
 }
 

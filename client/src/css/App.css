@@ -98,3 +98,7 @@
 .register-form input {
   width: 350px;
 }
+
+.react-datepicker-popper {
+  margin-top: 100px !important;
+}
