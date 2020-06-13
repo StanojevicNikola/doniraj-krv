@@ -60,7 +60,6 @@ class RestifyServer {
         this.server.post('/user/data', this.routeHandlers.getUserData.bind(this.routeHandlers));
 
         this.server.get('/unauthorized', this.routeHandlers.unauthorized.bind(this.routeHandlers));
-        this.server.get('/test/hello', this.routeHandlers.hello.bind(this.routeHandlers));
 
         this.server.post('/admin/createNews', this.routeHandlers.createNews.bind(this.routeHandlers));
         this.server.post('/admin/updateNews', this.routeHandlers.updateNews.bind(this.routeHandlers));
