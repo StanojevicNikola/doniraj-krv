@@ -1,0 +1,104 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.img-logo{
+  max-width: 50px;
+  max-height: 40px;
+}
+
+.left-donor{
+  width: 50%;
+}
+.right-coordinator {
+  width: 50%;
+}
+.line{
+  margin-top: 20px;
+  width: 100%;
+}
+.footer {
+  margin-top: 10%;
+  background-color: #343a40;
+  padding-top: 30px;
+  color: white;
+}
+
+.login {
+  margin-top: 10%;
+}
+
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+}
+.bad-login {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.wrapper div{
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.dash button{
+  width: 150px;
+  border: 1px solid white;
+}
+
+.specijalno {
+  color: darkred;
+  font-size: 50px;
+  /*background-color: #b21919;*/
+}
+
+.landing-title{
+  font-family: SailecBold;
+}
+
+.register-form div{
+  padding: 3px;
+}
+.register-form input {
+  width: 350px;
+}
+
+.react-datepicker-popper {
+  margin-top: 100px !important;
+}
