@@ -63,7 +63,7 @@ class DonorService {
         const donors = await models.Donor
             .find({
                 geolocation: { $in: locations },
-                lastDonation: { $gt: dateConstraint },
+                lastDonation: { $lt: dateConstraint },
             })
             .populate({
                 path: 'user',
