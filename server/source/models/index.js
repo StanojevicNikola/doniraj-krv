@@ -9,6 +9,8 @@ const news = require('./news').News;
 const event = require('./event').Event;
 const token = require('./token').Token;
 const activation = require('./activation').Activation;
+const transaction = require('./transaction').Transaction;
+const storage = require('./storage').Storage;
 
 module.exports = {
     User: user,
@@ -22,4 +24,6 @@ module.exports = {
     Event: event,
     Token: token,
     Activation: activation,
+    Transaction: transaction,
+    Storage: storage,
 };

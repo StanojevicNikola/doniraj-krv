@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const utils = require('../utils');
 
 class UserController {
@@ -97,6 +98,28 @@ class UserController {
                 iat: token.iat,
                 exp: token.exp,
                 token: token.rawToken,
+            },
+        };
+    }
+
+    async getUser(data) {
+        const { rawToken } = data;
+
+        const tokenData = utils.decodeToken(rawToken);
+        const user = await this.userService.findById(tokenData.userId);
+        const donorData = user.donor ? (await this.donorService.findById(user.donor, ['blood', 'geolocation'])) : false;
+        const recipientData = user.recipient
+            ? (await this.recipientService.findById(user.recipient, ['blood'])) : false;
+        return {
+            message: 'Uspesno ste dohvatili usera!',
+            data: {
+                email: user.email,
+                isAdmin: user.isAdmin,
+                name: user.name,
+                roles: user.roles,
+                username: user.username,
+                donor: donorData,
+                coordinator: recipientData,
             },
         };
     }
