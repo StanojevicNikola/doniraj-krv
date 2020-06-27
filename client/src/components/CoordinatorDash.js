@@ -5,6 +5,7 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios'
 import {connect} from "react-redux";
+import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
 
 class CoordinatorDash extends Component{
     constructor(props) {
@@ -47,70 +48,87 @@ class CoordinatorDash extends Component{
         this.setState({selectedHospital: [... selectedList]});
     }
 
-    async notify() {
+    async notify(e) {
         let body = {
-            city: this.state.selectedCity,
+            city: e.target.form.place.value,
             places: this.state.selectedHospital.map( e => e['_id']),
-            radius: this.state.selectedDis,
+            radius: e.target.form.radius.value,
             queryType: 'COMPATIBLE',
-            groups: [this.state.selectedBloodGroup]
+            groups: [e.target.form.blood.value]
         };
-
-        const resNotify = await axios.post('/recipient/requestBlood', body);
-        console.log(resNotify.data);
+        try {
+            const resNotify = await axios.post('/recipient/requestBlood', body);
+            console.log(resNotify.data);
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
 
     }
 
 
     render() {
         return (
-            <div className="container">
 
-                <div className="">
-                    <label>Location:</label>
-                    <select value={this.state.selectedCity} onChange={this.handleCity}>
-                        {this.props.places.map((e, i) => {
-                            return(
-                                <option key={i} value={e['city']}>{e['city']}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-
-                <div className="">
-                    <label>Blood type: </label>
-                    <select value={this.state.selectedBloodGroup} onChange={this.handleBloodType}>
-                        {this.props.blood.map((e, i) => {
-                            return(
-                                <option key={i} value={e['groupType']}>{e['groupType']}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-
-                <div className="">
-                    <label>Distance:</label>
-                    <select className="form-control" value={this.state.selectedDis} onChange={this.handleDis}>
-                        <option value={0}>0</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                        <option value={250}>250</option>
-                        <option value={500}>500</option>
-                    </select>
-
-                </div>
-
-                <Multiselect
-                    options={this.props.hospitals} // Options to display in the dropdown
-                    selectedValues={this.state.selectedHospital} // Preselected value to persist in dropdown
-                    onSelect={this.onSelectHospital} // Function will trigger on select event
-                    onRemove={this.onRemoveHospital} // Function will trigger on remove event
-                    displayValue="name" // Property name to display in the dropdown options
-                />
-
-
-                <button className="btn btn-danger" onClick={this.notify}>Notify</button>
-            </div>
+            <Card>
+                <Card.Body>
+                    <Card.Text>
+                        
+                    </Card.Text>
+                    <Form>
+                        <Form.Group controlId="blood">
+                            <Form.Label>Krvna grupa koju trazite:</Form.Label>
+                            <Form.Control as="select">
+                                {this.props.blood.map((e, i) => {
+                                    console.log(e)
+                                    return (
+                                        <option key={i} value={e['_id']}>
+                                            {e['groupType']}
+                                        </option>
+                                    )
+                                })}
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="place">
+                            <Form.Label>Lokacija gde je pacijent:</Form.Label>
+                            <Form.Control as="select">
+                                {this.props.places.map((e, i) => {
+                                    console.log(e)
+                                    return (
+                                        <option key={i} value={e['_id']}>
+                                            {e['city']}
+                                        </option>
+                                    )
+                                })}
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Bolnice gde mogu da doniraju:</Form.Label>
+                            <Multiselect
+                                options={this.props.hospitals} // Options to display in the dropdown
+                                selectedValues={this.state.selectedHospital} // Preselected value to persist in dropdown
+                                onSelect={this.onSelectHospital} // Function will trigger on select event
+                                onRemove={this.onRemoveHospital} // Function will trigger on remove event
+                                displayValue="name" // Property name to display in the dropdown options
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="radius">
+                            <Form.Label>Obavesti donore u krugu od:</Form.Label>
+                            <Form.Control as="select">
+                                <option value={50}>50km</option>
+                                <option value={100}>100km</option>
+                                <option value={250}>250km</option>
+                                <option value={500}>500km</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Button variant="outline-dark" type="submit" onClick={this.notify}>
+                                Obavesti!
+                            </Button>
+                        </Form.Group>
+                    </Form>
+                </Card.Body>
+            </Card>
         );
     }
 

@@ -4,27 +4,20 @@ class Footer extends Component{
 
     render() {
         return (
-            <footer className="page-footer red accent-4 footer" variant="dark">
-                <div className="container">
+            <footer className="page-footer text-light bg-dark">
+                <div className="container d-flex justify-content-center">
                     <div className="row center">
+                        
                         <div className="col ">
-                            <h5 className="white-text">Footer Content</h5>
-                            <p className="grey-text text-lighten-4">You can use rows and columns here to organize your
-                                footer content.</p>
-
-                        </div>
-                        <div className="col ">
-                            <h5 className="white-text">Links</h5>
+                            <h5 className="white-text">Linkovi</h5>
                             <ul>
-                                <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                                <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                                <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                                <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                                <li><a className="grey-text text-light" href="https://www.redcross.org.rs/">www.redcross.org.rs</a></li>
+                                <li><a className="grey-text text-light" href="http://www.nbti.org.rs/">www.nbti.org.rs</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div className="footer-copyright">
+                <div className="footer-copyright d-flex justify-content-center">
                     <div className="container center">
                         © 2020 Blood donation
                     </div>

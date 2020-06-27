@@ -14,6 +14,9 @@ import {
     Container
 } from "react-bootstrap";
 import axios from 'axios';
+import {connect} from "react-redux";
+
+import {setBlood, setEvents, setNews, setPlaces, setHospitals} from "../../actions";
 
 
 
@@ -72,14 +75,20 @@ class CreateNewForm extends Component{
         console.log(`Created News with: ${title}, ${description}`);
 
         if(this.validate(title, description)){
-            const res = await axios.post('/admin/createNews', {
-                "title": title,
-                "description": description,
-                "date": Date().toString()
-            });
-            console.log(res.data)
-            this.clearFealds();
-            this.props.functionReload();
+            try {
+                const res = await axios.post('/admin/createNews', {
+                    "title": title,
+                    "description": description,
+                    "date": Date().toString()
+                });
+                alert("Uspesno dodato!");
+                console.log(res.data);
+                this.clearFealds();
+                this.props.functionReload();
+            } catch(err) {
+                console.log(err.response)
+                alert(err.response.data.message)
+            };
         }
 
     }
@@ -89,17 +98,17 @@ class CreateNewForm extends Component{
         return(
             <Form className="text-left">
                 <Form.Group controlId="exampleFormControlInput1">
-                    <Form.Label>Title</Form.Label>
+                    <Form.Label>Naslov</Form.Label>
                     <Form.Control ref={this.newsTitle} type="text" />
                     <span style={{color: "red"}}>{this.state.errors.title}</span>
                 </Form.Group>
                 <Form.Group controlId="exampleFormControlTextarea1">
-                    <Form.Label>Description</Form.Label>
+                    <Form.Label>Opis</Form.Label>
                     <Form.Control ref={this.newsDescription} as="textarea" rows="3" />
                     <span style={{color: "red"}}>{this.state.errors.description}</span>
                 </Form.Group>
-                <Button variant="primary" type="submit" onClick={this.sendNews}>
-                    Create
+                <Button variant="outline-secondary" type="submit" onClick={this.sendNews}>
+                    Napravi
                 </Button>
             </Form>
         );
@@ -137,17 +146,21 @@ class Example extends Component {
         const newDescription = e.target.form.edit_description.value;
 
         console.log(`Updated News with: ${newTitle}, ${newDescription}`);
-
-        const res = await axios.post('/admin/updateNews', {
-            id: this.state.id,
-            query: {
-                title: newTitle,
-                description: newDescription,
-                date: Date().toString()
-            }
-        });
-        this.props.functionReload();
-        this.setState({ show: false });
+        try {
+            const res = await axios.post('/admin/updateNews', {
+                id: this.state.id,
+                query: {
+                    title: newTitle,
+                    description: newDescription,
+                    date: Date().toString()
+                }
+            });
+            this.props.functionReload();
+            this.setState({ show: false });
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
     }
 
     handleChange(e) {
@@ -160,8 +173,8 @@ class Example extends Component {
 
         return (
             <div>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow} className="justify-content-end">
-                    Edit
+                <Button variant="outline-secondary" onClick={this.handleShow} className="justify-content-end">
+                    Izmeni
                 </Button>
 
                 <Modal
@@ -175,7 +188,7 @@ class Example extends Component {
                         <Modal.Header closeButton>
                             <Modal.Title id="contained-modal-title-lg">
                                 <FormGroup controlId="edit_title" validationState={this.state.formIsValid}>
-                                    <FormLabel>Change title</FormLabel>
+                                    <FormLabel>Promeni naslov</FormLabel>
                                     <FormControl
                                         type="text"
                                         componentclass="input"
@@ -187,7 +200,7 @@ class Example extends Component {
                         </Modal.Header>
                         <Modal.Body>
                             <FormGroup>
-                                <FormLabel>Change description</FormLabel>
+                                <FormLabel>Promeni opis</FormLabel>
                                 <FormControl
                                     id="edit_description"
                                     as="textarea"
@@ -197,8 +210,8 @@ class Example extends Component {
                             </FormGroup>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button onClick={this.handleClose}>Discard</Button>
-                            <Button onClick={this.handleSave}>Save</Button>
+                            <Button variant="outline-secondary" onClick={this.handleClose}>Odbaci</Button>
+                            <Button variant="outline-secondary" onClick={this.handleSave}>Sačuvaj</Button>
                         </Modal.Footer>
                     </form>
                 </Modal>
@@ -214,28 +227,29 @@ class NewsPanel_v2 extends Component{
         super(props);
         this.state = {
             news: [],
-            first: false,
-            second: false
         };
         this.renderNews = this.renderNews.bind(this);
 
-        this.selectedFirst = this.selectedFirst.bind(this);
-        this.selectedSecond = this.selectedSecond.bind(this);
 
         this.loadNews = this.loadNews.bind(this)
     }
 
     async componentDidMount() {
-        const resNews = await axios.get('/app/getNews');
-        console.log(resNews.data)
-        this.setState({
-            news: resNews.data.data
-        });
+        try {
+            const resNews = await axios.get('/app/getNews');
+            console.log(resNews.data)
+            this.setState({
+                news: resNews.data.data
+            });
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
     }
 
     renderNews(){
 
-        const cards = this.state.news.map( (article, index)=> {
+        const cards = this.props.news.map( (article, index)=> {
             return (
                 <Container key={article['_id']} className="text-left">
                     <Card>
@@ -266,49 +280,39 @@ class NewsPanel_v2 extends Component{
         );
     }
 
-    selectedFirst() {
-        this.setState({
-            first: true,
-            second: false
-        })
-    }
-
-    selectedSecond() {
-        this.setState({
-            first: false,
-            second: true
-        })
-    }
 
     async loadNews() {
-        const resNews = await axios.get('/app/getNews');
-        console.log(resNews.data)
-        this.setState({
-            news: resNews.data.data
-        });
+        try {
+            const resNews = await axios.get('/app/getNews');
+            console.log(resNews.data)
+            this.props.setNews({news: resNews.data.data});
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
     }
 
     render(){
         return(
             <div>
                 <Tab.Container id="leftTabsExample">
-                    <Nav variant="pills" className="" defaultActiveKey="second">
+                    <Nav variant="pills" className="justify-content-around" defaultActiveKey="second">
                         <Nav.Item style={{"marignRight": "10px"}}>
-                            <button className="btn btn-danger" onClick={this.selectedFirst} >View old</button>
+                            <Nav.Link className="btn btn-outline-danger" eventKey="first" >Izlistaj novosti</Nav.Link>
                         </Nav.Item>
                         <Nav.Item >
-                            <button className="btn btn-danger" onClick={this.selectedSecond}>Create new</button>
+                            <Nav.Link className="btn btn-outline-danger" eventKey="second">Dodaj novu novost</Nav.Link>
                         </Nav.Item>
                     </Nav>
-
+                    <br/>
                     <Row sm={1}>
                         <Tab.Content>
-
-                                {this.state.first ? this.renderNews() : ""}
-
-
-                                {this.state.second ? <CreateNewForm functionReload={this.loadNews} /> : ""}
-
+                            <Tab.Pane eventKey="first">
+                                {this.renderNews()}
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="second">
+                                <CreateNewForm functionReload={this.loadNews} />
+                            </Tab.Pane>
                         </Tab.Content>
                     </Row>
                 </Tab.Container>
@@ -317,4 +321,22 @@ class NewsPanel_v2 extends Component{
     }
 }
 
-export default NewsPanel_v2;
+const mapStateToProps = state => {
+    return {
+        places: state.places,
+        events: state.events,
+        news: state.news
+    }
+};
+
+function mapDispatchToProps(dispatch){
+    return {
+        setEvents: data => dispatch(setEvents(data)),
+        setPlaces: data => dispatch(setPlaces(data)),
+        setBlood: data => dispatch(setBlood(data)),
+        setNews: data => dispatch(setNews(data)),
+        setHospitals: data => dispatch(setHospitals(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsPanel_v2);
