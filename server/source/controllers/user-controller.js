@@ -20,12 +20,12 @@ class UserController {
     async registerUser(email, password, username, name) {
         let existingUser = await this.userService.findOne({ email });
         if (existingUser != null) {
-            throw Error('Korisnik sa istom email adresom je vec registrovan!');
+            throw Error('Korisnik sa istom email adresom je već registrovan!');
         }
 
         existingUser = await this.userService.findOne({ username });
         if (existingUser != null) {
-            throw Error('Korisnik sa istim korisnickim imenom je vec registrovan!');
+            throw Error('Korisnik sa istim korisničkim imenom je već registrovan!');
         }
         const userId = await this.userService.create({
             email, password, username, name,
@@ -34,27 +34,27 @@ class UserController {
 
         await this.activationService.create({ emailHash: user.emailHash });
         const link = this.config.activationRoute + user.emailHash;
-        await this.emailService.sendEmail('activation', { name, link }, { recipientEmail: email, subject: 'Activation link' });
+        await this.emailService.sendEmail('activation', { name, link }, { recipientEmail: email, subject: 'Aktivacioni email' });
         return { data: link, message: 'Poslat Vam je aktivacioni email' };
     }
 
     async activateUser(emailHash) {
         const activation = await this.activationService.findOne({ emailHash });
         if (activation == null) {
-            throw Error('Los ID aktivacije!');
+            throw Error('Loš aktivacioni link!');
         }
         // TODO check if expired and throw error or new activation
         await this.userService.activateNewUser(emailHash);
-        return 'Uspesno ste aktivirali Vas nalog';
+        return 'Uspešno ste aktivirali Vaš nalog';
     }
 
     async authorize(username, password) {
         const user = await this._findByUserPass(username, password);
         if (user == null) {
-            throw Error('Los username ili password!');
+            throw Error('Loše korisničko ime ili password!');
         }
         if (user.isActive === false) {
-            throw Error('Niste aktivirali Vas nalog! Molimo proverite email kako bi potvrdili.');
+            throw Error('Niste aktivirali Vaš nalog! Molimo proverite email kako bi Vaš nalog bio aktiviran.');
         }
         const tokenId = await this.tokenService.create(user);
         const token = await this.tokenService.findById(tokenId);
@@ -86,14 +86,14 @@ class UserController {
             await this.userService
                 .updateOne(tokenData.userId, { recipient: id, roles: user.roles });
         } else {
-            throw Error('Losa vrednost parametra!');
+            throw Error('Loša vrednost parametra!');
         }
 
         user = await this.userService.findById(tokenData.userId);
         const tokenId = await this.tokenService.create(user);
         const token = await this.tokenService.findById(tokenId);
         return {
-            message: 'Uspesno ste dodali novu ulogu!',
+            message: 'Uspešno ste dodali novu ulogu!',
             data: {
                 iat: token.iat,
                 exp: token.exp,
@@ -111,7 +111,7 @@ class UserController {
         const recipientData = user.recipient
             ? (await this.recipientService.findById(user.recipient, ['blood'])) : false;
         return {
-            message: 'Uspesno ste dohvatili usera!',
+            message: 'Uspešno ste dohvatili usera!',
             data: {
                 email: user.email,
                 isAdmin: user.isAdmin,
