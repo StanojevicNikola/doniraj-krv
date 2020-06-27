@@ -59,6 +59,7 @@ class CoordinatorDash extends Component{
         try {
             const resNotify = await axios.post('/recipient/requestBlood', body);
             console.log(resNotify.data);
+            alert("Zahtev poslat")
         } catch(err) {
             console.log(err.response)
             alert(err.response.data.message)
