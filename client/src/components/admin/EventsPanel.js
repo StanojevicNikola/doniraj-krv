@@ -1,34 +1,33 @@
 import React, {Component, useState} from 'react';
+import DatePicker from "react-datepicker";
+
 import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
 import axios from 'axios';
+import {connect} from "react-redux";
 
-const fakeEvents = [
-    {
-        title: 'Event #1',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        date: '24.5.2012',
-        hour: '15',
-        geolocation: 'Beograd'
-    },
-    {
-        title: 'Event #2',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        date: '26.07.1984',
-        hour: '10',
-        geolocation: 'Nis'
-    }
-];
+import {setBlood, setEvents, setNews, setPlaces, setHospitals} from "../../actions";
+
 
 class CreateNewForm extends Component{
     constructor(props) {
         super(props);
 
         this.state = {
-            errors: {}
+            errors: {},
+            selectedDate: new Date()
         };
 
         this.sendEvent = this.sendEvent.bind(this);
         this.validate = this.validate.bind(this);
+        this.handleDate = this.handleDate.bind(this);
+
+        this.titlRef = React.createRef();
+        this.descriptionRef = React.createRef();
+        this.hourRef = React.createRef();
+    }
+
+    handleDate(date ) {
+        this.setState({selectedDate: date});
     }
 
     validate(title, description){
@@ -57,29 +56,42 @@ class CreateNewForm extends Component{
         return clear["title"] && clear["description"];
     }
 
-    clearFealds(event){
-
-        event.target.form.exampleFormControlInput1.value = '';
-        event.target.form.exampleFormControlTextarea1.value = '';
-    }
 
     async sendEvent(e) {
 
         e.preventDefault();
         const title = e.target.form.exampleFormControlInput1.value;
         const description = e.target.form.exampleFormControlTextarea1.value;
+        const date = this.state.selectedDate;
+        const hour = e.target.form.exampleFormControlInput3.value;
+        const location = e.target.form.exampleFormControlInput4.value;
+
+        const body = {
+            title: title,
+            description: description,
+            date : date,
+            hour: hour,
+            geolocation: location
+        }
+
+        console.log(body)
 
         console.log(`Created News with: ${title}, ${description}`);
 
         if(this.validate(title, description)){
+            try {
+                const res = await axios.post('/admin/createEvent', body);
+                alert("Uspesno dodato!")
+                this.titlRef.current.value = "";
+                this.descriptionRef.current.value = "";
+                this.hourRef.current.value = "";
 
-            const res = await axios.post('/admin/createNews', {
-                title,
-                description,
-                date: new Date()
-            });
-
-            // this.clearFealds(e);
+                this.setState({selectedDate: new Date()});
+                this.props.functionReload();
+            } catch(err) {
+                console.log(err.response)
+                alert(err.response.data.message)
+            };
         }
 
     }
@@ -89,32 +101,48 @@ class CreateNewForm extends Component{
         return(
             <Form className="text-left">
                 <Form.Group controlId="exampleFormControlInput1">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Label>Naslov</Form.Label>
+                    <Form.Control ref={this.titlRef} type="text" />
                     <span style={{color: "red"}}>{this.state.errors.title}</span>
                 </Form.Group>
                 <Form.Group controlId="exampleFormControlTextarea1">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" rows="3" />
+                    <Form.Label>Opis</Form.Label>
+                    <Form.Control ref={this.descriptionRef} as="textarea" rows="3" />
                     <span style={{color: "red"}}>{this.state.errors.description}</span>
                 </Form.Group>
                 <Form.Group controlId="exampleFormControlInput2">
-                    <Form.Label>Date</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Label>Datum</Form.Label>
+                    <div className="customDatePickerWidth">
+                        <DatePicker
+                            className="form-control"
+                            selected={this.state.selectedDate}
+                            onChange={this.handleDate}
+                        /> 
+                         
+                    </div>
                     <span style={{color: "red"}}>{this.state.errors.title}</span>
                 </Form.Group>
                 <Form.Group controlId="exampleFormControlInput3">
-                    <Form.Label>Hour</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Label>Satnica</Form.Label>
+                    <Form.Control ref={this.hourRef} type="text" />
                     <span style={{color: "red"}}>{this.state.errors.title}</span>
                 </Form.Group>
                 <Form.Group controlId="exampleFormControlInput4">
-                    <Form.Label>Location</Form.Label>
-                    <Form.Control type="text" />
-                    <span style={{color: "red"}}>{this.state.errors.title}</span>
+                    <Form.Label>Lokacija</Form.Label>
+                    <Form.Control as="select">
+                        {this.props.places.map((e, i) => {
+                            console.log(e)
+                            return (
+                                <option key={i} value={e['_id']}>
+                                    {e.city}
+                                </option>
+                            )
+                        })}
+                    </Form.Control>
+                    
                 </Form.Group>
-                <Button variant="primary" type="submit" onClick={this.sendEvent}>
-                    Create
+                <Button variant="outline-secondary" type="submit" onClick={this.sendEvent}>
+                    Napravi
                 </Button>
             </Form>
         );
@@ -154,14 +182,18 @@ class Example extends Component {
         const newDescription = e.target.form.edit_description.value;
 
         console.log(`Updated News with: ${newTitle}, ${newDescription}`);
+        try {
+            const res = axios.post('/admin/updateNews', {
+                title: newTitle,
+                description: newDescription,
+                date: new Date()
+            });
 
-        const res = axios.post('/admin/updateNews', {
-            title: newTitle,
-            description: newDescription,
-            date: new Date()
-        });
-
-        this.setState({ show: false });
+            this.setState({ show: false });
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
     }
 
     handleChange(e) {
@@ -174,9 +206,6 @@ class Example extends Component {
 
         return (
             <div className="text-left">
-                {/*<Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>*/}
-                {/*    Edit*/}
-                {/*</Button>*/}
 
                 <Modal
                     {...this.props}
@@ -239,16 +268,19 @@ class EventsPanel extends Component{
     }
 
     async loadEvents() {
-        const resEvents = await axios.get('/app/getEvents');
-        console.log(resEvents.data)
-        this.setState({
-            events: resEvents.data.data
-        });
+        try {
+            const resEvents = await axios.get('/app/getEvents');
+            console.log(resEvents.data)
+            this.props.setEvents({events: resEvents.data.data});
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
     }
 
     renderEvents(){
 
-        const cards = this.state.events.map( (article, index)=> {
+        const cards = this.props.events.map( (article, index)=> {
             return (
                 <Card key={index}>
                     <Accordion.Toggle as={Card.Header} eventKey={index}>
@@ -281,22 +313,22 @@ class EventsPanel extends Component{
         return(
             <div>
                 <Tab.Container id="leftTabsExample">
-                    <Nav variant="pills" className="">
+                    <Nav variant="pills" className="justify-content-around">
                         <Nav.Item >
-                            <Nav.Link eventKey="first">View old</Nav.Link>
+                            <Nav.Link className="btn btn-outline-danger" eventKey="first">Izlistaj događaje</Nav.Link>
                         </Nav.Item>
                         <Nav.Item >
-                            <Nav.Link eventKey="second">Create new</Nav.Link>
+                            <Nav.Link className="btn btn-outline-danger" eventKey="second">Dodaj novi događaj</Nav.Link>
                         </Nav.Item>
                     </Nav>
-
+                    <br/>
                     <Row sm={1}>
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
                                 {this.renderEvents()}
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
-                                <CreateNewForm />
+                                <CreateNewForm places={this.props.places} functionReload={this.loadEvents}/>
                             </Tab.Pane>
                         </Tab.Content>
                     </Row>
@@ -306,4 +338,21 @@ class EventsPanel extends Component{
     }
 }
 
-export default EventsPanel;
+const mapStateToProps = state => {
+    return {
+        places: state.places,
+        events: state.events
+    }
+};
+
+function mapDispatchToProps(dispatch){
+    return {
+        setEvents: data => dispatch(setEvents(data)),
+        setPlaces: data => dispatch(setPlaces(data)),
+        setBlood: data => dispatch(setBlood(data)),
+        setNews: data => dispatch(setNews(data)),
+        setHospitals: data => dispatch(setHospitals(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventsPanel);

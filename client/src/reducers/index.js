@@ -22,7 +22,10 @@ const initialState = {
     isAdmin: false,
     userId: '',
     events: [],
-    places: []
+    places: [],
+    news: [],
+    hospitals: [],
+    blood: []
 };
 
 function rootReducer(state = initialState, action) {

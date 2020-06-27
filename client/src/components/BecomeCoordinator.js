@@ -3,6 +3,10 @@ import axios from 'axios'
 import {connect} from "react-redux";
 import {setCoord, setOnlyToken, setToken} from "../actions";
 
+import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+
+
+
 class BecomeCoordinator extends Component{
 
     constructor(props) {
@@ -28,14 +32,18 @@ class BecomeCoordinator extends Component{
         const roleData = {
             blood: this.state.selectedBloodGroup['_id'],
         };
+        try {
+            let resToken = await axios.post('/user/addRole', {role, roleData});
 
-        let resToken = await axios.post('/user/addRole', {role, roleData});
+            axios.defaults.headers.common = {'authorization': `Bearer ${resToken.data.data.token}`};
+            this.props.setOnlyToken({token: resToken.data.data.token});
 
-        axios.defaults.headers.common = {'authorization': `Bearer ${resToken.data.data.token}`};
-        this.props.setOnlyToken({token: resToken.data.data.token});
-
-        let resUser = await axios.post('/user/data');
-        this.props.setCoord({coordinator: resUser.data.data.coordinator});
+            let resUser = await axios.post('/user/data');
+            this.props.setCoord({coordinator: resUser.data.data.coordinator});
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
 
 
     }
@@ -43,18 +51,17 @@ class BecomeCoordinator extends Component{
     render(){
         return(
             <div className="col s5">
-                <div>
-                    <label>Blood type: </label>
-                    <select value={this.state.selectedBloodGroup} onChange={this.handleBloodType}>
-                        {this.props.blood.map((e, i) => {
-                            return(
-                                <option key={i} value={e['_id']}>{e['groupType']}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-
-                <button className="btn" onClick={this.addCoordinator}>Add</button>
+                <Card>
+                    <Card.Body>
+                        <Card.Text>
+                            Koordinator je osoba koja pomaže u organizaciji događaja prikupljana krvi.
+                            Pritiskom na dugme postajete koordinator donacija.{"\n"}
+                            Sve dalje komande izvrsavate u kartici koordinator.
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+                <br/>
+                <button className="btn btn-large btn-outline-dark" onClick={this.addCoordinator}>Postani koordinator!</button>
             </div>
         )
     };

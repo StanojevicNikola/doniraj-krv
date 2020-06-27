@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import axios from 'axios';
 import Mapa from './map/Mapa'
+import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
 
 class DonorDash extends Component{
 
@@ -9,55 +10,76 @@ class DonorDash extends Component{
         super(props);
 
         this.state = {
-            selectedDis: 0,
-            places: []
+            places: null
         };
 
         this.findGeo = this.findGeo.bind(this);
-        this.handleDis = this.handleDis.bind(this);
     }
 
-    handleDis(event) {
-        this.setState({selectedDis: event.target.value});
-    }
-
-    async findGeo() {
-        console.log(this.state)
-        let resGeo = await axios.post('/donor/findPlaces', {
-            query: {  },
-            constraint: { distance: this.state.selectedDis }
-        });
-        console.log(resGeo.data);
+    componentDidMount() {
         this.setState({
-            places: resGeo.data.data
+            places: []
         })
+    }
+
+
+    async findGeo(e) {
+        e.preventDefault();
+        const radius = e.target.form.radius.value;
+        console.log(this.state)
+        try {
+            let resGeo = await axios.post('/donor/findPlaces', {
+                query: {  },
+                constraint: { distance: radius }
+            });
+        
+            console.log(resGeo.data);
+            this.setState({
+                places: resGeo.data.data
+            })
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
     }
 
     render() {
         return (
-            <div>
-               <div className="card blue-grey darken-1">
-                   <div className="card-content white-text">
-                       <p> Blood Type: {this.props.donor['blood']['groupType']} </p>
+                <Card>
+                <Card.Body>
+                    <Card.Title>
+                        Vase informacije:
+                    </Card.Title>
+                    <Form>
+                        <Form.Group controlId="blood">
+                            <Form.Label>Krvna grupa:</Form.Label>
+                            <Form.Control disabled={true} value={this.props.donor['blood'] ? this.props.donor['blood']['groupType'] : "Prvo moras postati donor"}/>
+                        </Form.Group>
+                        <Form.Group controlId="place">
+                            <Form.Label>Lokacija:</Form.Label>
+                            <Form.Control disabled={true} value={this.props.donor['geolocation'] ? this.props.donor['geolocation']['city'] : "Prvo moras postati donor"}/>
+                        </Form.Group>
 
-                       <br />
-                       <p>Location: {this.props.donor['geolocation']['city']} </p>
-                   </div>
-               </div>
-                <div>
-                    <label>Distance:</label>
-                    <select className="form-control" value={this.state.selectedDis} onChange={this.handleDis}>
-                        <option value={0}>0</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                        <option value={250}>250</option>
-                        <option value={500}>500</option>
-                    </select>
-                    <button className="btn btn-danger" onClick={this.findGeo}>Find</button>
-                </div>
-
-                <Mapa data={this.state.places}/>
-            </div>
+                        <Form.Group controlId="radius">
+                            <Form.Label>Nadji najbliza mesta za doniranje u krugu od:</Form.Label>
+                            <Form.Control as="select">
+                                <option value={50}>50km</option>
+                                <option value={100}>100km</option>
+                                <option value={250}>250km</option>
+                                <option value={500}>500km</option>
+                            </Form.Control>
+                        </Form.Group>
+                       <Form.Group>
+                            <Button variant="outline-dark" type="submit" onClick={this.findGeo}>
+                               Nadji
+                            </Button>
+                       </Form.Group>
+                       <Form.Group>
+                            <Mapa cluster={true} data={this.state.places}/>
+                       </Form.Group>
+                    </Form>
+                </Card.Body>
+            </Card>
         );
     }
 
@@ -68,7 +90,6 @@ const mapStateToProps = state => {
     return {
         token: state.token,
         donor: state.donor,
-        places: state.places
     }
 };
 
