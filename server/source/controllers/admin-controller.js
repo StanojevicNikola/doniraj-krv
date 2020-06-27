@@ -16,7 +16,6 @@ class AdminController {
 
     // TODO add validation of data
     async createNews(data) {
-        console.log(data);
         return this.newsService.create(data);
     }
 
@@ -44,17 +43,17 @@ class AdminController {
         const { place, blood, amount } = data;
         const placeId = await this.placeService.findById(place);
         if (placeId == null) {
-            throw Error('Izabrali ste nepostojecu lokaciju!');
+            throw Error('Izabrali ste nepostojeću lokaciju!');
         }
 
         const bloodId = await this.bloodGroupService.findById(blood);
         if (bloodId == null) {
-            throw Error('Izabrali ste nepostojecu krvnu grupu!');
+            throw Error('Izabrali ste nepostojeću krvnu grupu!');
         }
 
         // await this.transactionService.create(data);
         await this.storageService.updateBlood(place, blood, amount);
-        return { data: null, message: 'Uspesno ste azurirali stanje krvi' };
+        return { data: null, message: 'Uspešno ste ažurirali stanje krvi' };
     }
 }
 

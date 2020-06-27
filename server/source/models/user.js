@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Compile model from schema
 module.exports.User = mongoose.model(
     'User',
     new mongoose.Schema({

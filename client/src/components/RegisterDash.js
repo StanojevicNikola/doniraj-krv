@@ -65,9 +65,15 @@ class RegisterDash extends Component{
                 "password": this.state.pass,
                 "name": this.state.name
             };
-            const res = await axios.post('/users/register', body);
-
-            console.log(res);
+            try {
+                const res = await axios.post('/users/register', body);
+                console.log(res);
+                alert("Uspesna registracija!")
+            } catch(err) {
+                console.log(err.response)
+                alert(err.response.data.message)
+            };
+            
         }
     }
 
@@ -77,23 +83,23 @@ class RegisterDash extends Component{
                 <br/>
                 <form className="register-form">
                     <div>
-                        <input type="text" placeholder="Name" onChange={this.nameChange}/>
+                        <input type="text" placeholder="Ime" onChange={this.nameChange}/>
                     </div>
                     <div>
-                        <input type="text" placeholder="Username" onChange={this.userChange}/>
+                        <input type="text" placeholder="Korisničko ime" onChange={this.userChange}/>
                     </div>
                     <div>
                         <input type="email" placeholder="Email" onChange={this.emailChange}/>
                     </div>
                     <div>
-                        <input type="password" placeholder="Password" onChange={this.passChange}/>
+                        <input type="password" placeholder="Lozinka" onChange={this.passChange}/>
                     </div>
                     <div>
-                        <input type="password" placeholder="Repeat Password" onChange={this.passRepeatChange}/>
+                        <input type="password" placeholder="Ponovi lozinku" onChange={this.passRepeatChange}/>
                     </div>
 
                     <div>
-                        <Button onClick={this.submit}>Register</Button>
+                        <Button variant='danger' onClick={this.submit}>Registruj se</Button>
                     </div>
                 </form>
                 <br/>

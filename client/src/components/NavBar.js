@@ -27,7 +27,7 @@ class NavBar extends Component {
         render(){
             return(
                 <>
-                    <Navbar bg="dark" variant="dark" className="">
+                    <Navbar className="text-light bg-dark">
                         <Container>
                             <Navbar.Brand>
                                 <img
@@ -37,12 +37,12 @@ class NavBar extends Component {
                                 />
                             </Navbar.Brand>
                             <Nav className="mr-auto d-flex justify-content-around">
-                                <Link to="/" style={{color:'white', 'marginRight': '10px'}}>Home</Link>{' '}
-                                {this.props.token ? <Link to='/dashboard' style={{color:'white'}}>Dashboard</Link> : ''}
+                                <Link to="/" style={{color:'white', 'marginRight': '10px'}}>Naslovna</Link>{' '}
+                                {this.props.token ? <Link to='/dashboard' style={{color:'white'}}>Korisnički panel</Link> : ''}
                             </Nav>
                             <Nav className="d-flex justify-content-around">
-                                {this.props.isAdmin ? <Link to='/admindash' style={{color:'white', 'marginRight': '10px'}}>Admin</Link> : ""}
-                                <Link to='/about' style={{color:'white', 'marginRight': '10px'}}>About</Link>
+                                {this.props.isAdmin ? <Link to='/admindash' style={{color:'white', 'marginRight': '10px'}}>Admin panel</Link> : ""}
+                                <Link to='/about' style={{color:'white', 'marginRight': '10px'}}>O nama</Link>
                             </Nav>
                             <Nav className="d-flex justify-content-around">
                                 <Nav.Item>
@@ -50,13 +50,13 @@ class NavBar extends Component {
                                         this.props.token ?
                                         <Link to='/' style={{color:'white'}}>
                                             <Button variant="danger" onClick={this.logoutMe}>
-                                                Logout
+                                                Izloguj se
                                             </Button>
                                         </Link>
                                         :
                                         <Link to="/login" style={{color:'white'}}>
                                             <Button variant="danger">
-                                                Login
+                                                Uloguj se
                                             </Button>
                                         </Link>
                                     }

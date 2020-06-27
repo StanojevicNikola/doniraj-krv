@@ -21,7 +21,7 @@ class RequestController {
     async publishRequest(radius, city, recipient, queryType, groups, places) {
         const geolocation = await this.geolocationService.findOne({ city });
         if (geolocation == null) {
-            throw Error('Izabrali ste nepostojecu lokaciju!');
+            throw Error('Izabrali ste nepostojeću lokaciju!');
         }
         const requestId = await this.requestService
             .create({
@@ -33,7 +33,7 @@ class RequestController {
                 places,
             });
         const data = await this._notify(requestId);
-        return { data, message: 'Kompatibilni donori su obavesteni o Vasem zahtevu!' };
+        return { data, message: 'Kompatibilni donori su obavešteni o Vašem zahtevu!' };
     }
 
     async _notify(requestId) {
@@ -60,7 +60,7 @@ class RequestController {
             const params = { name: donor.user.name, places: utils.createHtmlList(placesInfo) };
             const options = {
                 recipientEmail: donor.user.email,
-                subject: 'Zahtev za donaciju krvi',
+                subject: 'Obaveštenje za donaciju krvi',
             };
             promises.push(this.emailService.sendEmail('request', params, options));
         });

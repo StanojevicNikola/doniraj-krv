@@ -9,6 +9,7 @@ import icon_3 from '../img/icon_3.png';
 
 import axios from 'axios';
 import {setBlood, setEvents, setNews, setPlaces, setHospitals} from "../actions";
+import Mapa from './map/Mapa';
 
 const fakeEvent = {
     title: 'BRAVO',
@@ -33,6 +34,7 @@ class EventCard extends Component{
     }
 
     render(){
+        let date = new Date(this.state.date)
         return(
             <Card style={{ width: '18rem', height: '15rem'}}>
                 <Card.Body>
@@ -40,15 +42,13 @@ class EventCard extends Component{
                         {this.state.title}
                     </Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
-                        {this.state.date} at {this.state.hour}
+                        {date.getDay()+"."+date.getMonth()+"."+date.getFullYear()} {this.state.hour ? " u " + this.state.hour : ""}
                     </Card.Subtitle>
                     <br/>
                     <br/>
                     <Card.Text>
                         {this.state.description}
                     </Card.Text>
-                    <Card.Link href="#">Card Link</Card.Link>
-                    <Card.Link href="#">Another Link</Card.Link>
                 </Card.Body>
             </Card>
         );
@@ -65,7 +65,9 @@ class HomePage extends Component {
     }
 
     async componentDidMount() {
+        try {
         let resCities = await axios.get('/app/getCities');
+        console.log(resCities.data.data)
         this.props.setPlaces({places: resCities.data.data});
 
         let resEvents = await axios.get('/app/getEvents');
@@ -79,16 +81,23 @@ class HomePage extends Component {
 
         let resHospitals = await axios.get('/app/getPlaces');
         this.props.setHospitals({hospitals: resHospitals.data.data});
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
 
     }
 
     render() {
         // console.log(this.state.upcomingEvents[2].title);
-
+        let events = this.props.events.slice(this.props.events.length-3,this.props.events.length);
+        console.log(events)
+        console.log(this.props.news)
+        let news = this.props.news.slice(this.props.news.length-3,this.props.news.length);
         return (
-            <div>
+            <div className="container">
                 <div className="landing-title">
-                    <h2>Start helping as</h2>
+                    <h2>Počni da pomažeš kao:</h2>
                 </div>
 
                 <div className="main-wrapper">
@@ -104,7 +113,7 @@ class HomePage extends Component {
                     <section className="coordinator">
                         <Link to={this.props.token ? '/dashboard' : '/login'}>
                             <div>
-                                <span>Coordinator</span>
+                                <span>Koordinator</span>
                             </div>
                         </Link>
                     </section>
@@ -113,7 +122,7 @@ class HomePage extends Component {
                 <br/>
                 <br/>
 
-                <h2 className="landing-title">How to prepare</h2>
+                <h2 className="landing-title">Kako se pripremiti?</h2>
                 <br />
                 {/* How to prepare sekcija*/}
                 <Container>
@@ -125,10 +134,10 @@ class HomePage extends Component {
                             <div>
                                 <br />
                                 <h4>
-                                    Donation Process
+                                    Donatorski proces
                                 </h4>
                                 <h5 style={{fontWeight: 'bold'}}>
-                                    Transform lives in just 10 easy steps.
+                                    Transformiši nečiji život u samo nekoliko koraka.
                                 </h5>
                             </div>
                         </Col>
@@ -139,10 +148,10 @@ class HomePage extends Component {
                             <div>
                                 <br />
                                 <h4>
-                                    Check Eligibility
+                                    Proveri podobnost
                                 </h4>
                                 <h5 style={{fontWeight: 'bold'}}>
-                                    Review our eligibility requirements.
+                                    Proveri naše uslove da postaneš donor.
                                 </h5>
                             </div>
                         </Col>
@@ -153,10 +162,10 @@ class HomePage extends Component {
                                 <div>
                                 <br />
                                 <h4>
-                                    Donation Types
+                                    Tipovi donacija
                                 </h4>
                                 <h5 style={{fontWeight: 'bold'}}>
-                                    Discover how certain donations impact more lives.
+                                   Proveri kako određena donacija može da utiče na nečiji život.
                                 </h5>
                             </div>
                         </Col>
@@ -168,38 +177,79 @@ class HomePage extends Component {
                 <div className="">
                     <div className="landing-title">
                         <br />
-                        <h2>Upcoming events</h2>
+                        <h2>Budući događaji</h2>
                         <br/>
                     </div>
 
                     <Container>
                         <Row>
-                            <Col>
-                                <EventCard
-                                    event={fakeEvent}
-                                />
-                            </Col>
-                            <Col>
-                                <EventCard
-                                    event={fakeEvent}
-                                />
-                            </Col>
-                            <Col>
-                                <EventCard
-                                    event={fakeEvent}
-                                />
-                            </Col>
+                            {events.length != 0 ?
+                                events.map((e, i) => {
+                                    return (
+                                        <Col key={e._id}>
+                                            <EventCard
+                                                event={e}
+                                            />
+                                        </Col>
+                                    )
+                                })
+                                :
+                                "Nema događaja"
+                            }
                         </Row>
                     </Container>
 
                 </div>
+                
+                <div className="">
+                    <div className="landing-title">
+                        <br />
+                        <h2>Novosti</h2>
+                        <br/>
+                    </div>
+
+                    <Container>
+                        <Row>
+                            {news.length != 0 ?
+                                news.map((e, i) => {
+                                    return (
+                                        <Col key={e._id}>
+                                            <EventCard
+                                                event={e}
+                                            />
+                                        </Col>
+                                    )
+                                })
+                                :
+                                "Nema novosti"
+                            }
+                        </Row>
+                    </Container>
+
+                </div>
+
+                <div className="">
+                    <div className="landing-title">
+                        <br />
+                        <h2>Mapa sa bolnicama u kojima možete donirati:</h2>
+                        <br/>
+                    </div>
+
+                    <Mapa cluster={false} data={this.props.hospitals}/>
+                </div>
+
             </div>
         );
     }
 }
 
 const mapStateToProps = state => {
-    return { token: state.token }
+    return { 
+        token: state.token,
+        events: state.events,
+        news: state.news,
+        hospitals: state.hospitals
+    }
 };
 
 function mapDispatchToProps(dispatch){
