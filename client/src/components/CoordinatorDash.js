@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Mapa from './map/Mapa';
-import DatePicker from "react-datepicker";
+import Popup from './Popup';
 import { Multiselect } from 'multiselect-react-dropdown';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios'
@@ -49,16 +48,21 @@ class CoordinatorDash extends Component{
     }
 
     async notify(e) {
+        e.preventDefault();
+        console.log("USAO")
+        console.log(this.props.token)
         let body = {
-            city: e.target.form.place.value,
+            city: e.target.form.place1.value,
             places: this.state.selectedHospital.map( e => e['_id']),
             radius: e.target.form.radius.value,
             queryType: 'COMPATIBLE',
-            groups: [e.target.form.blood.value]
+            groups: [e.target.form.blood1.value]
         };
+        console.log(body)
         try {
             const resNotify = await axios.post('/recipient/requestBlood', body);
             console.log(resNotify.data);
+
             alert("Zahtev poslat")
         } catch(err) {
             console.log(err.response)
@@ -77,26 +81,26 @@ class CoordinatorDash extends Component{
                         
                     </Card.Text>
                     <Form>
-                        <Form.Group controlId="blood">
+                        <Form.Group controlId="blood1">
                             <Form.Label>Krvna grupa koju trazite:</Form.Label>
                             <Form.Control as="select">
                                 {this.props.blood.map((e, i) => {
                                     console.log(e)
                                     return (
-                                        <option key={i} value={e['_id']}>
+                                        <option key={i} value={e['groupType']}>
                                             {e['groupType']}
                                         </option>
                                     )
                                 })}
                             </Form.Control>
                         </Form.Group>
-                        <Form.Group controlId="place">
+                        <Form.Group controlId="place1">
                             <Form.Label>Lokacija gde je pacijent:</Form.Label>
                             <Form.Control as="select">
                                 {this.props.places.map((e, i) => {
                                     console.log(e)
                                     return (
-                                        <option key={i} value={e['_id']}>
+                                        <option key={i} value={e['city']}>
                                             {e['city']}
                                         </option>
                                     )

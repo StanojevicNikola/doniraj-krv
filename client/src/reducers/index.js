@@ -24,7 +24,8 @@ const initialState = {
     events: [],
     places: [],
     news: [],
-    hospitals: []
+    hospitals: [],
+    blood: []
 };
 
 function rootReducer(state = initialState, action) {

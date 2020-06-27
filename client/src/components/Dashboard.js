@@ -88,6 +88,7 @@ class Dashboard extends Component {
     }
 
     render() {
+        console.log(this.props.token)
         return (
           <div className="" >
               {this.props.token ? this.hasToken() : <div className="container">Morate da se ulogujete</div>}

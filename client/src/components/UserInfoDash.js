@@ -11,17 +11,17 @@ class UserInfoDash extends Component{
         return(
             <Card>
                 <Card.Body>
-                    <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Group >
                         <Form.Label>Ime i prezime:</Form.Label>
                         <Form.Control className="text-center" disabled={true} value={this.props.name} />
                     </Form.Group>
 
-                    <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Group >
                         <Form.Label>Korisnicko ime:</Form.Label>
                         <Form.Control className="text-center" disabled={true} value={this.props.username} />
                     </Form.Group>
 
-                    <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Group >
                         <Form.Label>Email:</Form.Label>
                         <Form.Control className="text-center" disabled={true} value={this.props.email} />
                     </Form.Group>
