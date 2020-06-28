@@ -4,6 +4,10 @@ import {connect} from "react-redux";
 import {setDonor, setOnlyToken, setToken} from "../actions";
 import DatePicker from "react-datepicker";
 
+import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+
+
+
 class BecomeDonor extends Component{
 
     constructor(props) {
@@ -11,84 +15,101 @@ class BecomeDonor extends Component{
         this.state = {
             cities: [],
             bloodGroups: [],
-            selectedBloodGroup: this.props.blood[0]['_id'],
-            selectedCity: this.props.places[0]['_id'],
             selectedDate: new Date()
         };
 
-        this.handleBloodType = this.handleBloodType.bind(this);
-        this.handleCity = this.handleCity.bind(this);
+        
         this.addDonor = this.addDonor.bind(this)
         this.handleDate = this.handleDate.bind(this);
     }
 
-    handleBloodType(event) {
-        this.setState({selectedBloodGroup: event.target.value});
-    }
-
-    handleCity(event) {
-        this.setState({selectedCity: event.target.value});
-    }
 
     handleDate(date ) {
         this.setState({selectedDate: date});
     }
 
-    async addDonor() {
+    async addDonor(e) {
+        e.preventDefault();
+        const blood = e.target.form.blood.value;
+        const place = e.target.form.place.value;
+        
+
         const role = 'DONOR';
         const roleData = {
-            blood: this.state.selectedBloodGroup,
-            geolocation: this.state.selectedCity,
+            blood: blood,
+            geolocation: place,
             lastDonation: this.state.selectedDate
         };
+        try {
+            let resToken = await axios.post('/user/addRole', {role, roleData});
+            console.log(resToken)
+            axios.defaults.headers.common = {'authorization': `Bearer ${resToken.data.data.token}`};
+            this.props.setOnlyToken({token: resToken.data.data.token});
 
-        let resToken = await axios.post('/user/addRole', {role, roleData});
-        console.log(resToken)
-        axios.defaults.headers.common = {'authorization': `Bearer ${resToken.data.data.token}`};
-        this.props.setOnlyToken({token: resToken.data.data.token});
-
-        let resUser = await axios.post('/user/data');
-        this.props.setDonor({donor: resUser.data.data.donor});
+            let resUser = await axios.post('/user/data');
+            this.props.setDonor({donor: resUser.data.data.donor});
+        } catch(err) {
+            console.log(err.response)
+            alert(err.response.data.message)
+        };
 
     }
 
     render(){
         return(
-            <div className="col s5">
 
-                <br/>
-                <br/>
-                <div>
-                    <label>Blood type: </label>
-                    <select value={this.state.selectedBloodGroup} onChange={this.handleBloodType}>
-                        {this.props.blood.map((e, i) => {
-                            return(
-                                <option key={i} value={e['_id']}>{e['groupType']}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-
-                <div>
-                    <label>Location:</label>
-                    <select value={this.state.selectedCity} onChange={this.handleCity}>
-                        {this.props.places.map((e, i) => {
-                            return(
-                                <option key={i} value={e['_id']}>{e['city']}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-
-                <div>
-                    <DatePicker
-                        selected={this.state.selectedDate}
-                        onChange={this.handleDate}
-                    />
-                </div>
-
-                <button className="btn" onClick={this.addDonor}>Add</button>
-            </div>
+            <Card>
+                <Card.Body>
+                    <Card.Text>
+                        Da bi ste postali donor bitne su nam informacije 
+                        vase lokacije i poslednjeg davanja krvi kako bi 
+                        vas pravovremeno obavestili o potencijalnim pacijentima.
+                        Sve informacije ostaju privatne!
+                    </Card.Text>
+                    <Form>
+                        <Form.Group controlId="blood">
+                            <Form.Label>Krvna grupa:</Form.Label>
+                            <Form.Control as="select">
+                                {this.props.blood.map((e, i) => {
+                                    console.log(e)
+                                    return (
+                                        <option key={i} value={e['_id']}>
+                                            {e['groupType']}
+                                        </option>
+                                    )
+                                })}
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="place">
+                            <Form.Label>Lokacija:</Form.Label>
+                            <Form.Control as="select">
+                                {this.props.places.map((e, i) => {
+                                    console.log(e)
+                                    return (
+                                        <option key={i} value={e['_id']}>
+                                            {e['city']}
+                                        </option>
+                                    )
+                                })}
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Datum poslednjeg davanja krvi:</Form.Label>
+                            <DatePicker
+                                className="form-control"
+                                selected={this.state.selectedDate}
+                                onChange={this.handleDate}
+                            />
+                            
+                        </Form.Group>
+                        <Form.Group>
+                            <Button variant="outline-dark" type="submit" onClick={this.addDonor}>
+                                Postani donor!
+                            </Button>
+                        </Form.Group>
+                    </Form>
+                </Card.Body>
+            </Card>
         )
     };
 

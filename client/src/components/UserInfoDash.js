@@ -1,29 +1,32 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 
+import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+
+
 class UserInfoDash extends Component{
 
 
     render(){
         return(
-            <div className="col s5">
-                <div>
-                    <label>Name: </label>
-                    <input type="text" value={this.props.name} disabled />
-                </div>
+            <Card>
+                <Card.Body>
+                    <Form.Group >
+                        <Form.Label>Ime i prezime:</Form.Label>
+                        <Form.Control className="text-center" disabled={true} value={this.props.name} />
+                    </Form.Group>
 
+                    <Form.Group >
+                        <Form.Label>Korisnicko ime:</Form.Label>
+                        <Form.Control className="text-center" disabled={true} value={this.props.username} />
+                    </Form.Group>
 
-                <div>
-                    <label>Username:</label>
-                    <input type="text" value={this.props.username} disabled />
-                </div>
-
-                <div>
-                    <label>Email:</label>
-                    <input type="text" value={this.props.email} disabled />
-                </div>
-
-            </div>
+                    <Form.Group >
+                        <Form.Label>Email:</Form.Label>
+                        <Form.Control className="text-center" disabled={true} value={this.props.email} />
+                    </Form.Group>
+                </Card.Body>
+            </Card>
         )
     };
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DonorDash from "./DonorDash";
 import CoordinatorDash from "./CoordinatorDash";
 import UserInfoDash from "./UserInfoDash";
-import {Button} from 'react-bootstrap';
+import {Row, Tab, Col, Nav, Button} from 'react-bootstrap';
 import {connect} from "react-redux";
 import BecomeCoordinator from "./BecomeCoordinator";
 import BecomeDonor from "./BecomeDonor";
@@ -16,124 +16,82 @@ class Dashboard extends Component {
         };
 
         this.renderCollections = this.renderCollections.bind(this);
-        this.renderContent = this.renderContent.bind(this);
-        this.showUserInfo = this.showUserInfo.bind(this);
-        this.showDonor = this.showDonor.bind(this);
-        this.showCoordinator = this.showCoordinator.bind(this);
-        this.showBecomeCoordinator = this.showBecomeCoordinator.bind(this);
-        this.showBecomeDonor = this.showBecomeDonor.bind(this);
-    }
-
-
-    showUserInfo(){
-        this.setState({
-            propertySelected: 1
-        });
-    }
-
-    showDonor(){
-        this.setState({
-            propertySelected: 2
-        });
-    }
-
-    showCoordinator(){
-        this.setState({
-            propertySelected: 3
-        });
-    }
-
-    showBecomeCoordinator(){
-        this.setState({
-            propertySelected: 4
-        });
-    }
-
-    showBecomeDonor(){
-        this.setState({
-            propertySelected: 5
-        });
+        
     }
 
 
     renderCollections(){
         return(
-
-
-            <div >
-                <Button
-                        style={{textAlign:'left'}}
-                        onClick={this.showUserInfo}>
-                    User Info
-                </Button>
-                <br />
-                <button  className="btn-large waves-effect waves-light red darken-1 white-text btn-flat"
-                         style={{textAlign:'left'}}
-                         onClick={this.showDonor}
-                         disabled={!this.props.donor}
-                >
-                    Donor</button>
-                <br />
-                <button className="btn-large waves-effect waves-light red darken-1 white-text btn-flat"
-                        style={{textAlign:'left'}}
-                        onClick={this.showCoordinator}
-                        disabled={!this.props.coordinator}
-                >
-                    Coordinator
-                </button>
-                <br />
-                {!this.props.donor
-                    ? <button className="btn-large waves-effect waves-light red darken-1 white-text btn-flat"
-                              onClick={this.showBecomeDonor}>
-                        Become donor
-                </button> : ""}
-                <br/>
-                {!this.props.coordinator
-                    ? <button className="btn-large waves-effect waves-light red darken-1 white-text btn-flat"
-                              onClick={this.showBecomeCoordinator}>
-                        Become coordinator
-                    </button> : ""}
+            <div className="container">
+            <Tab.Container defaultActiveKey="first">
+                <Row>
+                    <Col sm={3}>
+                        <Nav variant="pills" className="flex-column">
+                            <Nav.Item >
+                                <Nav.Link className="btn btn-outline-dark" eventKey="1">Profil</Nav.Link>
+                            </Nav.Item>
+                            <br/>
+                            <Nav.Item>
+                                <Nav.Link disabled={!this.props.donor} className="btn btn-outline-dark" eventKey="2">Donor</Nav.Link>
+                            </Nav.Item>
+                            <br/>
+                            <Nav.Item>
+                                <Nav.Link disabled={!this.props.coordinator} className="btn btn-outline-dark" eventKey="3">Koordinator</Nav.Link>
+                            </Nav.Item>
+                            <br/>
+                            <Nav.Item>
+                                <Nav.Link disabled={this.props.donor} className="btn btn-outline-dark" eventKey="4">Postani donor</Nav.Link>
+                            </Nav.Item>
+                            <br/>
+                            <Nav.Item>
+                                <Nav.Link disabled={this.props.coordinator} className="btn btn-outline-dark" eventKey="5">Postani koordinator</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col sm={9}>
+                        <Tab.Content>
+                            <Tab.Pane eventKey="1">
+                                <UserInfoDash />
+                            </Tab.Pane>
+                            <Tab.Pane unmountOnExit={true} eventKey="2">
+                                <DonorDash />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="3">
+                                <CoordinatorDash />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="4">
+                                <BecomeDonor/>
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="5">
+                                <BecomeCoordinator/>
+                            </Tab.Pane>
+                        </Tab.Content>
+                    </Col>
+                </Row>
+            </Tab.Container>
             </div>
+
 
 
         );
     }
 
-    renderContent(){
-
-        switch (this.state.propertySelected) {
-            case 1:
-                return <UserInfoDash />;
-            case 2:
-                return <DonorDash />;
-            case 3:
-                return <CoordinatorDash />;
-            case 4:
-                return <BecomeCoordinator/>;
-            case 5:
-                return <BecomeDonor/>;
-
-        }
-    }
 
     hasToken() {
         return (
-            <div className="wrapper row">
-                <div className="col s2">
+            <div className="container">
+            
                     {this.renderCollections()}
-                </div>
-
-                <div className="col s8">
-                        {this.renderContent()}
-                </div>
+                
             </div>
         );
     }
 
     render() {
+        console.log(this.props.token)
         return (
           <div className="" >
-              {this.props.token ? this.hasToken() : <div className="container">You need to login</div>}
+              {this.props.token ? this.hasToken() : <div className="container">Morate da se ulogujete</div>}
           </div>
         );
     }

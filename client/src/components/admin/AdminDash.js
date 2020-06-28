@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import NewsPanel_v2 from './NewsPanel_v2';
 import EventsPanel from './EventsPanel';
-import {Row, Tab, Col, Nav} from "react-bootstrap";
-import Mapa from "../map/Mapa";
+import LocationDash from './LocationDash';
+import {Row, Tab, Col, Nav} from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 class AdminDash extends Component {
 
@@ -40,44 +41,21 @@ class AdminDash extends Component {
 
     renderCollections(){
         return(
-            <div className="dash col s2" >
-                <button className= "btn-large waves-effect waves-light red darken-1 white-text btn-flat"
-                        style={{textAlign:'left'}}
-                        onClick={this.showNewsPanel}>
-                    News
-                </button>
-                <br />
-                <button  className="btn-large waves-effect waves-light red darken-1 white-text btn-flat"
-                         style={{textAlign:'left'}}
-                         onClick={this.showEventsPanel} >
-                    Events
-                </button>
-                <br />
-                <button className="btn-large waves-effect waves-light red darken-1 white-text btn-flat"
-                        style={{textAlign:'left'}}
-                        onClick={this.showLocationsPanel}>
-                    Locations
-                </button>
-            </div>
-
-
-        );
-    }
-
-    render(){
-        return(
-            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+            <div className="container">
+            <Tab.Container defaultActiveKey="first">
                 <Row>
                     <Col sm={3}>
                         <Nav variant="pills" className="flex-column">
-                            <Nav.Item>
-                                <Nav.Link eventKey="first">News</Nav.Link>
+                            <Nav.Item >
+                                <Nav.Link className="btn btn-outline-dark" eventKey="first">Novosti</Nav.Link>
                             </Nav.Item>
+                            <br/>
                             <Nav.Item>
-                                <Nav.Link eventKey="second">Events</Nav.Link>
+                                <Nav.Link className="btn btn-outline-dark" eventKey="second">Događaji</Nav.Link>
                             </Nav.Item>
+                            <br/>
                             <Nav.Item>
-                                <Nav.Link eventKey="third">Locations</Nav.Link>
+                                <Nav.Link className="btn btn-outline-dark" eventKey="third">Bolnice</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
@@ -89,15 +67,32 @@ class AdminDash extends Component {
                             <Tab.Pane eventKey="second">
                                 <EventsPanel />
                             </Tab.Pane>
-                            <Tab.Pane eventKey="third">
-                                {/*<Mapa data={''} />*/}
+                            <Tab.Pane unmountOnExit={true} eventKey="third">
+                                <LocationDash/>
                             </Tab.Pane>
                         </Tab.Content>
                     </Col>
                 </Row>
             </Tab.Container>
+            </div>
+
+        );
+    }
+
+    render(){
+        const admin = this.props.isAdmin;
+        return(
+            
+        <div>{admin ?  this.renderCollections() : <div>Morate da se ulogujete ko administrator</div> }</div>
         );
     }
 }
 
-export default AdminDash;
+const mapStateToProps = state => {
+    return {
+        token: state.token,
+        isAdmin: state.isAdmin
+    }
+};
+
+export default connect(mapStateToProps, {})(AdminDash);
