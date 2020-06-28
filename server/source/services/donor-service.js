@@ -51,7 +51,9 @@ class DonorService {
 
     async updateOne(id, update) {
         this.logger.debug(`updateOne ${id}`);
-        return models.Donor.updateOne(id, update)
+        return models.User.findOneAndUpdate(
+            { _id: id }, update, { useFindAndModify: false },
+        )
             .lean()
             .exec();
     }

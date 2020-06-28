@@ -276,6 +276,33 @@ class RestifyRouteHandler {
         next();
     }
 
+    async updateUserData(req, res, next) {
+        this.logger.info('Update user data');
+        try {
+            const token = utils.extractToken(req);
+            const { data, message } = await this.userController.updateUserData(req.body, token);
+            this._sendSuccess(res, message, data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
+    async updateDonation(req, res, next) {
+        this.logger.info('Update donation date');
+        try {
+            const token = utils.extractToken(req);
+            const { data, message } = await this.userController
+                .updateDonation({ ...req.body, token });
+            this._sendSuccess(res, message, data);
+        } catch (e) {
+            this.logger.error(e.message);
+            this._sendBadRequest(res, e.message, null);
+        }
+        next();
+    }
+
     async unauthorized(req, res, next) {
         this._sendUnauthorized(res, 'Niste autorizovani za pristup!', null);
         next();
