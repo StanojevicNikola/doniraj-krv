@@ -65,6 +65,28 @@ class UserController {
         };
     }
 
+    async updateUserData(data, token) {
+        const tokenData = utils.decodeToken(token);
+        await this.userService.updateOne(tokenData.userId, data);
+
+        return {
+            message: 'Uspešno ste ažurirali podatke!',
+            data: {},
+        };
+    }
+
+    async updateDonation(data) {
+        const { lastDonation, token } = data;
+        const tokenData = utils.decodeToken(token);
+        const donorId = await this.userService.getDonorId(tokenData.userId);
+        await this.donorService.updateOne(donorId, { lastDonation });
+
+        return {
+            message: 'Uspešno ste ažurirali datum donacije!',
+            data: {},
+        };
+    }
+
     async addNewRole(data) {
         const {
             role, roleData, rawToken,
@@ -73,7 +95,6 @@ class UserController {
         const tokenData = utils.decodeToken(rawToken);
 
         if (tokenData[role.toLowerCase()] != null) { return { message: 'Vec imate zahtevanu ulogu.', data: null }; }
-
 
         let user = await this.userService.findById(tokenData.userId);
         user.roles.push(role);
