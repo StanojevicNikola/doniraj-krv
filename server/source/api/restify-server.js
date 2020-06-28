@@ -44,6 +44,7 @@ class RestifyServer {
 
     _registerRoutes() {
         this.server.post('/donor/findPlaces', this.routeHandlers.findPlaces.bind(this.routeHandlers));
+        this.server.post('/donor/updateDonation', this.routeHandlers.updateDonation.bind(this.routeHandlers));
         this.server.post('/recipient/requestBlood', this.routeHandlers.requestBlood.bind(this.routeHandlers));
 
         this.server.post('/app/createUser', this.routeHandlers.addRole.bind(this.routeHandlers));
@@ -58,6 +59,7 @@ class RestifyServer {
         this.server.post('/users/login', this.routeHandlers.logIn.bind(this.routeHandlers));
         this.server.post('/user/addRole', this.routeHandlers.addRole.bind(this.routeHandlers));
         this.server.post('/user/data', this.routeHandlers.getUserData.bind(this.routeHandlers));
+        this.server.post('/user/updateUserData', this.routeHandlers.updateUserData.bind(this.routeHandlers));
 
         this.server.get('/unauthorized', this.routeHandlers.unauthorized.bind(this.routeHandlers));
 
