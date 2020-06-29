@@ -3,17 +3,22 @@ import {connect} from "react-redux";
 import axios from 'axios';
 import Mapa from './map/Mapa'
 import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
-
+import DatePicker from "react-datepicker";
 class DonorDash extends Component{
 
     constructor(props) {
         super(props);
 
         this.state = {
-            places: null
+            places: null,
+            selectedDate: new Date(this.props.donor.lastDonation),
+            editDate: false
         };
 
         this.findGeo = this.findGeo.bind(this);
+        this.handleDate = this.handleDate.bind(this);
+        this.editDateBool = this.editDateBool.bind(this);
+        this.saveDate = this.saveDate.bind(this);
     }
 
     componentDidMount() {
@@ -22,6 +27,9 @@ class DonorDash extends Component{
         })
     }
 
+    handleDate(date ) {
+        this.setState({selectedDate: date});
+    }
 
     async findGeo(e) {
         e.preventDefault();
@@ -43,7 +51,25 @@ class DonorDash extends Component{
         };
     }
 
+    editDateBool() {
+        this.setState({editDate: true})
+    }
+
+    async saveDate() {
+        try{
+
+            let resDateSave = await axios.post('/donor/updateDonation', { lastDonation: this.state.selectedDate })
+            console.log(resDateSave);
+            this.setState({editDate: false})
+            alert("Uspešno ste sačuvali datum")
+        } catch(err) {
+            console.log(err);
+            alert(err.response.data.message)
+        }
+    }
+
     render() {
+        console.log(this.props.donor)
         return (
                 <Card>
                 <Card.Body>
@@ -54,6 +80,22 @@ class DonorDash extends Component{
                         <Form.Group controlId="blood">
                             <Form.Label>Krvna grupa:</Form.Label>
                             <Form.Control disabled={true} value={this.props.donor['blood'] ? this.props.donor['blood']['groupType'] : "Prvo moras postati donor"}/>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Datum poslednjeg davanja krvi:</Form.Label>
+                            <DatePicker
+                                className="form-control"
+                                selected={this.state.selectedDate}
+                                onChange={this.handleDate}
+                                disabled={!this.state.editDate}
+                            />
+                            <br/>
+                            <Button variant="outline-dark" disabled={this.state.editDate} onClick={this.editDateBool}>
+                               Izmeni datum
+                            </Button>
+                            <Button variant="outline-dark" disabled={!this.state.editDate} onClick={this.saveDate}>
+                               Sačuvaj datum
+                            </Button>
                         </Form.Group>
                         <Form.Group controlId="place">
                             <Form.Label>Lokacija:</Form.Label>
