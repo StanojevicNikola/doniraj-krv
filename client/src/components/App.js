@@ -17,14 +17,12 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import LoginDash from "./LoginDash";
 import RegisterDash from "./RegisterDash";
-import UserDash from "./UserDash";
-import DonorDash from "./DonorDash";
-import CoordinatorDash from "./CoordinatorDash";
+
 import Dashboard from "./Dashboard";
 import AdminDash from "./admin/AdminDash";
-import DonationProcess from "./preparation/donationProcess";
-import DonationTypes from "./preparation/donationTypes";
-import Eligibility from "./preparation/eligibility";
+// import DonationProcess from "./preparation/donationProcess";
+// import DonationTypes from "./preparation/donationTypes";
+// import Eligibility from "./preparation/eligibility";
 
 class App extends Component{
 
@@ -49,16 +47,6 @@ class App extends Component{
                             <Route exact path="/register">
                                 <RegisterDash/>
                             </Route>
-                            <Route exact path="/userdash">
-                                <UserDash/>
-                            </Route>
-                            <Route exact path="/donor">
-                                <DonorDash/>
-                            </Route>
-                            <Route exact path="/coordinator">
-                                <CoordinatorDash/>
-                            </Route>
-
                             <Route exact path="/dashboard">
                                 <Dashboard />
                             </Route>
@@ -67,7 +55,7 @@ class App extends Component{
                                 <AdminDash />
                             </Route>
 
-                            <Route exact path="/donationProcess">
+                            {/* <Route exact path="/donationProcess">
                                 <DonationProcess />
                             </Route>
 
@@ -77,7 +65,7 @@ class App extends Component{
 
                             <Route exact path='/donationTypes'>
                                 <DonationTypes />
-                            </Route>
+                            </Route> */}
 
                         </Switch>
                     </div>

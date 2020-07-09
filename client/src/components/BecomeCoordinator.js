@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import {connect} from "react-redux";
-import {setCoord, setOnlyToken, setToken} from "../actions";
+import { connect } from "react-redux";
+import { setCoord, setOnlyToken } from "../actions";
 
-import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 
 

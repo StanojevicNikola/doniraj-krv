@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import Popup from './Popup';
 import { Multiselect } from 'multiselect-react-dropdown';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios'
 import {connect} from "react-redux";
-import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+import {Button, Form, Card} from "react-bootstrap";
 
 class CoordinatorDash extends Component{
     constructor(props) {
@@ -40,11 +39,11 @@ class CoordinatorDash extends Component{
 
 
     onSelectHospital(selectedList, selectedItem) {
-        this.setState({selectedHospital: [... selectedList]});
+        this.setState({selectedHospital: [...selectedList]});
     }
 
     onRemoveHospital(selectedList, removedItem) {
-        this.setState({selectedHospital: [... selectedList]});
+        this.setState({selectedHospital: [...selectedList]});
     }
 
     async notify(e) {
