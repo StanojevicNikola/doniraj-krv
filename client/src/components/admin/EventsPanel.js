@@ -1,7 +1,7 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import DatePicker from "react-datepicker";
 
-import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+import {Button, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
 import axios from 'axios';
 import {connect} from "react-redux";
 
@@ -81,6 +81,7 @@ class CreateNewForm extends Component{
         if(this.validate(title, description)){
             try {
                 const res = await axios.post('/admin/createEvent', body);
+                console.log(res);
                 alert("Uspesno dodato!")
                 this.titlRef.current.value = "";
                 this.descriptionRef.current.value = "";
@@ -148,106 +149,6 @@ class CreateNewForm extends Component{
         );
     }
 
-}
-
-class Example extends Component {
-    constructor(props, context) {
-        super(props, context);
-
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleSave = this.handleSave.bind(this);
-
-        this.state = {
-            title: props.title,
-            description: props.description,
-            date: props.date,
-            hour: props.hour,
-            geolocation: props.geolocation,
-            show: false,
-            formIsValid: 'error'
-        };
-    }
-
-    handleClose() {
-        this.setState({ show: false });
-    }
-
-    handleShow() {
-        this.setState({ show: true });
-    }
-
-    handleSave(e){
-        const newTitle = e.target.form.edit_title.value;
-        const newDescription = e.target.form.edit_description.value;
-
-        console.log(`Updated News with: ${newTitle}, ${newDescription}`);
-        try {
-            const res = axios.post('/admin/updateNews', {
-                title: newTitle,
-                description: newDescription,
-                date: new Date()
-            });
-
-            this.setState({ show: false });
-        } catch(err) {
-            console.log(err.response)
-            alert(err.response.data.message)
-        };
-    }
-
-    handleChange(e) {
-        this.setState({ value: e.target.value });
-    }
-
-
-
-    render() {
-
-        return (
-            <div className="text-left">
-
-                <Modal
-                    {...this.props}
-                    bsSize="large"
-                    aria-labelledby="contained-modal-title-lg"
-                    show={this.state.show}
-                    onHide={this.handleClose}
-                >
-                    <form>
-                        <Modal.Header closeButton>
-                            <Modal.Title id="contained-modal-title-lg">
-                                <FormGroup controlId="edit_title" validationState={this.state.formIsValid}>
-                                    <FormLabel>Change title</FormLabel>
-                                    <FormControl
-                                        type="text"
-                                        componentClass="input"
-                                        defaultValue={this.state.title}
-                                    />
-                                    <FormControl.Feedback />
-                                </FormGroup>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <FormGroup>
-                                <FormLabel>Change description</FormLabel>
-                                <FormControl
-                                    id="edit_description"
-                                    as="textarea"
-                                    componentClass="textarea"
-                                    defaultValue={this.state.description}
-                                />
-                            </FormGroup>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={this.handleClose}>Discard</Button>
-                            <Button onClick={this.handleSave}>Save</Button>
-                        </Modal.Footer>
-                    </form>
-                </Modal>
-            </div>
-        );
-    }
 }
 
 

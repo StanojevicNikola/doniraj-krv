@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import * as Icon from 'react-bootstrap-icons';
-import {Button, Container, Row, Col, Card} from "react-bootstrap";
+import { Container, Row, Col, Card} from "react-bootstrap";
 import icon_1 from '../img/icon_1.jpg';
 import icon_2 from '../img/icon_2.png';
 import icon_3 from '../img/icon_3.png';
@@ -11,13 +10,6 @@ import axios from 'axios';
 import {setBlood, setEvents, setNews, setPlaces, setHospitals} from "../actions";
 import Mapa from './map/Mapa';
 
-const fakeEvent = {
-    title: 'BRAVO',
-    description: 'ovo je opis',
-    date: '23.23.23012',
-    hour: '15h',
-    geolocation: 's223asd'
-};
 
 
 class EventCard extends Component{
@@ -129,7 +121,7 @@ class HomePage extends Component {
                     <Row>
                         <Col>
                             <Link to="/donationProcess">
-                                <img src={icon_1} />
+                                <img src={icon_1} alt="icon" />
                             </Link>
                             <div>
                                 <br />
@@ -143,7 +135,7 @@ class HomePage extends Component {
                         </Col>
                         <Col>
                             <Link to="/eligibility">
-                                <img src={icon_2} />
+                                <img src={icon_2} alt="icon" />
                             </Link>
                             <div>
                                 <br />
@@ -157,7 +149,7 @@ class HomePage extends Component {
                         </Col>
                         <Col>
                             <Link to="/donationTypes">
-                                <img src={icon_3} />
+                                <img src={icon_3} alt="icon" />
                             </Link>
                                 <div>
                                 <br />
@@ -183,7 +175,7 @@ class HomePage extends Component {
 
                     <Container>
                         <Row>
-                            {events.length != 0 ?
+                            {events.length !== 0 ?
                                 events.map((e, i) => {
                                     return (
                                         <Col key={e._id}>
@@ -210,7 +202,7 @@ class HomePage extends Component {
 
                     <Container>
                         <Row>
-                            {news.length != 0 ?
+                            {news.length !== 0 ?
                                 news.map((e, i) => {
                                     return (
                                         <Col key={e._id}>

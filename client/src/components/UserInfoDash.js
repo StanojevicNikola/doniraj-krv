@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import axios from 'axios'
-import { Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion } from "react-bootstrap";
+import { Button, Form, Card } from "react-bootstrap";
 import { setToken } from "../actions";
 
 class UserInfoDash extends Component{

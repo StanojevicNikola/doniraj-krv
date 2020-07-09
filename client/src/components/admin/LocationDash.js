@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import Mapa from '../map/Mapa';
 import { connect } from 'react-redux';
-import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+import {Button,  Tab, Nav, Row, Form, Card } from "react-bootstrap";
 import axios from 'axios';
 import {setBlood, setEvents, setNews, setPlaces, setHospitals} from "../../actions";
 
@@ -40,6 +39,7 @@ class LocationAddForm extends Component {
         if(name !== '' && address !== '' && workingHours !== '' && location !== ''){
             try {
                 const res = await axios.post('/admin/createPlace', body);
+                console.log(res);
                 alert("Uspesno dodato!")
                 this.hospitalRef.current.value = "";
                 this.addressRef.current.value = "";
@@ -98,9 +98,6 @@ class LocationAddForm extends Component {
 }
 
 class LocationCard extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         return (

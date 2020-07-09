@@ -3,8 +3,7 @@ import {Link } from "react-router-dom";
 import {setToken} from "../actions";
 import {connect} from "react-redux";
 import axios from "axios";
-import jwtDecode from "jwt-decode"
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 
 class LoginDash extends Component{

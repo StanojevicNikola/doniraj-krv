@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 //import { OpenStreetMapProvider } from 'leaflet-geosearch';
 
 import "../../css/App.css";
 import MarkerClusterGroup from "./MarkerClusterGroup";
 
-
-import L from 'leaflet';
 require('react-leaflet-markercluster/dist/styles.min.css');
 //const provider = new OpenStreetMapProvider();
 
@@ -19,8 +17,7 @@ export default class Mapa extends Component{
             places: [],
             mapClick: null
         };
-
-        const mapRef = React.createRef();
+        
         this.renderMarker = this.renderMarker.bind(this);
         this.renderCluster = this.renderCluster.bind(this);
         this.handleClick = this.handleClick.bind(this);

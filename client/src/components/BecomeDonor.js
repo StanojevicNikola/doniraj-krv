@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import {connect} from "react-redux";
-import {setDonor, setOnlyToken, setToken} from "../actions";
+import {setDonor, setOnlyToken} from "../actions";
 import DatePicker from "react-datepicker";
 
-import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+import { Button, Form, Card } from "react-bootstrap";
 
 
 

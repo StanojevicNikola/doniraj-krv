@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import axios from 'axios';
 import Mapa from './map/Mapa'
-import {Button, Modal, FormControl, FormLabel, FormGroup, Tab, Nav, Row, Form, Card, Accordion} from "react-bootstrap";
+import {Button, Form, Card } from "react-bootstrap";
+import { setDonor } from '../actions/index';
 import DatePicker from "react-datepicker";
+
+
 class DonorDash extends Component{
 
     constructor(props) {
@@ -60,6 +63,9 @@ class DonorDash extends Component{
 
             let resDateSave = await axios.post('/donor/updateDonation', { lastDonation: this.state.selectedDate })
             console.log(resDateSave);
+            let resUser = await axios.post('/user/data');
+            console.log(resUser.data.data.donor)
+            await this.props.setDonor({donor: resUser.data.data.donor})
             this.setState({editDate: false})
             alert("Uspešno ste sačuvali datum")
         } catch(err) {
@@ -88,6 +94,7 @@ class DonorDash extends Component{
                                 selected={this.state.selectedDate}
                                 onChange={this.handleDate}
                                 disabled={!this.state.editDate}
+                                maxDate={new Date()}
                             />
                             <br/>
                             <Button variant="outline-dark" disabled={this.state.editDate} onClick={this.editDateBool}>
@@ -135,4 +142,10 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, {})(DonorDash);
+function mapDispatchToProps(dispatch){
+    return {
+        setDonor: data => dispatch(setDonor(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DonorDash);

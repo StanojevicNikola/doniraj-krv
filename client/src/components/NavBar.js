@@ -5,7 +5,7 @@ import axios from 'axios';
 import logo from "../img/blood-donation.png";
 import {connect} from "react-redux";
 import {deleteToken} from "../actions";
-import {Form, Button, Navbar, Nav, FormControl, Container} from "react-bootstrap";
+import {Button, Navbar, Nav, Container} from "react-bootstrap";
 
 
 class NavBar extends Component {
