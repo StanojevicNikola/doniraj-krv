@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {
     Button,
     Modal,
@@ -155,6 +155,7 @@ class Example extends Component {
                     date: Date().toString()
                 }
             });
+            console.log(res)
             this.props.functionReload();
             this.setState({ show: false });
         } catch(err) {

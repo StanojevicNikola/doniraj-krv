@@ -33,10 +33,15 @@ class RestifyServer {
         this.server.use(restify.plugins.bodyParser());
         this.server.pre(accessControl);
 
+        this.server.get('/*', restify.plugins.serveStatic({
+            directory: '../client/public_build',
+            default: 'index.html',
+        }));
+
         this.server.use(rjwt({
             secret: this.config.jwt.secret,
         }).unless({
-            path: [/\/users*/, /\/app*/],
+            path: [/\/users*/, /\/app*/, /\//],
         }));
         this._registerRoutes();
     }

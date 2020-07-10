@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DonorDash from "./DonorDash";
 import CoordinatorDash from "./CoordinatorDash";
 import UserInfoDash from "./UserInfoDash";
-import {Row, Tab, Col, Nav, Button} from 'react-bootstrap';
+import {Row, Tab, Col, Nav} from 'react-bootstrap';
 import {connect} from "react-redux";
 import BecomeCoordinator from "./BecomeCoordinator";
 import BecomeDonor from "./BecomeDonor";
