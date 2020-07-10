@@ -64,7 +64,7 @@ module.exports = [
     },
     {
         _id: ids.place_karavan_bg,
-        name: 'Karavan na trgu batooo',
+        name: 'Karavan na trgu',
         address: 'Adresa Karavan',
         description: '',
         workingHours: '09:00-17:00',
