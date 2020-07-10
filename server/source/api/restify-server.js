@@ -44,6 +44,7 @@ class RestifyServer {
 
     _registerRoutes() {
         this.server.post('/donor/findPlaces', this.routeHandlers.findPlaces.bind(this.routeHandlers));
+        this.server.post('/donor/updateDonation', this.routeHandlers.updateDonation.bind(this.routeHandlers));
         this.server.post('/recipient/requestBlood', this.routeHandlers.requestBlood.bind(this.routeHandlers));
 
         this.server.post('/app/createUser', this.routeHandlers.addRole.bind(this.routeHandlers));
@@ -51,14 +52,16 @@ class RestifyServer {
         this.server.get('/app/getBloodGroups', this.routeHandlers.getBloodGroups.bind(this.routeHandlers));
         this.server.get('/app/getNews', this.routeHandlers.getNews.bind(this.routeHandlers));
         this.server.get('/app/getEvents', this.routeHandlers.getEvents.bind(this.routeHandlers));
+        this.server.get('/app/getPlaces', this.routeHandlers.getPlaces.bind(this.routeHandlers));
 
         this.server.post('/users/register', this.routeHandlers.registerUser.bind(this.routeHandlers));
         this.server.get('/users/activate/:activationId', this.routeHandlers.activateUser.bind(this.routeHandlers));
         this.server.post('/users/login', this.routeHandlers.logIn.bind(this.routeHandlers));
         this.server.post('/user/addRole', this.routeHandlers.addRole.bind(this.routeHandlers));
+        this.server.post('/user/data', this.routeHandlers.getUserData.bind(this.routeHandlers));
+        this.server.post('/user/updateUserData', this.routeHandlers.updateUserData.bind(this.routeHandlers));
 
         this.server.get('/unauthorized', this.routeHandlers.unauthorized.bind(this.routeHandlers));
-        this.server.get('/test/hello', this.routeHandlers.hello.bind(this.routeHandlers));
 
         this.server.post('/admin/createNews', this.routeHandlers.createNews.bind(this.routeHandlers));
         this.server.post('/admin/updateNews', this.routeHandlers.updateNews.bind(this.routeHandlers));

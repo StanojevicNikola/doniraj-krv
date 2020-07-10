@@ -5,25 +5,15 @@ const {
 const assert = require('assert');
 
 const app = require('../test-app');
+const mongoose = require('mongoose');
 
-const Controller = require('../../source/controllers/admin-controller');
+const AdminController = require('../../source/controllers/admin-controller');
 
-const newsService = app.container.resolve('newsService');
-const eventService = app.container.resolve('eventService');
-const placeService = app.container.resolve('placeService');
-const geolocationService = app.container.resolve('geolocationService');
-const logger = app.container.resolve('logger');
-
-const controller = new Controller({
-    logger, newsService, eventService, placeService, geolocationService,
-});
 
 describe('ADMIN controller test', () => {
     beforeEach(async () => {
         const storage = app.container.resolve('storage');
         await storage.connect();
-
-        // sinonSandbox = sinon.createSandbox();
     });
 
     it('Should CREATE news', async () => {
@@ -33,7 +23,15 @@ describe('ADMIN controller test', () => {
         };
 
         try {
-            const id = await controller.createNews(inserted);
+            const newsService = app.container.resolve('newsService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                newsService,
+            });
+
+            const id = await adminController.createNews(inserted);
             const fetched = await newsService.findById(id);
 
             assert.equal(inserted.title, fetched.title, 'News is created <title>!');
@@ -55,8 +53,16 @@ describe('ADMIN controller test', () => {
         };
 
         try {
-            const id = await controller.createNews(inserted);
-            await controller.updateNews(id, updated);
+            const newsService = app.container.resolve('newsService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                newsService,
+            });
+
+            const id = await adminController.createNews(inserted);
+            await adminController.updateNews(id, updated);
             const fetched = await newsService.findById(id);
 
             assert.equal(fetched.title, updated.title, 'News is created <title>!');
@@ -76,7 +82,15 @@ describe('ADMIN controller test', () => {
             lng: '998',
         };
         try {
-            const id = await controller.createEvent(inserted);
+            const eventService = app.container.resolve('eventService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                eventService,
+            });
+
+            const id = await adminController.createEvent(inserted);
             const fetched = await eventService.findById(id);
 
             assert.equal(inserted.title, fetched.title, 'Event is created <title>!');
@@ -105,8 +119,16 @@ describe('ADMIN controller test', () => {
             lng: '997',
         };
         try {
-            const id = await controller.createEvent(inserted);
-            await controller.updateEvent(id, updated);
+            const eventService = app.container.resolve('eventService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                eventService,
+            });
+
+            const id = await adminController.createEvent(inserted);
+            await adminController.updateEvent(id, updated);
             const fetched = await eventService.findById(id);
 
             assert.equal(updated.title, fetched.title, 'Event is updated <title>!');
@@ -129,7 +151,15 @@ describe('ADMIN controller test', () => {
             lng: '997',
         };
         try {
-            const id = await controller.createPlace(inserted);
+            const placeService = app.container.resolve('placeService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                placeService,
+            });
+
+            const id = await adminController.createPlace(inserted);
             const fetched = await placeService.findById(id);
 
             assert.equal(inserted.address, fetched.address, 'Place is created <address>!');
@@ -164,8 +194,24 @@ describe('ADMIN controller test', () => {
             lng: '995',
         };
         try {
-            const id = await controller.createPlace(inserted);
-            await controller.updatePlace(id, updated);
+            const newsService = app.container.resolve('newsService');
+            const eventService = app.container.resolve('eventService');
+            const placeService = app.container.resolve('placeService');
+            const geolocationService = app.container.resolve('geolocationService');
+            const bloodGroupService = app.container.resolve('bloodGroupService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                newsService,
+                eventService,
+                placeService,
+                geolocationService,
+                bloodGroupService,
+            });
+
+            const id = await adminController.createPlace(inserted);
+            await adminController.updatePlace(id, updated);
             const fetched = await placeService.findById(id);
 
             assert.equal(updated.address, fetched.address, 'Place is updated <address>!');
@@ -175,6 +221,116 @@ describe('ADMIN controller test', () => {
             assert.equal(updated.isStatic, fetched.isStatic, 'Place is updated <isStatic>!');
         } catch (e) {
             assert(false, e);
+        }
+    });
+
+    it('Should throw CREATE transaction - bad place', async () => {
+        const bloodData = {
+            groupType: 'A+',
+        };
+        try {
+            const placeService = app.container.resolve('placeService');
+            const bloodGroupService = app.container.resolve('bloodGroupService');
+            const storageService = app.container.resolve('storageService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                placeService,
+                bloodGroupService,
+                storageService,
+            });
+
+            const blood = await bloodGroupService.create(bloodData);
+            const amount = 10;
+
+            await adminController.createTransaction({
+                place: mongoose.Types.ObjectId(),
+                blood,
+                amount,
+            });
+        } catch (e) {
+            assert.deepEqual(e.message, 'Izabrali ste nepostojecu lokaciju!');
+        }
+    });
+
+    it('Should fail CREATE transaction - bad blood group', async () => {
+        const placeData = {
+            address: 'adresa14',
+            name: 'name14',
+            description: 'description14',
+            workingHours: 14,
+            isStatic: true,
+            city: 'Smederevo',
+            lat: '113',
+            lng: '997',
+        };
+        try {
+            const placeService = app.container.resolve('placeService');
+            const bloodGroupService = app.container.resolve('bloodGroupService');
+            const storageService = app.container.resolve('storageService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                placeService,
+                bloodGroupService,
+                storageService,
+            });
+
+            const id = await adminController.createPlace(placeData);
+            const amount = 10;
+
+            await adminController.createTransaction({
+                place: id,
+                blood: mongoose.Types.ObjectId(),
+                amount,
+            });
+        } catch (e) {
+            assert.deepEqual(e.message, 'Izabrali ste nepostojecu krvnu grupu!');
+        }
+    });
+
+    it('Should pass CREATE transaction', async () => {
+        const bloodData = {
+            groupType: 'A+',
+        };
+        const placeData = {
+            address: 'adresa14',
+            name: 'name14',
+            description: 'description14',
+            workingHours: 14,
+            isStatic: true,
+            city: 'Smederevo',
+            lat: '113',
+            lng: '997',
+        };
+        try {
+            const placeService = app.container.resolve('placeService');
+            const bloodGroupService = app.container.resolve('bloodGroupService');
+            const storageService = app.container.resolve('storageService');
+            const logger = app.container.resolve('logger');
+
+            const adminController = new AdminController({
+                logger,
+                placeService,
+                bloodGroupService,
+                storageService,
+            });
+
+            const blood = await bloodGroupService.create(bloodData);
+            const place = await adminController.createPlace(placeData);
+            const amount = 10;
+
+            const { data, message } = await adminController.createTransaction({
+                place,
+                blood,
+                amount,
+            });
+            assert.deepEqual(data, null);
+            assert.deepEqual(message, 'Uspesno ste azurirali stanje krvi');
+        } catch (e) {
+            assert(e, false);
         }
     });
 

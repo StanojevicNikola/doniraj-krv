@@ -30,16 +30,16 @@ class Utils {
     }
 
     static createHtmlList(arr) {
-        let list = '<ul>';
+        let list = '<ul >';
         arr.forEach((el) => {
             let listItem = '<li style="padding-top: 5px">';
-            listItem += '<ul>';
-            listItem += `<li>Ime institucije: ${el.name}</li>`;
-            listItem += `<li>Adresa: ${el.address}</li>`;
-            listItem += `<li>Radno vreme: ${el.workingHours}</li>`;
-            if (!el.isStatic) listItem += `<li>Karavan je na lokaciji: ${this.parseDate(el.date)}</li>`;
+            listItem += '<ul style="list-style-type:none;">';
+            listItem += `<li><b>Ime institucije:</b> ${el.name}</li>`;
+            listItem += `<li><b>Adresa:</b> ${el.address}</li>`;
+            listItem += `<li><b>Radno vreme:</b> ${el.workingHours}</li>`;
+            if (!el.isStatic) listItem += `<li><b>Karavan je na lokaciji:</b> ${this.parseDate(el.date)}</li>`;
             listItem += '</ul>';
-            listItem += '</li>';
+            listItem += '</li><br>';
             list += listItem;
         });
         list += '</ul>';

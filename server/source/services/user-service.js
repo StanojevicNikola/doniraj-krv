@@ -69,6 +69,11 @@ class UserService {
             .exec();
     }
 
+    async getDonorId(id) {
+        const { donor } = await this.findById(id);
+        return donor;
+    }
+
     async activateNewUser(emailHash) {
         this.logger.debug('Activate new user');
         return models.User.updateOne({ emailHash }, { isActive: true }).lean().exec();

@@ -51,7 +51,11 @@ class DonorService {
 
     async updateOne(id, update) {
         this.logger.debug(`updateOne ${id}`);
-        return models.Donor.updateOne(id, update)
+        console.log(id);
+        console.log(update);
+        return models.Donor.findOneAndUpdate(
+            { _id: id }, update, { useFindAndModify: false },
+        )
             .lean()
             .exec();
     }
@@ -63,7 +67,7 @@ class DonorService {
         const donors = await models.Donor
             .find({
                 geolocation: { $in: locations },
-                lastDonation: { $gt: dateConstraint },
+                lastDonation: { $lt: dateConstraint },
             })
             .populate({
                 path: 'user',
