@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5c5bf312.chunk.css",
+    "main.js": "/static/js/main.2c00c2ba.chunk.js",
+    "main.js.map": "/static/js/main.2c00c2ba.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.09b85ec0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.09b85ec0.js.map",
+    "static/css/2.666468e4.chunk.css": "/static/css/2.666468e4.chunk.css",
+    "static/js/2.2dd40c83.chunk.js": "/static/js/2.2dd40c83.chunk.js",
+    "static/js/2.2dd40c83.chunk.js.map": "/static/js/2.2dd40c83.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.6f3ce0fdcab5202c7281bbbd0cf2fc95.js": "/precache-manifest.6f3ce0fdcab5202c7281bbbd0cf2fc95.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.666468e4.chunk.css.map": "/static/css/2.666468e4.chunk.css.map",
+    "static/css/main.5c5bf312.chunk.css.map": "/static/css/main.5c5bf312.chunk.css.map",
+    "static/js/2.2dd40c83.chunk.js.LICENSE.txt": "/static/js/2.2dd40c83.chunk.js.LICENSE.txt",
+    "static/media/Sailec-Bold.ttf": "/static/media/Sailec-Bold.61b43418.ttf",
+    "static/media/blood-donation.png": "/static/media/blood-donation.598d419c.png",
+    "static/media/index.css": "/static/media/trevi-fountain-2225442.6e430e24.jpg",
+    "static/media/donation_proces_reworked.png": "/static/media/donation_proces_reworked.f72d8d9a.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.09b85ec0.js",
+    "static/css/2.666468e4.chunk.css",
+    "static/js/2.2dd40c83.chunk.js",
+    "static/css/main.5c5bf312.chunk.css",
+    "static/js/main.2c00c2ba.chunk.js"
+  ]
+}
