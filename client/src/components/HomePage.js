@@ -192,7 +192,7 @@ class HomePage extends Component {
                     </Container>
 
                 </div>
-                
+
                 <div className="">
                     <div className="landing-title">
                         <br />
@@ -236,7 +236,7 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = state => {
-    return { 
+    return {
         token: state.token,
         events: state.events,
         news: state.news,
