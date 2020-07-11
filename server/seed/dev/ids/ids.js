@@ -50,5 +50,6 @@ module.exports.place_dz_cuprija = mongoose.Types.ObjectId();
 
 module.exports.place_dz_nis = mongoose.Types.ObjectId();
 module.exports.place_kc_nis = mongoose.Types.ObjectId();
+module.exports.place_kc_vranje = mongoose.Types.ObjectId();
 
 module.exports.place_karavan_bg = mongoose.Types.ObjectId();
