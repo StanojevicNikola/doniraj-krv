@@ -22,8 +22,8 @@ Pre pokretanja servera je potrebno klonirati repozitorijum komandom:<br>
 Moguće je pokretati klijentsku i serversku aplikaciju nezavisno.<br>
 ___Server:___<br>
 `cd server`<br>
-`npm run seed`<br>
 `npm install`<br>
+`npm run seed`<br>
 `npm start`<br>
 Za naknadna podešavanja treba izmeniti fajl: `server/config.json` koji sadrži podrazumevane vrednosti.
 
