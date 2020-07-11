@@ -43,7 +43,7 @@ class DonorDash extends Component{
                 query: {  },
                 constraint: { distance: radius }
             });
-        
+
             console.log(resGeo.data);
             this.setState({
                 places: resGeo.data.data
@@ -124,7 +124,7 @@ class DonorDash extends Component{
                             </Button>
                        </Form.Group>
                        <Form.Group>
-                            <Mapa cluster={true} data={this.state.places}/>
+                            <Mapa cluster={false} data={this.state.places}/>
                        </Form.Group>
                     </Form>
                 </Card.Body>
