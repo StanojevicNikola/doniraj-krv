@@ -25,7 +25,7 @@ class RestifyRouteHandler {
         const { activationId } = req.params;
         try {
             const result = await this.userController.activateUser(activationId);
-            this._sendSuccess(res, result, {});
+            res.redirect('/', next);
         } catch (e) {
             this.logger.error(e.message);
             this._sendBadRequest(res, e.message, null);
