@@ -124,7 +124,7 @@ class DonorDash extends Component{
                             </Button>
                        </Form.Group>
                        <Form.Group>
-                            <Mapa cluster={false} data={this.state.places}/>
+                            <Mapa cluster={true} data={this.state.places}/>
                        </Form.Group>
                     </Form>
                 </Card.Body>
