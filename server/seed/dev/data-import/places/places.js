@@ -2,16 +2,16 @@ const ids = require('../../ids/ids');
 const time = require('../time-converter');
 
 module.exports = [
-    {
-        _id: ids.place_dz_nbg,
-        name: 'Dom zdravlja NBG',
-        address: 'Adresa NBG',
-        description: '',
-        workingHours: '09:00-17:00',
-        date: '',
-        isStatic: true,
-        geolocation: ids.beograd,
-    },
+    // {
+    //     _id: ids.place_dz_nbg,
+    //     name: 'Dom zdravlja NBG',
+    //     address: 'Adresa NBG',
+    //     description: '',
+    //     workingHours: '09:00-17:00',
+    //     date: '',
+    //     isStatic: true,
+    //     geolocation: ids.beograd,
+    // },
     // {
     //     _id: ids.place_dz_vracar,
     //     name: 'Dom zdravlja Vracar',
