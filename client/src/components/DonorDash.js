@@ -43,7 +43,7 @@ class DonorDash extends Component{
                 query: {  },
                 constraint: { distance: radius }
             });
-        
+
             console.log(resGeo.data);
             this.setState({
                 places: resGeo.data.data
