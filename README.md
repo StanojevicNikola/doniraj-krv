@@ -1,7 +1,7 @@
 
-# Doniraj-krv
+# Doniraj krv
 
-__Doniraj-krv__ je platforma koja povezuje ljude kojima je potrebna krv sa dobrovoljnim davaocima. <br>
+__Doniraj krv__ je platforma koja povezuje ljude kojima je potrebna krv sa dobrovoljnim davaocima. <br>
 Za cilj ima da se na lak i jednostavan nacin, (trenutno email porukom), obaveste svi kompatibilni davaoci na zahtevanom geografskom području.
 ___
 
