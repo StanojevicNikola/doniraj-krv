@@ -38,7 +38,7 @@ Za potpuno funkcionisanje platforme, dovoljno je pokrenuti ___samo___ server, go
 ## Tim
 
 - [Andrija Novakovic, 68/2016](https://gitlab.com/akinovak)
-- [Dimitrije Antic, 128/2016](https://gitlab.com/antic11d)
-- [David Popov, 102/2016](https://gitlab.com/popdav)
 - [Nikola Stanojevic, 92/2016](https://gitlab.com/ov3rlord)
+- [David Popov, 102/2016](https://gitlab.com/popdav)
+- [Dimitrije Antic, 128/2016](https://gitlab.com/antic11d)
 - [Darko Vasiljevic, 449/2016](https://gitlab.com/DarkoVasiljevic)
