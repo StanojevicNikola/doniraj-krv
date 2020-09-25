@@ -7,7 +7,7 @@ ___
 
 ## Kratak opis
 ### Korišćenje
-Detaljniji opis koriršćenja platforme prikazan je u demo videu na [lokaciji](https://gitlab.com/matfpveb/projekti/2019-2020/06-doniraj-krv/-/blob/prerelease/demo/Doniraj-krv-demo.mp4).<br>
+Detaljniji opis koriršćenja platforme prikazan je u demo videu na [lokaciji](https://github.com/StanojevicNikola/doniraj-krv/blob/master/demo/Doniraj-krv-demo.mp4).<br>
 Platforma dozvoljava dva tipa korisnika: ___donatora___ i/ili ___koordinatora___.
 Korisnik se prvobitno registruje bez uloge, koja se daljim izborom i popunjavanjem infomacija može zatražiti. <br>
 Uloga donatora podrazumeva da ćete biti obaveštavani svaki put kada se kompatibilni donor u nečijoj okolini. Molimo donatore da redovno ažuriraju datum poslednje donacije krvi, kako bi izbegli obaveštenja na koja nisu u mogućnosti da reaguju. <br>
@@ -17,7 +17,7 @@ Svakom korisniku je dozvoljeno da bude i koordinator i donator, dok će samo odo
 
 ### Pokretanje
 Pre pokretanja servera je potrebno klonirati repozitorijum komandom:<br>
-`git clone https://gitlab.com/matfpveb/projekti/2019-2020/06-doniraj-krv.git`
+`git clone https://github.com/StanojevicNikola/doniraj-krv`
 
 Moguće je pokretati klijentsku i serversku aplikaciju nezavisno.<br>
 ___Server:___<br>
