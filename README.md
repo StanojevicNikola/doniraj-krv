@@ -15,7 +15,7 @@ Uloga koordinatora dozvoljava traženje krvi, bilo za Vas bilo za neku drugu oso
 Svakom korisniku je dozvoljeno da bude i koordinator i donator, dok će samo odobreni korisnici moći da dobiju ulogu administratora platforme.
 
 
-### Pokretranje
+### Pokretanje
 Pre pokretanja servera je potrebno klonirati repozitorijum komandom:<br>
 `git clone https://gitlab.com/matfpveb/projekti/2019-2020/06-doniraj-krv.git`
 
@@ -35,7 +35,7 @@ ___Klijent:___<br>
 ___NAPOMENA:___
 Za potpuno funkcionisanje platforme, dovoljno je pokrenuti ___samo___ server, gore navedenim komandama.
 
-## Developers
+## Tim
 
 - [Andrija Novakovic, 68/2016](https://gitlab.com/akinovak)
 - [Dimitrije Antic, 128/2016](https://gitlab.com/antic11d)
